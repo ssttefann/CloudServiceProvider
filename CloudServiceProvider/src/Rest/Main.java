@@ -25,7 +25,7 @@ public class Main {
         port(8080);
 
         //mapiramo na vuejs public folder
-        staticFiles.externalLocation(new File("CloudServiceProvider/WebContent/app/public").getCanonicalPath());
+        staticFiles.externalLocation(new File("CloudServiceProvider/WebContent/app/dist").getCanonicalPath());
 
 
         get("/test", (req, res) -> {

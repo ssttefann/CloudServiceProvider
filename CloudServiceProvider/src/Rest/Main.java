@@ -15,6 +15,7 @@ import spark.Session;
 
 
 import Model.*;
+import spark.Spark;
 
 public class Main {
 
@@ -26,6 +27,13 @@ public class Main {
 
         //mapiramo na vuejs public folder
         staticFiles.externalLocation(new File("CloudServiceProvider/WebContent/app/dist").getCanonicalPath());
+
+
+//        get("*", (request, response) ->
+//        {
+//            response.type("application/json");
+//            return "not supported";
+//        });
 
 
         get("/test", (req, res) -> {

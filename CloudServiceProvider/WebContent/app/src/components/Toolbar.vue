@@ -4,11 +4,12 @@
     <v-app-bar app class="blue-grey darken-1">
 
         <v-btn @click="toggleDrawer" target="_blank" text large>
-            <v-icon >mdi-view-headline</v-icon>
+            <v-icon color="white">mdi-view-headline</v-icon>
         </v-btn>
 
-        <v-btn href="/" large text>
-        <div class="d-flex align-center">
+        <router-link to="/"> 
+        <!-- <v-btn href="/" large text> -->
+        <div  class="d-flex align-center">
             <v-img
             alt="Vuetify Logo"
             class="shrink mr-2"
@@ -21,17 +22,18 @@
             <label class="naslov">BDSM Services</label>
 
         </div>
-        </v-btn>
+        <!-- </v-btn> -->
+        </router-link > 
 
         <v-spacer></v-spacer>
 
          <!-- DUGMICI NA TOOLBARU -->
         <v-btn href="" target="_blank" text>
-            <v-icon size="20">mdi-help-circle</v-icon>
+            <v-icon color="white" size="20">mdi-help-circle</v-icon>
         </v-btn>
 
         <v-btn href="" target="_blank" text>
-            <v-icon size="20">mdi-bell</v-icon>
+            <v-icon color="white" size="20">mdi-bell</v-icon>
         </v-btn>
 
     </v-app-bar> 
@@ -127,4 +129,7 @@ export default {
         margin: 15px;
         margin-bottom: 25px;
     }
+
+    a {  text-decoration: none;}
+
 </style>

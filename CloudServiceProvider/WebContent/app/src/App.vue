@@ -27,4 +27,5 @@ export default {
   .dob {
     margin: 15px;
   }
+
 </style>

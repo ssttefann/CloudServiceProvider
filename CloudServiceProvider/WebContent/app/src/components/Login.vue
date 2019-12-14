@@ -18,8 +18,9 @@
               <v-card-text>
                 <v-form>
                   <v-text-field
-                    label="Login"
-                    name="login"
+                    label="Username"
+                    name="username"
+                    v-model="username"
                     prepend-icon="mdi-account"
                     type="text"
                   ></v-text-field>
@@ -27,6 +28,7 @@
                   <v-text-field
                     id="password"
                     label="Password"
+                    v-model="password"
                     name="password"
                     prepend-icon="mdi-lock"
                     type="password"
@@ -35,8 +37,13 @@
               </v-card-text>
 
               <v-card-actions>
+
+                <router-link to="/register"> 
+                <v-btn color="blue-grey white--text" >Don't have an account?</v-btn>
+                </router-link>
+
                 <v-spacer></v-spacer>
-                <v-btn color="blue-grey">Login</v-btn>
+                <v-btn @click="validateInput" color="blue-grey white--text">Login</v-btn>
               </v-card-actions>
 
             </v-card>
@@ -57,6 +64,33 @@
 export default {
   components: {
     
+  },
+  data() {
+    return {
+      username : null,
+      password : null
+    }
+  },
+  methods : {
+
+      validateInput : function() {
+            
+            if(!this.username) {
+              alert("Username can't be empty");
+            }
+            else if(!this.password) {
+              alert("Password can't be empty")
+            }
+
+            // ako je proslo znaci da je popunio sve,
+            // posalji zahtev na server da li ima taj user
+            // i redirectuj ako se ulogovao
+      }
   }
 }
 </script>
+
+
+<style scoped>
+  a {  text-decoration: none;}
+</style>

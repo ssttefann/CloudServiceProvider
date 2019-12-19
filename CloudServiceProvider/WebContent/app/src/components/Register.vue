@@ -73,16 +73,16 @@
                 </router-link> 
 
                 <v-spacer></v-spacer>
-                <v-btn color="blue-grey white--text">Register</v-btn>
+                <v-btn @click="submit" color="blue-grey white--text">Register</v-btn>
               </v-card-actions>
 
             </v-card>
-
           </v-flex>
 
         </v-layout>
 
       </v-container>
+
 
     </v-content>
 </div>
@@ -107,8 +107,46 @@ export default {
 
   methods : {
 
-    submit() {
 
+    /**
+     * Proverava da li je svako polje forme popunjeno
+     * @returns {String} "OK" ako su uslovi zadovoljeni, ako nisu onda imena labela koje ne zadovoljavaju uslov
+     */
+    validate() {
+
+      let invalid = [];
+
+      if (!this.name)
+        invalid.push("Name");
+      
+      if(!this.lastname)
+        invalid.push("Last name");
+
+      if(!this.email)
+        invalid.push("Email");
+      
+      if(!this.password)
+        invalid.push("Password");
+      
+      let retval = invalid.length > 0 ?  invalid.join(",") :  "OK";
+
+      return retval;
+    },
+    
+    /**
+     * Poziva se kada korisnik stisne na dugme za registraciju
+     */
+    submit() {
+      let resp = this.validate();
+
+      // ako je RESP ok mozes poslati serveru
+      if(resp === "OK"){
+        // alert(resp)
+        this.$router.push('/')
+      //ako nije ispisi poruku o gresci
+      }else{
+        alert("Labele " +resp+ " moraju biti popunjene pre registracije")
+      }
     }
   }
 }

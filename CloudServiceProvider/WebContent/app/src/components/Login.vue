@@ -18,9 +18,9 @@
               <v-card-text>
                 <v-form>
                   <v-text-field
-                    label="Username"
-                    name="username"
-                    v-model="username"
+                    label="Email"
+                    name="Email"
+                    v-model="email"
                     prepend-icon="mdi-account"
                     type="text"
                   ></v-text-field>
@@ -43,7 +43,7 @@
                 </router-link>
 
                 <v-spacer></v-spacer>
-                <v-btn @click="validateInput" color="blue-grey white--text">Login</v-btn>
+                <v-btn @click="submit" color="blue-grey white--text">Login</v-btn>
               </v-card-actions>
 
             </v-card>
@@ -60,6 +60,8 @@
 
 <script>
 // @ is an alias to /src
+import axios from 'axios';
+import { stringify } from 'querystring';
 
 export default {
   components: {
@@ -67,25 +69,81 @@ export default {
   },
   data() {
     return {
-      username : null,
+      email : null,
       password : null
     }
   },
+
+  created() {
+    
+    //ako je vec ulogovan redirektuj ga
+    axios
+      .get("/rest/LoggedUser/")
+      .then(res => {
+        let uloga = res.data;
+        if (uloga == "USER")
+          this.$router.push('/dashboard')
+        else if(uloga == "ADMIN")
+          this.$router.push('/admin')
+      })
+      .catch(err => alert(err));
+
+  },
   methods : {
 
-      validateInput : function() {
-            
-            if(!this.username) {
-              alert("Username can't be empty");
-            }
-            else if(!this.password) {
-              alert("Password can't be empty")
-            }
+     /**
+     * Proverava da li je svako polje forme popunjeno
+     * @returns {String} "OK" ako su uslovi zadovoljeni, ako nisu onda imena labela koje ne zadovoljavaju uslov
+     */
+    validate() {
 
-            // ako je proslo znaci da je popunio sve,
-            // posalji zahtev na server da li ima taj user
-            // i redirectuj ako se ulogovao
+      let invalid = [];
+
+      if (!this.email)
+        invalid.push("Email");
+      
+      if(!this.password)
+        invalid.push("Password");
+      
+      let retval = invalid.length > 0 ?  invalid.join(",") :  "OK";
+
+      return retval;
+    },
+    
+
+    /**
+     * Poziva se kada korisnik stisne na dugme za login
+     */
+    submit() {
+      let resp = this.validate();
+
+      let uloga;
+
+      // ako je RESP ok mozes poslati serveru
+      if(resp === "OK"){
+        let user = {
+          password : this.password,
+          email : this.email
+        };
+
+        axios.post('/rest/login', stringify(user))
+          .then(res => {
+            uloga = res.data;
+            if (uloga == "ADMIN")
+              this.$router.push('/admin')
+            else if(uloga == "USER")
+              this.$router.push('/dashboard')
+            else
+              alert("Pogresna kombinacija user/pass");
+          })
+          .catch(res => alert(res));
+        
+        
+      //ako nije ispisi poruku o gresci
+      }else{
+        alert("Labele " +resp+ " moraju biti popunjene pre prijavljivanja")
       }
+    }
   }
 }
 </script>

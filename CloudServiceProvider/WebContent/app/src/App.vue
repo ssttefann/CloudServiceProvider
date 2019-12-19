@@ -4,20 +4,30 @@
     <v-content class="dob">
       <router-view> </router-view>
     </v-content>
+    <Footer/>
   </v-app>
 </template>
 
 <script>
 import Toolbar from './components/Toolbar'
+import Footer from './components/Footer'
 
 export default {
   name: 'App',
   components: {
-    Toolbar
+    Toolbar, Footer
   },
   data: () => ({
     //
   }),
+
+  mounted() {
+
+  },
+
+  methods : {
+    
+  }
 };
 </script>
 

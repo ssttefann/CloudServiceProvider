@@ -8,7 +8,6 @@
         </v-btn>
 
         <router-link to="/"> 
-        <!-- <v-btn href="/" large text> -->
         <div  class="d-flex align-center">
             <v-img
             alt="Vuetify Logo"
@@ -20,9 +19,7 @@
             />
 
             <label class="naslov">BDSM Services</label>
-
         </div>
-        <!-- </v-btn> -->
         </router-link > 
 
         <v-spacer></v-spacer>
@@ -41,7 +38,7 @@
     
     <!--  DRAWER (OVO SA LEVE STR)-->
     
-    <v-navigation-drawer v-model="drawer" app>
+    <v-navigation-drawer v-model="drawerVisible" app>
         <br>
         <v-list-item>
           <v-list-item-avatar>
@@ -69,7 +66,7 @@
 
         <template v-slot:append>
           <div class="logout">
-            <v-btn block class="blue-grey darken-1 white--text">Logout</v-btn>
+            <v-btn @click="logout" block class="blue-grey darken-1 white--text">Logout</v-btn>
           </div>
         </template>
 
@@ -80,7 +77,7 @@
 </template>
 
 <script>
-
+import axios from 'axios';
 
 export default {
 
@@ -89,7 +86,8 @@ export default {
     },
     data() {
         return{
-            drawer: false,
+            drawerEnabled: false,
+            drawerVisible: false,
 
             // linkovi za prelaz na druge delove str
             links : [
@@ -101,10 +99,33 @@ export default {
     },
 
     methods : {
-        // menja stanje drawera na svaki klik
+
+        /** Otvara drawer ako postoji ulogovani korisnik */
         toggleDrawer : function() {
-            this.drawer = !this.drawer;
+
+          axios
+            .get("/rest/LoggedUser/")
+            .then(res => {
+              let uloga = res.data;
+
+              // samo dozvoli ako postoji ulogovani korisnik
+              if (uloga != "ERR")
+                this.drawerVisible = !this.drawerVisible;
+            })
+            .catch(err => alert(err));
+
+            
+        },
+
+        /** Log-outuje korisnika, terminira sesiju i vraca ga na pocetnu str */
+        logout : function () {
+
+          axios
+            .get('/rest/logout/')
+            .then(this.$router.push('/'))
+            .catch(err => alert(err))
         }
+        
     }
 }
 </script>

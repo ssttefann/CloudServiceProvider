@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import Admin from '../components/Admin'
 import Login from '../components/Login'
 import Register from '../components/Register'
+import NotFound from '../components/NotFound'
+import Dashboard from '../components/Dashboard'
 
 Vue.use(VueRouter)
 
@@ -19,6 +21,11 @@ const routes = [
     component: Home
   },
   {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: Dashboard
+  },
+  {
     path: '/login',
     name: 'login',
     component: Login
@@ -27,6 +34,11 @@ const routes = [
     path: '/register',
     name: 'register',
     component: Register
+  },
+  {
+    path: '*',
+    name: 'notfound',
+    component: NotFound
   },
   {
     path: '/about',

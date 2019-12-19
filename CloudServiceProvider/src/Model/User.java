@@ -3,9 +3,7 @@ package Model;
 import java.util.HashMap;
 import java.util.Objects;
 
-enum Role {
-    User, Admin, SuperAdmin
-}
+
 
 public class User {
 
@@ -73,8 +71,12 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public String getRole() {
+
+        if (role == Role.Admin || role == Role.SuperAdmin)
+            return "ADMIN";
+
+        return "USER";
     }
 
     public void setRole(Role role) {

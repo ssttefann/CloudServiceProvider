@@ -60,8 +60,9 @@
 
 <script>
 // @ is an alias to /src
-import axios from 'axios';
+// import axios from 'axios';
 import { stringify } from 'querystring';
+import { bus } from '../main';
 
 export default {
   components: {
@@ -77,16 +78,17 @@ export default {
   created() {
     
     //ako je vec ulogovan redirektuj ga
-    axios
-      .get("/rest/LoggedUser/")
-      .then(res => {
-        let uloga = res.data;
-        if (uloga == "USER")
-          this.$router.push('/dashboard')
-        else if(uloga == "ADMIN")
-          this.$router.push('/admin')
-      })
-      .catch(err => alert(err));
+    // this.$axios
+    //   .get("/rest/LoggedUser/")
+    //   .then(res => {
+    //     let uloga = res.data;
+    //     if (uloga == "USER")
+    //       this.$router.push('/dashboard')
+    //     else if(uloga == "ADMIN")
+    //       this.$router.push('/admin')
+    //   })
+    //   .catch(err => alert(err));
+    
 
   },
   methods : {
@@ -126,13 +128,17 @@ export default {
           email : this.email
         };
 
-        axios.post('/rest/login', stringify(user))
+        this.$axios.post('/rest/login', stringify(user))
           .then(res => {
             uloga = res.data;
-            if (uloga == "ADMIN")
-              this.$router.push('/admin')
-            else if(uloga == "USER")
+            if (uloga == "ADMIN"){
+              this.$router.push('/admin');
+              bus.$emit('userLoggedIn', true);
+            }
+            else if(uloga == "USER"){
               this.$router.push('/dashboard')
+              bus.$emit('userLoggedIn', true);
+            }
             else
               alert("Pogresna kombinacija user/pass");
           })

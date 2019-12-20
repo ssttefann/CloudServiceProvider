@@ -90,6 +90,8 @@
 
 <script>
 // @ is an alias to /src
+import { stringify } from 'querystring';
+import { bus } from '../main';
 
 export default {
   components: {
@@ -139,10 +141,32 @@ export default {
     submit() {
       let resp = this.validate();
 
+      let user;
+
       // ako je RESP ok mozes poslati serveru
       if(resp === "OK"){
-        // alert(resp)
-        this.$router.push('/')
+        
+        user = {
+          name : this.name, lastname : this.lastname,
+          email : this.email, password : this.password
+        }
+
+        this.$axios.post('/rest/register', stringify(user))
+          .then(res => {
+            
+            let odgovor = res.data;
+            if (odgovor == "OK"){
+              bus.$emit('userLoggedIn', true);
+              this.$router.push('/dashboard');
+            }
+            else if(odgovor == "EMAIL_ERR"){
+              alert("Vec postoji korisnik sa tim emailom, pokusajte ponovo");
+            }
+            else
+              alert("Doslo je do greske prilikom registracije");
+          })
+          .catch(res => alert(res));
+
       //ako nije ispisi poruku o gresci
       }else{
         alert("Labele " +resp+ " moraju biti popunjene pre registracije")

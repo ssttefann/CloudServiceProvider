@@ -3,7 +3,7 @@
     <nav>
     <v-app-bar app class="blue-grey darken-1">
 
-        <v-btn @click="toggleDrawer" target="_blank" text large>
+        <v-btn @click="toggleDrawer" :disabled=isDisabled target="_blank" text large>
             <v-icon color="white">mdi-view-headline</v-icon>
         </v-btn>
 
@@ -45,7 +45,9 @@
             <v-img src="https://avatars0.githubusercontent.com/u/28116193?s=460&v=4"></v-img>
           </v-list-item-avatar>
   
-          <v-list-item-title>Meeyat</v-list-item-title>
+          <v-list-item-title v-model="user">
+            {{user.fname + " " + user.lastname}}
+          </v-list-item-title>
 
         </v-list-item>
   
@@ -77,7 +79,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+
+import { bus } from '../main';
 
 export default {
 
@@ -86,8 +89,11 @@ export default {
     },
     data() {
         return{
-            drawerEnabled: false,
+            drawerDisabled: true,
             drawerVisible: false,
+            user : {
+              fname : "meeyat", lastname : "meel"
+            },
 
             // linkovi za prelaz na druge delove str
             links : [
@@ -103,29 +109,46 @@ export default {
         /** Otvara drawer ako postoji ulogovani korisnik */
         toggleDrawer : function() {
 
-          axios
-            .get("/rest/LoggedUser/")
-            .then(res => {
-              let uloga = res.data;
+          if(!this.drawerDisabled)
+            this.drawerVisible = !this.drawerVisible;
 
-              // samo dozvoli ako postoji ulogovani korisnik
-              if (uloga != "ERR")
-                this.drawerVisible = !this.drawerVisible;
-            })
-            .catch(err => alert(err));
-
-            
         },
 
         /** Log-outuje korisnika, terminira sesiju i vraca ga na pocetnu str */
         logout : function () {
 
-          axios
+          this.$axios
             .get('/rest/logout/')
             .then(this.$router.push('/'))
+            .then(this.drawerVisible = false)
+            .then(this.drawerDisabled = true)
             .catch(err => alert(err))
+        },
+
+        /** Ucitava podatke o korisniku kad se prijavi ili registruje */
+        loadUser : function () {
+          this.$axios
+            .get('rest/loggedUser/')
+            .then(res => {
+              this.user = res.data;
+            })
+            .catch(err => alert(err));
         }
-        
+    },
+
+    computed : {
+      /** racuna da li treba da aktivira dugme za aktiviranje drawera  */
+        isDisabled() {
+          return this.drawerDisabled;
+        }
+    },
+
+    created(){
+      /** hvata event logovanja korisnika i aktivira drawer */
+      bus.$on('userLoggedIn', (data) => {
+        this.drawerDisabled = !data;
+        this.loadUser();
+      })
     }
 }
 </script>

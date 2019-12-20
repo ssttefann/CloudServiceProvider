@@ -53,10 +53,6 @@ export default {
   },
 
   created() {
-    // treba da se doda da samo ode na login ako nema ulogovanih kor
-    // mada idealno bi bilo da imamo posebnu str za neulogovane ali me mrzi to sad da pravim
-    
-    //this.$router.push('/login')
   }
 }
 </script>

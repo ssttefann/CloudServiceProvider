@@ -20,7 +20,7 @@ import spark.Spark;
 
 public class Main {
 
-    private static Gson g = new Gson();
+    private static Gson gson = new Gson();
     private static HashMap<String, User> users = new HashMap<>();
 
     public static void main(String[] args) throws Exception {
@@ -38,16 +38,16 @@ public class Main {
 
         get("/rest/getUsers/", (req, res) -> {
             res.type("application/json");
-            return g.toJson(users);
+            return gson.toJson(users);
         });
 
 
-        get("/rest/LoggedUser/", (req, res) -> {
-            res.type("text/plain");
+        get("/rest/loggedUser/", (req, res) -> {
+            res.type("application/json");
 
             if(req.session().attribute("user") != null){
                 User user = req.session().attribute("user");
-                return user.getRole();
+                return gson.toJson(user);
             }
             return "ERR";
         });
@@ -55,9 +55,7 @@ public class Main {
 
         get("/rest/logout/", (req, res) -> {
             res.type("text/plain");
-
             req.session().invalidate();
-
             return "OK";
         });
 
@@ -85,8 +83,27 @@ public class Main {
                 return users.get(email).getRole();
             }
 
-
             return "ERR";
+        });
+
+
+
+        post("/rest/register", (req, res) -> {
+            res.type("text/plain");
+            String password = req.queryParams("password");
+            String email = req.queryParams("email");
+            String name = req.queryParams("name");
+            String lastname = req.queryParams("lastname");
+
+            if (users.containsKey(email)) {
+                return "EMAIL_ERR";
+            }
+
+            User user = new User(name, lastname, email, password, Role.User);
+            users.put(user.getEmail(), user);
+            req.session().attribute("user", user);
+            System.out.println(name+" "+lastname+" "+email+" "+password);
+            return "OK";
         });
 
     }

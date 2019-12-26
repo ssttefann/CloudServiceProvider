@@ -7,8 +7,7 @@
             <v-icon color="white">mdi-view-headline</v-icon>
         </v-btn>
 
-        <router-link to="/"> 
-        <div  class="d-flex align-center">
+        <v-btn  @click="homeButon" class="d-flex align-center" text>
             <v-img
             alt="Vuetify Logo"
             class="shrink mr-2"
@@ -19,8 +18,7 @@
             />
 
             <label class="naslov">BDSM Services</label>
-        </div>
-        </router-link > 
+        </v-btn>
 
         <v-spacer></v-spacer>
 
@@ -37,7 +35,6 @@
 
     
     <!--  DRAWER (OVO SA LEVE STR)-->
-    
     <v-navigation-drawer v-model="drawerVisible" app>
         <br>
         <v-list-item>
@@ -46,7 +43,7 @@
           </v-list-item-avatar>
   
           <v-list-item-title v-model="user">
-            {{user.fname + " " + user.lastname}}
+            {{this.$store.state.loggedUser.firstName + " " + this.$store.state.loggedUser.lastName}}
           </v-list-item-title>
 
         </v-list-item>
@@ -80,7 +77,7 @@
 
 <script>
 
-import { bus } from '../main';
+// import { bus } from '../main';
 
 export default {
 
@@ -92,7 +89,7 @@ export default {
             drawerDisabled: true,
             drawerVisible: false,
             user : {
-              fname : "meeyat", lastname : "meel"
+              firstName : "meeyat", lastName : "meel"
             },
 
             // linkovi za prelaz na druge delove str
@@ -109,8 +106,7 @@ export default {
         /** Otvara drawer ako postoji ulogovani korisnik */
         toggleDrawer : function() {
 
-          if(!this.drawerDisabled)
-            this.drawerVisible = !this.drawerVisible;
+          this.drawerVisible = !this.drawerVisible;
 
         },
 
@@ -122,33 +118,33 @@ export default {
             .then(this.$router.push('/'))
             .then(this.drawerVisible = false)
             .then(this.drawerDisabled = true)
+            .then(this.$store.commit('logOut'))
             .catch(err => alert(err))
         },
 
-        /** Ucitava podatke o korisniku kad se prijavi ili registruje */
-        loadUser : function () {
-          this.$axios
-            .get('rest/loggedUser/')
-            .then(res => {
-              this.user = res.data;
-            })
-            .catch(err => alert(err));
+        /** Kada korisnik pritisne na Home Dugme */
+        homeButon : function() {
+
+          if (this.$store.state.loggedUser.role === "User") {
+            this.$router.push('/dashboard');
+          }
+          else if(this.$store.state.loggedUser.role === "Admin" || this.$store.state.loggedUser.role === "SuperAdmin"){
+            this.$router.push('/admin');
+          }else{
+            this.$router.push('/');
+          }
+
         }
     },
 
     computed : {
-      /** racuna da li treba da aktivira dugme za aktiviranje drawera  */
-        isDisabled() {
-          return this.drawerDisabled;
-        }
-    },
 
-    created(){
-      /** hvata event logovanja korisnika i aktivira drawer */
-      bus.$on('userLoggedIn', (data) => {
-        this.drawerDisabled = !data;
-        this.loadUser();
-      })
+      /** Ako ne postoji ulogavan korisnik disable-uje dugme  */
+        isDisabled() {
+          return !this.$store.getters.isLogged;
+        }
+
+
     }
 }
 </script>

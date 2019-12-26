@@ -62,7 +62,7 @@
 // @ is an alias to /src
 // import axios from 'axios';
 import { stringify } from 'querystring';
-import { bus } from '../main';
+// import { bus } from '../main';
 
 export default {
   components: {
@@ -133,16 +133,18 @@ export default {
             uloga = res.data;
             if (uloga == "ADMIN"){
               this.$router.push('/admin');
-              bus.$emit('userLoggedIn', true);
+              this.$store.commit('logUser');
+              // bus.$emit('userLoggedIn', true);
             }
             else if(uloga == "USER"){
               this.$router.push('/dashboard')
-              bus.$emit('userLoggedIn', true);
+              this.$store.commit('logUser');
+              //bus.$emit('userLoggedIn', true);
             }
             else
               alert("Pogresna kombinacija user/pass");
           })
-          .catch(res => alert(res));
+          .catch(res => alert('NJTF' +res));
         
         
       //ako nije ispisi poruku o gresci

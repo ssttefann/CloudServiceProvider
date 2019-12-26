@@ -91,7 +91,7 @@
 <script>
 // @ is an alias to /src
 import { stringify } from 'querystring';
-import { bus } from '../main';
+// import { bus } from '../main';
 
 export default {
   components: {
@@ -156,7 +156,8 @@ export default {
             
             let odgovor = res.data;
             if (odgovor == "OK"){
-              bus.$emit('userLoggedIn', true);
+              // bus.$emit('userLoggedIn', true);
+              this.$store.commit('logUser');
               this.$router.push('/dashboard');
             }
             else if(odgovor == "EMAIL_ERR"){

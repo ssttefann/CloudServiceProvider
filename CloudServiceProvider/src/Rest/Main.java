@@ -31,7 +31,6 @@ public class Main {
         //mapiramo na vuejs public folder
         staticFiles.externalLocation(new File("CloudServiceProvider/WebContent/app/dist").getCanonicalPath());
 
-
         get("/test", (req, res) -> {
             return "Works";
         });

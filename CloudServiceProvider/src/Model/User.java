@@ -6,18 +6,17 @@ import java.util.Objects;
 
 
 public class User {
-
-    private String fname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
     private Role role;
     private HashMap<String, Resource> resources;
 
 
-    public User(String fname, String lastname, String email, String password, Role role) {
-        this.fname = fname;
-        this.lastname = lastname;
+    public User(String firstName, String lastName, String email, String password, Role role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.role = role;
@@ -39,20 +38,20 @@ public class User {
     }
 
 
-    public String getFname() {
-        return fname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {

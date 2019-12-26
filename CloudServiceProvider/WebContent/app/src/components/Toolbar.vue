@@ -51,17 +51,36 @@
         <v-divider class="blue-grey darken-1" ></v-divider>
         <br><br>
 
-        <v-list dense>
-          <v-list-item v-for="link in links" :key="link.text" router :to="link.route">
-            <v-list-item-icon>
-              <v-icon>{{ link.icon }}</v-icon>
-            </v-list-item-icon>
-  
-            <v-list-item-content>
-              <v-list-item-title>{{ link.text }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+        <!-- Ako je ulogovan obican user -->
+        <div v-if="this.$store.state.loggedUser.role == 'User'">
+          <v-list dense>
+            <v-list-item v-for="link in links_user" :key="link.text" router :to="link.route">
+              <v-list-item-icon>
+                <v-icon>{{ link.icon }}</v-icon>
+              </v-list-item-icon>
+    
+              <v-list-item-content>
+                <v-list-item-title>{{ link.text }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </div>
+
+
+        <!-- Ako je ulogovan admin -->
+        <div v-else-if="this.$store.state.loggedUser.role == 'Admin'">
+          <v-list dense>
+            <v-list-item v-for="link in links_admin" :key="link.text" router :to="link.route">
+              <v-list-item-icon>
+                <v-icon>{{ link.icon }}</v-icon>
+              </v-list-item-icon>
+    
+              <v-list-item-content>
+                <v-list-item-title>{{ link.text }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </div>
 
         <template v-slot:append>
           <div class="logout">
@@ -93,11 +112,18 @@ export default {
             },
 
             // linkovi za prelaz na druge delove str
-            links : [
-                {icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/'},
-                {icon: 'mdi-folder', text: 'About', route: '/register'},
-                {icon: 'mdi-account-minus', text: 'Team', route: '/login'}
+            links_admin : [
+                {icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/admin'},
+                {icon: 'mdi-account', text: 'Account', route: '/account'},
+                {icon: 'mdi-steam', text: 'Team', route: '/organization'}
             ],
+
+            links_user : [
+                {icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/dashboard'},
+                {icon: 'mdi-account', text: 'Account', route: '/account'}
+            ]
+
+
         }
     },
 

@@ -23,6 +23,12 @@ public class User {
         this.resources = new HashMap<>();
     }
 
+    public User() {
+        this.firstName = "";
+        this.lastName = "";
+
+    }
+
 
     @Override
     public boolean equals(Object o) {

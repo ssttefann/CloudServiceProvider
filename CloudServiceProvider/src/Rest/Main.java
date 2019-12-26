@@ -48,7 +48,7 @@ public class Main {
                 User user = req.session().attribute("user");
                 return gson.toJson(user);
             }
-            return "ERR";
+            return new User();
         });
 
 

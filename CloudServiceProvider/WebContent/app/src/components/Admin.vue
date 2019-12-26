@@ -1,5 +1,38 @@
 <template>
   <div class="about">
-    <h1>This is an Admin page</h1>
+    <h1 class="subheading grey--text" >Admin Page</h1>
+
+    <v-container class="my-5">
+      
+      <v-layout row wrap> 
+
+        <v-flex xs12 sm6 md6>
+          <VMcard/>
+        </v-flex>
+
+        <v-spacer></v-spacer>
+
+        <v-flex xs12 sm6 md6>
+          <DiskCard/>
+        </v-flex>
+
+      </v-layout>
+
+    </v-container>
+
   </div>
 </template>
+
+<script>
+
+import VMcard from './cards/VMcard'
+import DiskCard from './cards/DiskCard'
+
+export default {
+    components: {
+    VMcard, 
+    DiskCard
+  }
+}
+</script>
+

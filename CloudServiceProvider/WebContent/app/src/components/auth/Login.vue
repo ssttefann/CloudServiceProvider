@@ -144,7 +144,7 @@ export default {
             else
               alert("Pogresna kombinacija user/pass");
           })
-          .catch(res => alert('NJTF' +res));
+          .catch(res => alert(res));
         
         
       //ako nije ispisi poruku o gresci

@@ -1,9 +1,9 @@
 
 <template>
-    <nav>
+    <nav >
     <v-app-bar app class="blue-grey darken-1">
 
-        <v-btn @click="toggleDrawer" :disabled=isDisabled target="_blank" text large>
+        <v-btn @click="toggleDrawer" :hidden=isDisabled target="_blank" text large>
             <v-icon color="white">mdi-view-headline</v-icon>
         </v-btn>
 
@@ -35,7 +35,7 @@
 
     
     <!--  DRAWER (OVO SA LEVE STR)-->
-    <v-navigation-drawer v-model="drawerVisible" app>
+    <v-navigation-drawer v-model="drawerVisible" app disable-resize-watcher>
         <br>
         <v-list-item>
           <v-list-item-avatar>

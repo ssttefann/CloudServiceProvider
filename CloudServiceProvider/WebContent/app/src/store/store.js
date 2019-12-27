@@ -35,9 +35,9 @@ export const store = new Vuex.Store({
         ],
 
         users : [
-            {firstName : "Stefan", lastName : "Kandic", email : "st@kandic.rs", role : "User"},
-            {firstName : "Mijat", lastName : "Miletic", email : "mm@rand.rs", role : "User"},
-            {firstName : "Andrija", lastName : "Blesic", email : "r@R.rr", role : "Admin"}
+            {firstName : "Stefan", lastName : "Kandic", email : "st@kandic.rs", role : "User", organization : "ORG1"},
+            {firstName : "Mijat", lastName : "Miletic", email : "mm@rand.rs", role : "User", organization : "ORG3"},
+            {firstName : "Andrija", lastName : "Blesic", email : "r@R.rr", role : "Admin", organization : "ORG1"}
         ],
 
         organizations : [

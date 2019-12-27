@@ -7,7 +7,7 @@
       <v-layout row wrap> 
 
         <v-flex xs12 sm6 md6>
-          <VMcard/>
+          <VMCard/>
         </v-flex>
 
         <v-spacer></v-spacer>

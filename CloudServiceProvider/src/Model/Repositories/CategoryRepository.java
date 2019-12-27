@@ -4,8 +4,7 @@ import Model.Entities.Category;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,14 +20,14 @@ public class CategoryRepository {
     private List<Category> categoryList;
 
     private static CategoryRepository instance;
-    public static CategoryRepository getInstance() throws FileNotFoundException {
+    public static CategoryRepository getInstance() throws IOException {
         if(instance == null){
             instance = new CategoryRepository();
         }
         return instance;
     }
 
-    private CategoryRepository() throws FileNotFoundException {
+    private CategoryRepository() throws IOException {
         categoriesIndexedByName = new HashMap<>();
         categoryList = new ArrayList<>();
 
@@ -44,8 +43,11 @@ public class CategoryRepository {
 
     }
 
-    private void saveCategories(){
-
+    private void saveCategories() throws IOException {
+        Writer writer = new FileWriter(PATH_TO_FILE);
+        gson.toJson(categoryList, writer);
+        writer.flush();
+        writer.close();
     }
 
     public Category getCategoryByName(String categoryName) {

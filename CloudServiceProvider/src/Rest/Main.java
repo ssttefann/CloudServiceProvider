@@ -6,10 +6,12 @@ import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 
 import java.io.File;
+import java.io.IOException;
 
 import Model.Entities.Category;
 import Model.Entities.VirtualMachine;
 import Model.Repositories.*;
+import Rest.Controlers.UserControler;
 import com.google.gson.Gson;
 import org.eclipse.jetty.util.Scanner;
 
@@ -22,10 +24,16 @@ public class Main {
     private static VirtualMachineRepository virtualMachineRepository;
     private static OrganizationRepository organizationRepository;
 
+    private static void asd() throws IOException {
+        OrganizationRepository organizationRepository = OrganizationRepository.getInstance();
+    }
     public static void main(String[] args) throws Exception {
         port(8080);
         staticFiles.externalLocation(new File("CloudServiceProvider/WebContent/app/dist").getCanonicalPath());
+        asd();
+        System.out.println();
 
-        get("/rest/test", (request, response) -> "OK");
+        // trenutno vraca ok samo
+        get("rest/user/getLoggedUser", UserControler.login);
     }
 }

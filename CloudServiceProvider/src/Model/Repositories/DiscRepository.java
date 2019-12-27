@@ -4,8 +4,7 @@ import Model.Entities.Disc;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,14 +20,14 @@ public class DiscRepository {
     private List<Disc> discList;
 
     private static DiscRepository instance;
-    public static DiscRepository getInstance() throws FileNotFoundException {
+    public static DiscRepository getInstance() throws IOException {
         if(instance == null){
             instance = new DiscRepository();
         }
         return instance;
     }
 
-    private DiscRepository() throws FileNotFoundException {
+    private DiscRepository() throws IOException {
         discList = new ArrayList<>();
         discsIndexedByName = new HashMap<>();
         loadDiscs();
@@ -42,8 +41,11 @@ public class DiscRepository {
                 .collect(Collectors.toMap(Disc::getName, disc -> disc, (oldValue, newValue) -> newValue));
     }
 
-    private void saveDiscs(){
-
+    private void saveDiscs() throws IOException {
+        Writer writer = new FileWriter(PATH_TO_FILE);
+        gson.toJson(discList, writer);
+        writer.flush();
+        writer.close();
     }
 
     public Disc getDiscByName(String discName) {

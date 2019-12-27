@@ -14,28 +14,28 @@ import java.util.stream.Collectors;
 
 public class UserRepository {
 
-    private static final String PATH_TO_USERS = "CloudServiceProvider/data/users.json";
+    private static final String PATH_TO_FILE = "CloudServiceProvider/data/users.json";
     private Map<String, User> usersIndexedByEmail;
     private List<User> usersList;
     private static Gson gson = new Gson();
 
     /** singleton */
     private static UserRepository instance = null;
-    public static UserRepository getInstance() throws FileNotFoundException {
+    public static UserRepository getInstance() throws IOException {
         if(instance == null){
             instance = new UserRepository();
         }
         return instance;
     }
 
-    private UserRepository() throws FileNotFoundException {
+    private UserRepository() throws IOException {
         usersIndexedByEmail = new HashMap<>();
         usersList = new ArrayList<>();
         loadUsers();
     }
 
     private void loadUsers() throws FileNotFoundException {
-        FileReader reader = new FileReader(PATH_TO_USERS);
+        FileReader reader = new FileReader(PATH_TO_FILE);
         Type listType = new TypeToken<ArrayList<User>>() {}.getType();
         usersList = gson.fromJson(reader, listType);
         usersIndexedByEmail = usersList
@@ -43,8 +43,11 @@ public class UserRepository {
                 .collect(Collectors.toMap(User::getEmail, user -> user, (oldVal, newVal) -> newVal));
     }
 
-    private void saveUsers(){
-
+    private void saveUsers() throws IOException {
+        Writer writer = new FileWriter(PATH_TO_FILE);
+        gson.toJson(usersList, writer);
+        writer.flush();
+        writer.close();
     }
 
     public User getUserByEmail(String email){

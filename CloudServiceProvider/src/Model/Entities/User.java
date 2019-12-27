@@ -3,15 +3,15 @@ package Model.Entities;
 public class User {
     private String email;
     private String firstName;
-    private String secondName;
-    private String organizationName;
+    private String lastName;
+    private String organization;
     private UserRole role;
 
-    public User(String email, String firstName, String secondName, String organizationName, UserRole role) {
+    public User(String email, String firstName, String lastName, String organization, UserRole role) {
         this.email = email;
         this.firstName = firstName;
-        this.secondName = secondName;
-        this.organizationName = organizationName;
+        this.lastName = lastName;
+        this.organization = organization;
         this.role = role;
     }
 
@@ -31,20 +31,20 @@ public class User {
         this.firstName = firstName;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getOrganizationName() {
-        return organizationName;
+    public String getOrganization() {
+        return organization;
     }
 
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
     public UserRole getRole() {

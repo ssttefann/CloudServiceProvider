@@ -1,0 +1,24 @@
+[
+    {
+        "email": "miajt@miletic.com",
+        "firstName": "Mijat",
+        "secondName": "Miletic",
+        "role": "User",
+        "organizationName": "Organization 1"
+    },
+    {
+        "email": "stefan@kandic.com",
+        "firstName": "Stefan",
+        "secondName": "Kandic",
+        "role": "User",
+        "organizationName": "Organization 1"
+    },
+    {
+        "email": "igor@dzigurski.com",
+        "firstName": "Igor",
+        "secondName": "Dzigurski",
+        "role": "Admin",
+        "organizationName": "Organization 2"
+
+    }
+]

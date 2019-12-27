@@ -1,0 +1,14 @@
+[
+  {
+    "name": "vm1",
+    "categoryName": "kategorija1",
+    "activities": [],
+    "organizationName": "Organization 2"
+  },
+  {
+    "name": "vm2",
+    "categoryName": "kategorija2",
+    "activities": [],
+    "organizationName": "Organization 1"
+  }
+]

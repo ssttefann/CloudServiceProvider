@@ -1,0 +1,20 @@
+[
+  {
+    "name": "kategorija1",
+    "numberOfCPUCores": 68,
+    "ramInGb": 1000,
+    "numberOfGPUCores": 400
+  },
+  {
+    "name": "kategorija2",
+    "numberOfCPUCores": 8,
+    "ramInGb": 100,
+    "numberOfGPUCores": 1400
+  },
+  {
+    "name": "kategorija3",
+    "numberOfCPUCores": 18,
+    "ramInGb": 100110,
+    "numberOfGPUCores": 4010
+  }
+]

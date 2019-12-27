@@ -47,12 +47,9 @@
                   </v-col>
 
                   <v-col cols="12" sm="6" md="4">
-                    <v-combobox append-icon="mdi-minidisc" :items="options" v-model="editedItem.role" label="Role"> 
+                    <v-combobox append-icon="mdi-account-tie" :items="options" v-model="editedItem.role" label="Role"> 
                     </v-combobox>
                   </v-col>
-                  <!-- <v-col  cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.role" label="Role" ></v-text-field>
-                  </v-col> -->
 
                 </v-row>
               </v-container>

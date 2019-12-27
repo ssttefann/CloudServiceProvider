@@ -36,13 +36,13 @@
                     <v-text-field v-model="editedItem.name" label="Category"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.cores" label="Cores" type="number"></v-text-field>
+                    <v-text-field v-model="editedItem.cores" label="Cores" type="number" min="1"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.RAM" label="RAM" type="number"></v-text-field>
+                    <v-text-field v-model="editedItem.RAM" label="RAM" type="number" min="1"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.GPU" label="GPU" type="number"></v-text-field>
+                    <v-text-field v-model="editedItem.GPU" label="GPU" type="number" min="1"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -86,15 +86,15 @@ export default {
       editedIndex: -1,
       editedItem: {
           name: "",
-          cores: 0,
-          RAM: 0,
-          GPU: 0
+          cores: 1,
+          RAM: 16,
+          GPU: 1
       },
       defaultItem: {
           name: "",
-          cores: 0,
-          RAM: 0,
-          GPU: 0
+          cores: 1,
+          RAM: 16,
+          GPU: 1
       }
     };
   },

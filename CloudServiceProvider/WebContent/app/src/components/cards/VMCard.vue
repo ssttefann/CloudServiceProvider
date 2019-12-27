@@ -15,7 +15,7 @@
 
     <!-- Tabela za prikaz svih elemenata -->
     <v-data-table :search="search" :headers="headers" :items="this.$store.state.virtualMachines">
-
+      
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
         <v-divider class="mx-4" inset vertical></v-divider>
@@ -33,20 +33,21 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field :disabled=nameDisabled v-model="editedItem.name" label="VM name"></v-text-field>
+                    <v-text-field
+                      :disabled="nameDisabled"
+                      v-model="editedItem.name"
+                      label="VM name"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.category.name" label="Category"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.category.cores" label="Cores" type="number"></v-text-field>
+                    <v-text-field :disabled="nameDisabled" v-model="editedItem.organization" label="Organization"></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.category.RAM" label="RAM" type="number"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.category.GPU" label="GPU" type="number"></v-text-field>
-                  </v-col>
+                  <v-row cols="12" sm="6" md="4">
+                    <DiskCard/>
+                  </v-row>
                 </v-row>
               </v-container>
             </v-card-text>
@@ -58,38 +59,44 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-    </template>
-    
-        <!-- Template za brisanje -->
-        <template v-slot:item.action="{ item }">
-            <v-icon small class="mr-2" @click="editItem(item)">mdi-lead-pencil</v-icon>
-            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
-        </template>
+      </template>
+
+      <!-- Template za brisanje -->
+      <template v-slot:item.action="{ item }">
+        <v-icon small class="mr-2" @click="editItem(item)">mdi-lead-pencil</v-icon>
+        <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+      </template>
 
     </v-data-table>
   </v-card>
 </template>
 
 
-
 <script>
+import DiskCard from './DiskCard'
+
 export default {
+  components : {
+    DiskCard
+  },
+
   data() {
     return {
       headers: [
         { text: "Name", align: "left", value: "name" },
-        { text: "Category", value: "category.name" },
         { text: "Cores", value: "category.cores" },
         { text: "RAM", value: "category.RAM" },
         { text: "GPU", value: "category.GPU" },
+        { text: "Organization", value: "organization" },
         { text: "Actions", value: "action", sortable: false }
       ],
 
-      search : "",
+      search: "",
       dialog: false,
       editedIndex: -1,
       editedItem: {
         name: "",
+        organization: "",
         category: {
           name: "",
           cores: 0,
@@ -99,6 +106,7 @@ export default {
       },
       defaultItem: {
         name: "",
+        organization: "",
         category: {
           name: "",
           cores: 0,
@@ -130,7 +138,6 @@ export default {
   },
 
   methods: {
-    
     // za sada nista ne radi
     initialize() {},
 
@@ -165,7 +172,7 @@ export default {
           this.editedItem
         );
       } else {
-        this.$store.commit('addVM',this.editedItem);
+        this.$store.commit("addVM", this.editedItem);
       }
       this.close();
     }

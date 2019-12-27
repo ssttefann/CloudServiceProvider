@@ -19,8 +19,8 @@ export const store = new Vuex.Store({
         },
 
         virtualMachines : [
-            {name : "VM1",category : {name : "KAT1",cores : 6,RAM : 16,GPU : 1}},
-            {name : "VM2",category : {name : "KAT2",cores : 12,RAM : 64,GPU : 3}}
+            {name : "VM1", organization : "ORG1", category : {name : "KAT1",cores : 6,RAM : 16,GPU : 1}},
+            {name : "VM2", organization : "ORG3", category : {name : "KAT2",cores : 12,RAM : 64,GPU : 3}}
         ],
 
         VMCategories : [
@@ -28,7 +28,7 @@ export const store = new Vuex.Store({
             {name : "KAT2",cores : 12,RAM : 64,GPU : 3},
         ],
 
-        disks : [
+        discs : [
             { name : "Disk1", capacity : 512, type : "SSD"},
             { name : "Disk2", capacity : 256, type : "SSD"},
             { name : "Disk3", capacity : 1024, type : "HDD"},
@@ -83,6 +83,7 @@ export const store = new Vuex.Store({
         addVM(state, payload) {
             state.virtualMachines.push({
                 name : payload.name,
+                organization : payload.organization,
                 category : {
                     name : payload.category.name,
                     cores : payload.category.cores,
@@ -93,12 +94,37 @@ export const store = new Vuex.Store({
         },
 
         //dodaje novi disk
-        addDisk(state, payload) {
-            state.disks.push({
+        addDick(state, payload) {
+            state.discs.push({
                 name : payload.name,
                 capacity : payload.capacity,
                 type : payload.type
             })
-        }
+        },
+
+        // Ucitava korisnike 
+        loadUsers(state) {
+            alert(state);
+        },
+
+        // Ucitava sve virtuelne masine 
+        loadVMs(state) {
+            alert(state);
+        },
+
+        // Ucitava sve potrebne diskove 
+        loadDiscs(state) {
+            alert(state);
+        },
+
+        // Ucitava sve potrebne kategorije
+        loadCategories(state) {
+            alert(state);
+        },
+
+        // Ucitava sve potrebne organizacije
+        loadOrganizations(state) {
+            alert(state);
+        },
     }
 })

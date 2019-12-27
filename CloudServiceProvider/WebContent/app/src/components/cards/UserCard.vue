@@ -139,14 +139,14 @@ export default {
     // za sada nista ne radi
     initialize() {},
 
-    // korisnik menja neku VM
+    // korisnik menja nekog usera
     editItem(item) {
       this.editedIndex = this.$store.state.users.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
-    // korisnik brise VM
+    // korisnik brise usera
     deleteItem(item) {
       const index = this.$store.state.users.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
@@ -162,7 +162,7 @@ export default {
       }, 300);
     },
 
-    // izmenjena/dodata nova VM
+    // izmena/dodavanje novog usera
     save() {
       if (this.editedIndex > -1) {
         Object.assign(

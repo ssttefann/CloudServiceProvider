@@ -33,7 +33,7 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.name" label="VM name"></v-text-field>
+                    <v-text-field :disabled=nameDisabled v-model="editedItem.name" label="VM name"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.category.name" label="Category"></v-text-field>
@@ -111,6 +111,10 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New VM" : "Edit VM";
+    },
+
+    nameDisabled() {
+      return this.editedIndex != -1;
     }
   },
 
@@ -161,7 +165,6 @@ export default {
         );
       } else {
         this.$store.commit('addVM',this.editedItem);
-        //this.$store.state.virtualMachines.push(this.editedItem);
       }
       this.close();
     }

@@ -12,8 +12,10 @@
         hide-details
       ></v-text-field>
     </v-card-title>
+
+    <!-- Tabela za prikaz svih elemenata -->
     <v-data-table :headers="headers" :items="this.$store.state.virtualMachines">
-        
+
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
         <v-divider class="mx-4" inset vertical></v-divider>
@@ -37,13 +39,13 @@
                     <v-text-field v-model="editedItem.category.name" label="Category"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.category.cores" label="Cores"></v-text-field>
+                    <v-text-field v-model="editedItem.category.cores" label="Cores" type="number"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.category.RAM" label="RAM"></v-text-field>
+                    <v-text-field v-model="editedItem.category.RAM" label="RAM" type="number"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.category.GPU" label="GPU"></v-text-field>
+                    <v-text-field v-model="editedItem.category.GPU" label="GPU" type="number"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -64,9 +66,6 @@
             <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
         </template>
 
-        <template v-slot:no-data>
-            <v-btn color="primary" @click="initialize">Reset</v-btn>
-        </template>
     </v-data-table>
   </v-card>
 </template>
@@ -126,20 +125,25 @@ export default {
   },
 
   methods: {
+    
+    // za sada nista ne radi
     initialize() {},
 
+    // korisnik menja neku VM
     editItem(item) {
       this.editedIndex = this.$store.state.virtualMachines.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
+    // korisnik brise VM
     deleteItem(item) {
       const index = this.$store.state.virtualMachines.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
         this.$store.state.virtualMachines.splice(index, 1);
     },
 
+    // korisnik odustao od izmene
     close() {
       this.dialog = false;
       setTimeout(() => {
@@ -148,6 +152,7 @@ export default {
       }, 300);
     },
 
+    // izmenjena/dodata nova VM
     save() {
       if (this.editedIndex > -1) {
         Object.assign(
@@ -155,7 +160,8 @@ export default {
           this.editedItem
         );
       } else {
-        this.$store.state.virtualMachines.push(this.editedItem);
+        this.$store.commit('addVM',this.editedItem);
+        //this.$store.state.virtualMachines.push(this.editedItem);
       }
       this.close();
     }

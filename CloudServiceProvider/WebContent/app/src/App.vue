@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import Toolbar from './components/Toolbar'
-import Footer from './components/Footer'
+import Toolbar from './components/global/Toolbar'
+import Footer from './components/global/Footer'
 
 export default {
   name: 'App',

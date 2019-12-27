@@ -7,10 +7,14 @@
       <v-layout row wrap> 
 
         <v-flex xs12 sm6 md6>
-          <VMcard/>
+          <VMCard/>
         </v-flex>
 
         <v-spacer></v-spacer>
+
+        <v-flex xs12 sm6 md6>
+          <DiskCard/>
+        </v-flex>
 
         <v-flex xs12 sm6 md6>
           <DiskCard/>
@@ -25,12 +29,12 @@
 
 <script>
 
-import VMcard from './cards/VMcard'
+import VMCard from './cards/VMCard'
 import DiskCard from './cards/DiskCard'
 
 export default {
     components: {
-    VMcard, 
+    VMCard, 
     DiskCard
   }
 }

@@ -19,22 +19,20 @@ export const store = new Vuex.Store({
         },
 
         virtualMachines : [
-            {
-                name : "VM1",
-                category : {name : "KAT1",cores : 6,RAM : 16,GPU : 1}
-            },
-
-            {
-                name : "VM2",
-                category : {name : "KAT2",cores : 12,RAM : 64,GPU : 3}
-            }
+            {name : "VM1",category : {name : "KAT1",cores : 6,RAM : 16,GPU : 1}},
+            {name : "VM2",category : {name : "KAT2",cores : 12,RAM : 64,GPU : 3}}
         ],
-
 
         disks : [
             { name : "Disk1", capacity : 512, type : "SSD"},
             { name : "Disk2", capacity : 256, type : "SSD"},
             { name : "Disk3", capacity : 1024, type : "HDD"},
+        ],
+
+        users : [
+            {firstName : "Stefan", lastName : "Kandic", email : "st@kandic.rs", role : "User"},
+            {firstName : "Mijat", lastName : "Miletic", email : "mm@rand.rs", role : "User"},
+            {firstName : "Andrija", lastName : "Blesic", email : "r@R.rr", role : "Admin"}
         ]
 
     },
@@ -66,6 +64,21 @@ export const store = new Vuex.Store({
               state.loggedUser = res.data;
             })
             //.catch(err => alert(err));
+            // TODO odkomentarisati ovo u produkciji
+            // smeta mi samo kod testiranja fronta
+        },
+
+        //dodaje novu VM 
+        addVM(state, payload) {
+            state.virtualMachines.push({
+                name : payload.name,
+                category : {
+                    name : payload.category.name,
+                    cores : payload.category.cores,
+                    RAM : payload.category.RAM,
+                    GPU : payload.category.GPU
+                }
+            });
         }
     }
 })

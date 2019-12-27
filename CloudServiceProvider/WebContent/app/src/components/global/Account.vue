@@ -1,19 +1,20 @@
 <template>
   <div class="about">
-    <h1 class="subheading grey--text" >This is the Dashboard</h1>
+    <h1 class="subheading grey--text" >Admin Page</h1>
 
     <v-container class="my-5">
       
       <v-layout row wrap> 
 
         <v-flex xs12 sm6 md6>
-          <VMcard/>
         </v-flex>
 
         <v-spacer></v-spacer>
 
         <v-flex xs12 sm6 md6>
-          <VMCard/>
+        </v-flex>
+
+        <v-flex xs12 sm6 md6>
         </v-flex>
 
       </v-layout>
@@ -25,11 +26,9 @@
 
 <script>
 
-import VMCard from './cards/VMCard'
 
 export default {
     components: {
-    VMCard
   }
 }
 </script>

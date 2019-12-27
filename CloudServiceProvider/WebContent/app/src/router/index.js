@@ -2,9 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Admin from '../components/Admin'
-import Login from '../components/Login'
-import Register from '../components/Register'
-import NotFound from '../components/NotFound'
+import Login from '../components/auth/Login'
+import Register from '../components/auth/Register'
+import NotFound from '../components/global/NotFound'
 import Dashboard from '../components/Dashboard'
 
 Vue.use(VueRouter)
@@ -46,7 +46,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../components/About.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../components/global/About.vue')
   }
 ]
 

@@ -1,6 +1,6 @@
 
 <template>
-  <v-card outline block class="ma-3 pa-6">
+  <v-card outline block class="ma-3 pa-6" hover>
     <v-card-title>
       Disks
       <v-spacer></v-spacer>
@@ -12,7 +12,7 @@
         hide-details
       ></v-text-field>
     </v-card-title>
-    <v-data-table :headers="headers" :items="this.$store.state.disks">
+    <v-data-table :search="search" :headers="headers" :items="this.$store.state.disks">
         
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
@@ -78,6 +78,7 @@ export default {
 
       options : ["SSD", "HDD"],
 
+      search : "",
       dialog: false,
       editedIndex: -1,
       editedItem: {

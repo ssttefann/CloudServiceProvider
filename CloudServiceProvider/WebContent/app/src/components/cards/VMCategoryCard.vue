@@ -1,6 +1,6 @@
 
 <template>
-  <v-card outline block class="ma-3 pa-6">
+  <v-card outline block class="ma-3 pa-6" hover>
     <v-card-title>
       VM Categories
       <v-spacer></v-spacer>
@@ -14,7 +14,7 @@
     </v-card-title>
 
     <!-- Tabela za prikaz svih elemenata -->
-    <v-data-table :headers="headers" :items="this.$store.state.VMCategories">
+    <v-data-table :search="search" :headers="headers" :items="this.$store.state.VMCategories">
 
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
@@ -81,6 +81,7 @@ export default {
         { text: "Actions", value: "action", sortable: false }
       ],
 
+      search : "",
       dialog: false,
       editedIndex: -1,
       editedItem: {

@@ -6,22 +6,26 @@
       
       <v-layout row wrap> 
 
+        <!-- Virtuelne Masine -->
         <v-flex xs12 sm6 md6>
           <VMCard/>
         </v-flex>
 
-        <v-spacer></v-spacer>
-
-        <v-flex xs12 sm6 md6>
-          <DiskCard/>
-        </v-flex>
-
-        <v-flex xs12 sm6 md6>
-          <DiskCard/>
-        </v-flex>
-
+        <!-- Virtuelne Masine -->
         <v-flex xs12 sm6 md6>
           <VMCategoryCard/>
+        </v-flex>
+
+        <v-flex xs12 sm6 md6>
+          <DiskCard/>
+        </v-flex>
+
+        <v-flex xs12 sm6 md6>
+          <UserCard/>
+        </v-flex>
+
+        <v-flex xs12 sm6 md6>
+          <OrganizationCard/>
         </v-flex>
 
       </v-layout>
@@ -36,12 +40,16 @@
 import VMCard from './cards/VMCard'
 import DiskCard from './cards/DiskCard'
 import VMCategoryCard from './cards/VMCategoryCard'
+import OrganizationCard from './cards/OrganizationCard'
+import UserCard from './cards/UserCard'
 
 export default {
     components: {
     VMCard, 
     VMCategoryCard,
-    DiskCard
+    DiskCard,
+    OrganizationCard,
+    UserCard
   }
 }
 </script>

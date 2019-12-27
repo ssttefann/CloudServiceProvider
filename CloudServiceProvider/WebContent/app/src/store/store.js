@@ -38,6 +38,12 @@ export const store = new Vuex.Store({
             {firstName : "Stefan", lastName : "Kandic", email : "st@kandic.rs", role : "User"},
             {firstName : "Mijat", lastName : "Miletic", email : "mm@rand.rs", role : "User"},
             {firstName : "Andrija", lastName : "Blesic", email : "r@R.rr", role : "Admin"}
+        ],
+
+        organizations : [
+            {name : "ORG1", description : "NEKA ORG", logo : ""},
+            {name : "ORG2", description : "DRUGA NEKA", logo : ""},
+            {name : "ORG3", description : "TRECA", logo : ""}
         ]
 
     },

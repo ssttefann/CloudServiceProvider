@@ -16,8 +16,9 @@ public class DatabaseOrWhatEverIDontCareItsSoStupid {
     private OrganizationRepository organizationRepository;
 
     private static DatabaseOrWhatEverIDontCareItsSoStupid instance;
+
     public static DatabaseOrWhatEverIDontCareItsSoStupid getInstance() throws IOException {
-        if (instance == null){
+        if (instance == null) {
             instance = new DatabaseOrWhatEverIDontCareItsSoStupid();
         }
 
@@ -32,7 +33,7 @@ public class DatabaseOrWhatEverIDontCareItsSoStupid {
         organizationRepository = OrganizationRepository.getInstance();
     }
 
-    public List<User> getUsers(){
+    public List<User> getUsers() {
         return userRepository.getUsersList();
     }
 
@@ -44,7 +45,7 @@ public class DatabaseOrWhatEverIDontCareItsSoStupid {
     public boolean addUserToOrganizationIfEmailUnique(User user) throws IOException {
         Organization organization = organizationRepository.getOrganizationByName(user.getOrganizationName());
         user.setOrganization(organization);
-        if (userRepository.addUserIfEmailUnique(user)){
+        if (userRepository.addUserIfEmailUnique(user)) {
             organization.addUser(user);
             return true;
         }
@@ -59,19 +60,19 @@ public class DatabaseOrWhatEverIDontCareItsSoStupid {
         return userRepository.editUserIfExists(user);
     }
 
-    public List<Category> getAllCategories(){
+    public List<Category> getAllCategories() {
         return categoryRepository.getCategoryList();
     }
 
-    public boolean addCategory(Category category){
+    public boolean addCategory(Category category) {
         return false;
     }
 
-    public boolean removeCategory(Category category){
+    public boolean removeCategory(Category category) {
         return false;
     }
 
-    public boolean editCategory(Category category){
+    public boolean editCategory(Category category) {
         return false;
     }
 

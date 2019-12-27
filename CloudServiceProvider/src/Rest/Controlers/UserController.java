@@ -7,9 +7,6 @@ import spark.Route;
 
 import java.io.IOException;
 
-/**
- * Sadrzi metode koje vracaju podatke na osnovu toga koji je korisnik ulogovan
- */
 public class UserController {
     private static Gson gson = new Gson();
     private static DatabaseOrWhatEverIDontCareItsSoStupid db;
@@ -26,8 +23,8 @@ public class UserController {
         response.type("application/json");
         User user = request.session().attribute("user");
         if (user == null) {
-            // TODO vrati 400 nesto
-            throw new Exception("nisi ulogovan");
+            response.status(401);
+            return "Unauthorized";
         }
 
         if (user.getRole().equals(UserRole.SuperAdmin)) {
@@ -36,27 +33,28 @@ public class UserController {
             return gson.toJson(db.getUsersOfOrganization(user));
         }
 
-        throw new Exception("nemas prava da to uradis");
+        response.status(401);
+        return "Unauthorized";
     };
 
     public static Route addUser = (request, response) -> {
         response.type("application/json");
         User user = request.session().attribute("user");
         if (user == null) {
-            // TODO vrati 400 nesto
-            return "nisi ulogovan";
+            response.status(401);
+            return "Unauthorized";
         }
 
         if (user.getRole().equals(UserRole.User)) {
-            // TODO vrati 400 nesto
-            return "nemas prava to da radis";
+            response.status(401);
+            return "Unauthorized";
         }
 
         String userJson = request.body();
         User newUser = gson.fromJson(userJson, User.class);
         if(!db.addUserToOrganizationIfEmailUnique(newUser)){
-            // TODO vrati 400 nesto
-            return "email vec postoji";
+            response.status(401);
+            return "Unauthorized";
         }
 
         return "OK";
@@ -66,18 +64,18 @@ public class UserController {
         response.type("application/json");
         User user = request.session().attribute("user");
         if (user == null) {
-            // TODO vrati 400 nesto
-            throw new Exception("nisi ulogovan");
+            response.status(401);
+            return "Unauthorized";
         }
 
         if (user.getRole().equals(UserRole.User)) {
-            // TODO vrati 400 nesto
-            throw new Exception("nemas prava to da radis");
+            response.status(401);
+            return "Unauthorized";
         }
 
         if(!db.removeUserIfExists(user)){
-            // TODO vrati 400 nesto
-            throw new Exception("user ne postoji");
+            response.status(403);
+            return "Email je zauzet";
         }
 
         return "OK";
@@ -87,22 +85,21 @@ public class UserController {
         response.type("application/json");
         User user = request.session().attribute("user");
         if (user == null) {
-            // TODO vrati 400 nesto
-            throw new Exception("nisi ulogovan");
+            response.status(401);
+            return "Unauthorized";
         }
 
         if (user.getRole().equals(UserRole.User)) {
-            // TODO vrati 400 nesto
-            throw new Exception("nemas prava to da radis");
+            response.status(401);
+            return "Unauthorized";
         }
 
         if(!db.editUserIfExists(user)){
-            // TODO vrati 400 nesto
-            throw new Exception("user ne postoji");
+            response.status(403);
+            return "Korisnik sa tim emailom ne postoji.";
         }
 
         return "OK";
     };
-
 
 }

@@ -31,13 +31,14 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.name" label="Disk name"></v-text-field>
+                    <v-text-field :disabled=nameDisabled v-model="editedItem.name" label="Disk name"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.capacity" label="Capacity"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-combobox :items="options" v-model="editedItem.type" label="Type"> </v-combobox>
+                    <v-combobox append-icon="mdi-minidisc" :items="options" v-model="editedItem.type" label="Type"> 
+                    </v-combobox>
                   </v-col>
                 </v-row>
               </v-container>
@@ -91,6 +92,10 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New VM" : "Edit VM";
+    },
+
+    nameDisabled() {
+      return this.editedIndex != -1;
     }
   },
 
@@ -134,7 +139,7 @@ export default {
           this.editedItem
         );
       } else {
-        this.$store.state.disks.push(this.editedItem);
+        this.$store.commit('addDisk',this.editedItem);
       }
       this.close();
     }

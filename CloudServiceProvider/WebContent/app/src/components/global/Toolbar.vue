@@ -115,7 +115,8 @@ export default {
             links_admin : [
                 {icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/admin'},
                 {icon: 'mdi-account', text: 'Account', route: '/account'},
-                {icon: 'mdi-steam', text: 'Team', route: '/organization'}
+                {icon: 'mdi-steam', text: 'Organization', route: '/organization'},
+                {icon: 'mdi-credit-card', text: 'Billing', route: '/billing'}
             ],
 
             links_user : [

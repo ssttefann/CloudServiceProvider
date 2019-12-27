@@ -23,6 +23,11 @@ export const store = new Vuex.Store({
             {name : "VM2",category : {name : "KAT2",cores : 12,RAM : 64,GPU : 3}}
         ],
 
+        VMCategories : [
+            {name : "KAT1",cores : 6,RAM : 16,GPU : 1},
+            {name : "KAT2",cores : 12,RAM : 64,GPU : 3},
+        ],
+
         disks : [
             { name : "Disk1", capacity : 512, type : "SSD"},
             { name : "Disk2", capacity : 256, type : "SSD"},
@@ -79,6 +84,15 @@ export const store = new Vuex.Store({
                     GPU : payload.category.GPU
                 }
             });
+        },
+
+        //dodaje novi disk
+        addDisk(state, payload) {
+            state.disks.push({
+                name : payload.name,
+                capacity : payload.capacity,
+                type : payload.type
+            })
         }
     }
 })

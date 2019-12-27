@@ -50,7 +50,7 @@ public class UserRepository {
         writer.close();
     }
 
-    public User getUserByEmail(String email){
+    public User getUser(String email){
         return usersIndexedByEmail.get(email);
     }
 
@@ -60,5 +60,44 @@ public class UserRepository {
 
     public List<User> getUsersList() {
         return usersList;
+    }
+
+    public boolean addUserIfEmailUnique(User user) throws IOException {
+        String email = user.getEmail();
+        if(usersIndexedByEmail.containsKey(email)){
+            return false;
+        }
+
+        usersIndexedByEmail.put(email, user);
+        usersList.add(user);
+        saveUsers();
+        return true;
+    }
+
+    public boolean removeUserIfExists(User user) throws IOException {
+        String email = user.getEmail();
+        if(usersIndexedByEmail.containsKey(email)){
+            usersIndexedByEmail.remove(email);
+            usersList.remove(user);
+            saveUsers();
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean editUserIfExists(User user) throws IOException {
+        String email = user.getEmail();
+        if(usersIndexedByEmail.containsKey(email)){
+            usersIndexedByEmail.put(user.getEmail(), user);
+            // prvo skloni korisnika sa starim podacima
+            // pa doda istog tog korisnika sa novim podacima
+            usersList.remove(user);
+            usersList.add(user);
+            saveUsers();
+            return true;
+        }
+
+        return false;
     }
 }

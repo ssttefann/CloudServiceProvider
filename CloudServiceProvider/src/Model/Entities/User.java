@@ -1,7 +1,10 @@
 package Model.Entities;
 
+import java.util.Objects;
+
 public class User {
     private String email;
+    private String password;
     private String firstName;
     private String lastName;
     private String organizationName;
@@ -9,13 +12,22 @@ public class User {
 
     private transient Organization organization;
 
-    public User(String email, String firstName, String lastName, String organizationName, UserRole role, Organization organization) {
+    public User(String email, String password, String firstName, String lastName, String organizationName, UserRole role, Organization organization) {
         this.email = email;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.organizationName = organizationName;
         this.role = role;
         this.organization = organization;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(email, user.email);
     }
 
     public String getEmail() {
@@ -24,6 +36,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {

@@ -66,7 +66,7 @@ public class OrganizationRepository {
         userRepository.getUsersList().forEach(user -> {
             String organizationName = user.getOrganizationName();
             Organization organization = organizationsIndexedByName.get(organizationName);
-            organization.addUserIfNotInOrganization(user);
+            organization.addUser(user);
             user.setOrganization(organization);
         });
     }
@@ -76,7 +76,7 @@ public class OrganizationRepository {
         virtualMachineRepository.getVirtualMachineList().forEach(virtualMachine -> {
             String organizationName = virtualMachine.getOrganizationName();
             Organization organization = organizationsIndexedByName.get(organizationName);
-            organization.addVirtualMachineIfNotInOrganization(virtualMachine);
+            organization.addVirtualMachine(virtualMachine);
         });
     }
 

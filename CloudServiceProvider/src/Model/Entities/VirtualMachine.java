@@ -3,6 +3,7 @@ package Model.Entities;
 import com.google.gson.annotations.Expose;
 
 import java.util.List;
+import java.util.Objects;
 
 public class VirtualMachine {
     private String name;
@@ -19,6 +20,19 @@ public class VirtualMachine {
         this.organizationName = organizationName;
         this.activities = activities;
         this.category = category;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VirtualMachine that = (VirtualMachine) o;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     public String getName() {

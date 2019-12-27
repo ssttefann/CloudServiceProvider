@@ -1,6 +1,7 @@
 [
   {
     "email": "miajt@miletic.com",
+    "password": "1",
     "firstName": "Mijat",
     "lastName": "Miletic",
     "organizationName": "Organization 1",
@@ -8,16 +9,34 @@
   },
   {
     "email": "stefan@kandic.com",
+    "password": "1",
     "firstName": "Stefan",
     "lastName": "kandic",
     "organizationName": "Organization 1",
     "role": "User"
   },
   {
-    "email": "igor@dzigurski.com",
+    "email": "1",
+    "password": "1",
     "firstName": "Igor",
     "lastName": "Dzigurski",
-    "organizationName": "Organization 2",
+    "organizationName": "Organization 1",
+    "role": "Admin"
+  },
+  {
+    "email": "2",
+    "password": "2",
+    "firstName": "Stefan",
+    "lastName": "kandic",
+    "organizationName": "Organization 1",
+    "role": "Admin"
+  },
+  {
+    "email": "3",
+    "password": "2",
+    "firstName": "Stefan",
+    "lastName": "kandic",
+    "organizationName": "Organization 1",
     "role": "Admin"
   }
 ]

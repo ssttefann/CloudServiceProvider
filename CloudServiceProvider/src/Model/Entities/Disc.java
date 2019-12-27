@@ -1,5 +1,7 @@
 package Model.Entities;
 
+import java.util.Objects;
+
 public class Disc {
     private String name;
     private DiscType type;
@@ -11,6 +13,14 @@ public class Disc {
         this.type = type;
         this.capacity = capacity;
         this.virtualMachineName = virtualMachineName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Disc disc = (Disc) o;
+        return Objects.equals(name, disc.name);
     }
 
     public String getName() {

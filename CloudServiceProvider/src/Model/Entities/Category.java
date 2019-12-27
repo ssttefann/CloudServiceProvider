@@ -1,5 +1,7 @@
 package Model.Entities;
 
+import java.util.Objects;
+
 public class Category {
     private String name;
     private int cores;
@@ -11,6 +13,14 @@ public class Category {
         this.cores = cores;
         this.RAM = RAM;
         this.GPU = GPU;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(name, category.name);
     }
 
     public String getName() {

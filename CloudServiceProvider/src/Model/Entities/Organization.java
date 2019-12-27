@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import java.beans.Transient;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Organization {
@@ -19,7 +20,7 @@ public class Organization {
         this.pathToLogo = pathToLogo;
     }
 
-    public List<Disc> getDiscsOfOrganization(){
+    public List<Disc> getDiscsOfOrganization() {
         return virtualMachinesList
                 .stream()
                 .flatMap(virtualMachine -> virtualMachine.getDiscList().stream())
@@ -67,21 +68,20 @@ public class Organization {
         this.virtualMachinesList = virtualMachinesList;
     }
 
-    public boolean addUserIfNotInOrganization(User user) {
-        if(!usersList.contains(user)){
-            usersList.add(user);
-            return true;
-        }
-
-        return false;
+    public void addUser(User user) {
+        usersList.add(user);
     }
 
-    public boolean addVirtualMachineIfNotInOrganization(VirtualMachine virtualMachine) {
-        if (!virtualMachinesList.contains(virtualMachine)) {
-            virtualMachinesList.add(virtualMachine);
-            return true;
-        }
-
-        return false;
+    public void addVirtualMachine(VirtualMachine virtualMachine) {
+        virtualMachinesList.add(virtualMachine);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Organization that = (Organization) o;
+        return Objects.equals(name, that.name);
+    }
+
 }

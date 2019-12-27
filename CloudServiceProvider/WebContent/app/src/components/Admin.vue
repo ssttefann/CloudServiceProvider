@@ -50,6 +50,13 @@ export default {
     DiskCard,
     OrganizationCard,
     UserCard
+  },
+
+
+
+  //trebalo bi ovde da se ucitaju sve kolekcije za prikaz
+  created : {
+
   }
 }
 </script>

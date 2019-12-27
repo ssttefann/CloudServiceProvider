@@ -42,6 +42,10 @@
                     <v-text-field :disabled=emailDisabled v-model="editedItem.email" label="Email" type="email"></v-text-field>
                   </v-col>
                   
+                 <v-col cols="12" sm="6" md="4">
+                    <v-text-field :disabled=emailDisabled v-model="editedItem.organization" label="Organization" ></v-text-field>
+                  </v-col>
+
                   <v-col :hidden=emailDisabled cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.password" label="Password" type="password"></v-text-field>
                   </v-col>
@@ -85,6 +89,7 @@ export default {
         { text: "Last Name", value: "lastName" },
         { text: "Email", value: "email" },
         { text: "Role", value: "role" },
+        { text: "Organization", value: "organization" },
         { text: "Actions", value: "action", sortable: false }
       ],
 
@@ -134,14 +139,14 @@ export default {
     // za sada nista ne radi
     initialize() {},
 
-    // korisnik menja neku VM
+    // korisnik menja nekog usera
     editItem(item) {
       this.editedIndex = this.$store.state.users.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
-    // korisnik brise VM
+    // korisnik brise usera
     deleteItem(item) {
       const index = this.$store.state.users.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
@@ -157,7 +162,7 @@ export default {
       }, 300);
     },
 
-    // izmenjena/dodata nova VM
+    // izmena/dodavanje novog usera
     save() {
       if (this.editedIndex > -1) {
         Object.assign(

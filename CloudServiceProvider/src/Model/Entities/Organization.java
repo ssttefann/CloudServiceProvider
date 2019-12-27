@@ -2,19 +2,28 @@ package Model.Entities;
 
 import com.google.gson.annotations.Expose;
 
+import java.beans.Transient;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Organization {
     private String name;
     private String description;
     private String pathToLogo;
-    @Expose private List<User> usersList;
-    @Expose private List<VirtualMachine> virtualMachinesList;
+    private transient List<User> usersList;
+    private transient List<VirtualMachine> virtualMachinesList;
 
     public Organization(String name, String description, String pathToLogo) {
         this.name = name;
         this.description = description;
         this.pathToLogo = pathToLogo;
+    }
+
+    public List<Disc> getDiscsOfOrganization(){
+        return virtualMachinesList
+                .stream()
+                .flatMap(virtualMachine -> virtualMachine.getDiscList().stream())
+                .collect(Collectors.toList());
     }
 
     public String getName() {

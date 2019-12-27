@@ -5,9 +5,7 @@ import Model.Entities.VirtualMachine;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,20 +22,20 @@ public class VirtualMachineRepository {
 
     /** Singleton */
     private static VirtualMachineRepository instance;
-    public static VirtualMachineRepository getInstance() throws FileNotFoundException {
+    public static VirtualMachineRepository getInstance() throws IOException {
         if(instance == null){
             instance = new VirtualMachineRepository();
         }
         return instance;
     }
 
-    private VirtualMachineRepository() throws FileNotFoundException {
+    private VirtualMachineRepository() throws IOException {
         virtualMachineList = new ArrayList<>();
         virtualMachinesIndexedByName = new HashMap<>();
         loadVirtualMachines();
         initializeDiscList();
-        connectVirtualMachinesAndDiscs(DiscRepository.getInstance());
-        connectVirtualMachinesAndCategory(CategoryRepository.getInstance());
+        connectVirtualMachinesAndDiscs();
+        connectVirtualMachinesAndCategory();
     }
 
 
@@ -49,8 +47,11 @@ public class VirtualMachineRepository {
                 .collect(Collectors.toMap(VirtualMachine::getName, virtualMachine -> virtualMachine, (oldValue, newValue) -> newValue));
     }
 
-    private void saveVirtualMachines(){
-
+    private void saveVirtualMachines() throws IOException {
+        Writer writer = new FileWriter(PATH_TO_FILE);
+        gson.toJson(virtualMachineList, writer);
+        writer.flush();
+        writer.close();
     }
 
     /**
@@ -64,7 +65,8 @@ public class VirtualMachineRepository {
     }
 
 
-    private void connectVirtualMachinesAndDiscs(DiscRepository discRepository){
+    private void connectVirtualMachinesAndDiscs() throws IOException {
+        DiscRepository discRepository = DiscRepository.getInstance();
         discRepository.getDiscList().forEach(disc -> {
             String virtualMachineName = disc.getVirtualMachineName();
             VirtualMachine virtualMachine = virtualMachinesIndexedByName.get(virtualMachineName);
@@ -72,7 +74,8 @@ public class VirtualMachineRepository {
         });
     }
 
-    private void connectVirtualMachinesAndCategory(CategoryRepository categoryRepository){
+    private void connectVirtualMachinesAndCategory() throws IOException {
+        CategoryRepository categoryRepository = CategoryRepository.getInstance();
         virtualMachineList.forEach(virtualMachine -> {
             Category category = categoryRepository
                     .getCategoryByName(virtualMachine.getCategoryName());

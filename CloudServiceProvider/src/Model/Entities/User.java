@@ -3,16 +3,19 @@ package Model.Entities;
 public class User {
     private String email;
     private String firstName;
-    private String secondName;
+    private String lastName;
     private String organizationName;
     private UserRole role;
 
-    public User(String email, String firstName, String secondName, String organizationName, UserRole role) {
+    private transient Organization organization;
+
+    public User(String email, String firstName, String lastName, String organizationName, UserRole role, Organization organization) {
         this.email = email;
         this.firstName = firstName;
-        this.secondName = secondName;
+        this.lastName = lastName;
         this.organizationName = organizationName;
         this.role = role;
+        this.organization = organization;
     }
 
     public String getEmail() {
@@ -31,12 +34,12 @@ public class User {
         this.firstName = firstName;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getOrganizationName() {
@@ -53,5 +56,13 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 }

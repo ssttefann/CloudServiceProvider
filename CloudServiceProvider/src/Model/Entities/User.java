@@ -4,15 +4,18 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
-    private String organization;
+    private String organizationName;
     private UserRole role;
 
-    public User(String email, String firstName, String lastName, String organization, UserRole role) {
+    private transient Organization organization;
+
+    public User(String email, String firstName, String lastName, String organizationName, UserRole role, Organization organization) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.organization = organization;
+        this.organizationName = organizationName;
         this.role = role;
+        this.organization = organization;
     }
 
     public String getEmail() {
@@ -39,12 +42,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getOrganization() {
-        return organization;
+    public String getOrganizationName() {
+        return organizationName;
     }
 
-    public void setOrganization(String organization) {
-        this.organization = organization;
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
     }
 
     public UserRole getRole() {
@@ -53,5 +56,13 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 }

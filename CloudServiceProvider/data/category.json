@@ -1,1 +1,20 @@
-[{"name":"kategorija1","cores":68,"RAM":1000,"GPU":400},{"name":"kategorija2","cores":8,"RAM":100,"GPU":1400},{"name":"kategorija3","cores":18,"RAM":100110,"GPU":4010}]
+[
+  {
+    "name": "kategorija1",
+    "cores": 68,
+    "RAM": 1000,
+    "GPU": 400
+  },
+  {
+    "name": "kategorija2",
+    "cores": 8,
+    "RAM": 100,
+    "GPU": 1400
+  },
+  {
+    "name": "kategorija3",
+    "cores": 18,
+    "RAM": 100110,
+    "GPU": 4010
+  }
+]

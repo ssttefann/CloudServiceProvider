@@ -7,8 +7,11 @@ import static spark.Spark.staticFiles;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import Model.Entities.Category;
+import Model.Entities.Disc;
+import Model.Entities.Organization;
 import Model.Entities.VirtualMachine;
 import Model.Repositories.*;
 import Rest.Controlers.UserControler;
@@ -26,6 +29,10 @@ public class Main {
 
     private static void asd() throws IOException {
         OrganizationRepository organizationRepository = OrganizationRepository.getInstance();
+        Organization organization = organizationRepository.getOrganizationByName("Organization 2");
+        List<Disc> diskovi = organization.getDiscsOfOrganization();
+        System.out.println();
+
     }
     public static void main(String[] args) throws Exception {
         port(8080);

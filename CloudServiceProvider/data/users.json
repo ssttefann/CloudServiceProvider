@@ -1,1 +1,23 @@
-[{"email":"miajt@miletic.com","firstName":"Mijat","lastName":"Miletic","organization":"Organization 1","role":"User"},{"email":"stefan@kandic.com","firstName":"Stefan","lastName":"kandic","organization":"Organization 1","role":"User"},{"email":"igor@dzigurski.com","firstName":"Igor","lastName":"Dzigurski","organization":"Organization 2","role":"Admin"}]
+[
+  {
+    "email": "miajt@miletic.com",
+    "firstName": "Mijat",
+    "lastName": "Miletic",
+    "organizationName": "Organization 1",
+    "role": "User"
+  },
+  {
+    "email": "stefan@kandic.com",
+    "firstName": "Stefan",
+    "lastName": "kandic",
+    "organizationName": "Organization 1",
+    "role": "User"
+  },
+  {
+    "email": "igor@dzigurski.com",
+    "firstName": "Igor",
+    "lastName": "Dzigurski",
+    "organizationName": "Organization 2",
+    "role": "Admin"
+  }
+]

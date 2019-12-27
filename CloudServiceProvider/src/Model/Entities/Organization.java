@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import java.beans.Transient;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Organization {
     private String name;
@@ -16,6 +17,13 @@ public class Organization {
         this.name = name;
         this.description = description;
         this.pathToLogo = pathToLogo;
+    }
+
+    public List<Disc> getDiscsOfOrganization(){
+        return virtualMachinesList
+                .stream()
+                .flatMap(virtualMachine -> virtualMachine.getDiscList().stream())
+                .collect(Collectors.toList());
     }
 
     public String getName() {

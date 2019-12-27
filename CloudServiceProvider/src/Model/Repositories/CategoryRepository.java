@@ -53,4 +53,12 @@ public class CategoryRepository {
     public Category getCategoryByName(String categoryName) {
         return categoriesIndexedByName.get(categoryName);
     }
+
+    public Map<String, Category> getCategoriesIndexedByName() {
+        return categoriesIndexedByName;
+    }
+
+    public List<Category> getCategoryList() {
+        return categoryList;
+    }
 }

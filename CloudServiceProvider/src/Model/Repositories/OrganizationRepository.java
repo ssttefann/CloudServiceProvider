@@ -64,9 +64,10 @@ public class OrganizationRepository {
     private void connectOrganizationsWithUsers() throws IOException {
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.getUsersList().forEach(user -> {
-            String organizationName = user.getOrganization();
+            String organizationName = user.getOrganizationName();
             Organization organization = organizationsIndexedByName.get(organizationName);
             organization.addUserIfNotInOrganization(user);
+            user.setOrganization(organization);
         });
     }
 
@@ -79,4 +80,23 @@ public class OrganizationRepository {
         });
     }
 
+    public Organization getOrganizationByName(String organizationName) {
+        return organizationsIndexedByName.get(organizationName);
+    }
+
+    public List<Organization> getOrganizationsList() {
+        return organizationsList;
+    }
+
+    public void setOrganizationsList(List<Organization> organizationsList) {
+        this.organizationsList = organizationsList;
+    }
+
+    public Map<String, Organization> getOrganizationsIndexedByName() {
+        return organizationsIndexedByName;
+    }
+
+    public void setOrganizationsIndexedByName(Map<String, Organization> organizationsIndexedByName) {
+        this.organizationsIndexedByName = organizationsIndexedByName;
+    }
 }

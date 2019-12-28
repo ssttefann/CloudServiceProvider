@@ -27,17 +27,15 @@ public class LoginController {
 
         User user = db.getUser(email);
         if (user == null) {
-            // TODO vrati 400 nesto
-            throw new Exception("247 365 021");
+            return "Nevalidni podaci";
         }
 
         if (user.getPassword().equals(password)) {
             request.session().attribute("user", user);
-            return "ulogovao si se brao";
+            return gson.toJson(user, User.class);
         }
 
-        // TODO nek vrati neki 400
-        return "pa nisi bas uspeo";
+        return "Nevalidni podaci";
     };
 
     public static Route getLoggedInUser = (request, response) -> {

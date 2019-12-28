@@ -24,15 +24,15 @@ public class CategoryController {
     public static Route getAllCategories = (request, response) -> {
         User user = request.session().attribute("user");
         if(user == null){
-            // TODO vrati 400 nesto
-            throw new Exception("nisi ulogovan");
+            response.status(401);
+            return "Unauthorized";
         }
 
         if(user.getRole().equals(UserRole.SuperAdmin)){
             return gson.toJson(db.getAllCategories());
         }
 
-        // TODO vrati 400 nesto
-        throw new Exception("Nema prava da to uradis");
+        response.status(401);
+        return "Unauthorized";
     };
 }

@@ -1,20 +1,20 @@
 [
   {
-    "name": "kategorija1",
-    "cores": 68,
-    "RAM": 1000,
-    "GPU": 40033
+    "name": "KAT1",
+    "cores": 6,
+    "RAM": 16,
+    "GPU": 1
   },
   {
-    "name": "kategorija2",
-    "cores": 8,
-    "RAM": 100,
-    "GPU": 1400
+    "name": "KAT2",
+    "cores": 12,
+    "RAM": 64,
+    "GPU": 3
   },
   {
-    "name": "kategorija3",
-    "cores": 18,
-    "RAM": 100110,
-    "GPU": 4010
+    "name": "KAT3",
+    "cores": 64,
+    "RAM": 128,
+    "GPU": 9
   }
 ]

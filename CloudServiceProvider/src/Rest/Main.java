@@ -12,8 +12,7 @@ import java.util.List;
 import Model.Entities.Disc;
 import Model.Entities.Organization;
 import Model.Repositories.*;
-import Rest.Controlers.LoginController;
-import Rest.Controlers.UserController;
+import Rest.Controlers.*;
 import com.google.gson.Gson;
 
 public class Main {
@@ -26,15 +25,29 @@ public class Main {
     private static OrganizationRepository organizationRepository;
 
     public static void main(String[] args) throws Exception {
-        port(8080);
+        port(8000);
         staticFiles.externalLocation(new File("CloudServiceProvider/WebContent/app/dist").getCanonicalPath());
         System.out.println();
 
+        // Login
         post("/rest/login", LoginController.login);
-        get("/rest/getLoggedIn", LoginController.getLoggedInUser);
+        get("/rest/loggedUser/", LoginController.getLoggedUser);
+        get("/rest/logout/", LoginController.logOut);
 
-        get("/rest/users/getAll", UserController.getAllUsers);
-        post("/rest/users/add", UserController.addUser);
+        //Korisnici
+        get("/rest/users/getAll/", UserController.getAllUsers);
+        post("/rest/users/add/", UserController.addUser);
 
+        //Virtuelne masine
+        get("/rest/getVMs/", VirtualMachineController.getVirtualMachines);
+
+        //Diskovi
+        get("/rest/getDiscs/", DiscController.getDiscs);
+
+        //Kategorije
+        get("/rest/getCategories/", CategoryController.getAllCategories);
+
+        //Organizacije
+//        get("/rest/getOrganizations/", OrganizationController.getAllOrganizations);
     }
 }

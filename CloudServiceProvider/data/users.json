@@ -4,7 +4,7 @@
     "password": "1",
     "firstName": "Mijat",
     "lastName": "Miletic",
-    "organizationName": "Organization 1",
+    "organizationName": "ORG1",
     "role": "User"
   },
   {
@@ -12,7 +12,7 @@
     "password": "1",
     "firstName": "Stefan",
     "lastName": "kandic",
-    "organizationName": "Organization 1",
+    "organizationName": "ORG1",
     "role": "User"
   },
   {
@@ -20,7 +20,7 @@
     "password": "1",
     "firstName": "Igor",
     "lastName": "Dzigurski",
-    "organizationName": "Organization 1",
+    "organizationName": "ORG1",
     "role": "Admin"
   },
   {
@@ -28,7 +28,7 @@
     "password": "2",
     "firstName": "Stefan",
     "lastName": "kandic",
-    "organizationName": "Organization 1",
+    "organizationName": "ORG1",
     "role": "Admin"
   },
   {
@@ -36,7 +36,7 @@
     "password": "2",
     "firstName": "Stefan",
     "lastName": "kandic",
-    "organizationName": "Organization 1",
+    "organizationName": "ORG1",
     "role": "Admin"
   },
   {
@@ -44,7 +44,7 @@
     "password": "s",
     "firstName": "Stefan",
     "lastName": "kandic",
-    "organizationName": "Organization 1",
+    "organizationName": "ORG3",
     "role": "SuperAdmin"
   },
   {
@@ -52,7 +52,7 @@
     "password": "123",
     "firstName": "Nikola",
     "lastName": "Nikolic",
-    "organizationName": "Organization 1",
-    "role": "User"
+    "organizationName": "ORG2",
+    "role": "Admin"
   }
 ]

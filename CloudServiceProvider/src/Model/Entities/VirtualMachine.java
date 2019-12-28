@@ -11,7 +11,7 @@ public class VirtualMachine {
     private String organizationName;
     private List<VirtualMachineActivity> activities;
 
-    private transient Category category;
+    private Category category;
     private transient List<Disc> discList;
 
     public VirtualMachine(String name, String categoryName, String organizationName, List<VirtualMachineActivity> activities, Category category, List<Disc> discList) {

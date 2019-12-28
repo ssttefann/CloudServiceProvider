@@ -1,6 +1,6 @@
 package Rest.Controlers;
 
-import Model.DatabaseOrWhatEverIDontCareItsSoStupid;
+import Model.Database;
 import Model.Entities.User;
 import Model.Entities.UserRole;
 import Model.Repositories.CategoryRepository;
@@ -11,11 +11,11 @@ import java.io.IOException;
 
 public class CategoryController {
     private static Gson gson = new Gson();
-    private static DatabaseOrWhatEverIDontCareItsSoStupid db;
+    private static Database db;
 
     static {
         try {
-            db = DatabaseOrWhatEverIDontCareItsSoStupid.getInstance();
+            db = Database.getInstance();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -28,7 +28,7 @@ public class CategoryController {
             return "Unauthorized";
         }
 
-        if(user.getRole().equals(UserRole.SuperAdmin)){
+        if(user.getRole().equals(UserRole.SuperAdmin) || user.getRole().equals(UserRole.Admin)){
             return gson.toJson(db.getAllCategories());
         }
 

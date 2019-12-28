@@ -62,7 +62,7 @@ public class UserRepository {
         return usersList;
     }
 
-    public boolean addUserIfEmailUnique(User user) throws IOException {
+    public boolean addUser(User user) throws IOException {
         String email = user.getEmail();
         if(usersIndexedByEmail.containsKey(email)){
             return false;
@@ -74,7 +74,7 @@ public class UserRepository {
         return true;
     }
 
-    public boolean removeUserIfExists(User user) throws IOException {
+    public boolean removeUser(User user) throws IOException {
         String email = user.getEmail();
         if(usersIndexedByEmail.containsKey(email)){
             usersIndexedByEmail.remove(email);
@@ -86,7 +86,7 @@ public class UserRepository {
         return false;
     }
 
-    public boolean editUserIfExists(User user) throws IOException {
+    public boolean editUser(User user) throws IOException {
         String email = user.getEmail();
         if(usersIndexedByEmail.containsKey(email)){
             usersIndexedByEmail.put(user.getEmail(), user);

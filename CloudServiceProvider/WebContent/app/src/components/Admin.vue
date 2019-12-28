@@ -55,8 +55,18 @@ export default {
 
 
   //trebalo bi ovde da se ucitaju sve kolekcije za prikaz
-  created : {
+  created() {
+    this.$store.commit('logUser');
+  },
 
+  mounted() {
+      
+      // let uloga = this.$store.state.loggedUser.role;
+      // if (uloga == "" || uloga == undefined){
+      //   this.$router.push('/login');
+      // }
+      // else if(uloga == "User")
+      //   this.$router.push('/dashboard');
   }
 }
 </script>

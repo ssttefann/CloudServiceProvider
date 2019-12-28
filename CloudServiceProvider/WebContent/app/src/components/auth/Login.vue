@@ -1,20 +1,15 @@
 <template>
- <div>
+  <div>
     <v-content>
-
       <v-container fluid fill-height>
-
         <v-layout align-center justify-center>
-
-          <v-flex xs12 sm8  md4 >
-
+          <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
-
               <v-toolbar color="blue-grey" dark flat>
                 <v-toolbar-title>Login form</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
-              
+
               <v-card-text>
                 <v-form>
                   <v-text-field
@@ -37,32 +32,25 @@
               </v-card-text>
 
               <v-card-actions>
-
-                <router-link to="/register"> 
-                <v-btn color="blue-grey white--text" >Don't have an account?</v-btn>
+                <router-link to="/register">
+                  <v-btn color="blue-grey white--text">Don't have an account?</v-btn>
                 </router-link>
 
                 <v-spacer></v-spacer>
                 <v-btn @click="submit" color="blue-grey white--text">Login</v-btn>
               </v-card-actions>
-
             </v-card>
-
           </v-flex>
-
         </v-layout>
-
       </v-container>
-
     </v-content>
-</div>
+  </div>
 </template>
 
 <script>
 // @ is an alias to /src
-// import axios from 'axios';
 import { stringify } from 'querystring';
-// import { bus } from '../main';
+
 
 export default {
   components: {
@@ -116,10 +104,10 @@ export default {
     /**
      * Poziva se kada korisnik stisne na dugme za login
      */
-    submit() {
+    async submit() {
       let resp = this.validate();
 
-      let uloga;
+      // let uloga;
 
       // ako je RESP ok mozes poslati serveru
       if(resp === "OK"){
@@ -128,25 +116,26 @@ export default {
           email : this.email
         };
 
-        this.$axios.post('/rest/login', stringify(user))
+        await this.$axios.post('/rest/login', stringify(user))
           .then(res => {
-            uloga = res.data;
-            if (uloga == "ADMIN"){
+            this.$store.state.loggedUser.role = res.data.role;
+            
+            this.$store.commit('logUser');
+            if (res.data.role == "Admin" || res.data.role == "SuperAdmin"){
               this.$router.push('/admin');
-              this.$store.commit('logUser');
-              // bus.$emit('userLoggedIn', true);
+        
             }
-            else if(uloga == "USER"){
-              this.$router.push('/dashboard')
-              this.$store.commit('logUser');
-              //bus.$emit('userLoggedIn', true);
-            }
+            else if (res.data.role == "User")
+              this.$router.push('/dashboard');
             else
               alert("Pogresna kombinacija user/pass");
           })
           .catch(res => alert(res));
+
+        // 
+
         
-        
+
       //ako nije ispisi poruku o gresci
       }else{
         alert("Labele " +resp+ " moraju biti popunjene pre prijavljivanja")
@@ -158,5 +147,7 @@ export default {
 
 
 <style scoped>
-  a {  text-decoration: none;}
+a {
+  text-decoration: none;
+}
 </style>

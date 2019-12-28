@@ -8,24 +8,24 @@ import Model.Repositories.*;
 import java.io.IOException;
 import java.util.List;
 
-public class DatabaseOrWhatEverIDontCareItsSoStupid {
+public class Database {
     private UserRepository userRepository;
     private CategoryRepository categoryRepository;
     private DiscRepository discRepository;
     private VirtualMachineRepository virtualMachineRepository;
     private OrganizationRepository organizationRepository;
 
-    private static DatabaseOrWhatEverIDontCareItsSoStupid instance;
+    private static Database instance;
 
-    public static DatabaseOrWhatEverIDontCareItsSoStupid getInstance() throws IOException {
+    public static Database getInstance() throws IOException {
         if (instance == null) {
-            instance = new DatabaseOrWhatEverIDontCareItsSoStupid();
+            instance = new Database();
         }
 
         return instance;
     }
 
-    private DatabaseOrWhatEverIDontCareItsSoStupid() throws IOException {
+    private Database() throws IOException {
         userRepository = UserRepository.getInstance();
         categoryRepository = CategoryRepository.getInstance();
         discRepository = DiscRepository.getInstance();
@@ -45,7 +45,7 @@ public class DatabaseOrWhatEverIDontCareItsSoStupid {
     public boolean addUserToOrganizationIfEmailUnique(User user) throws IOException {
         Organization organization = organizationRepository.getOrganizationByName(user.getOrganizationName());
         user.setOrganization(organization);
-        if (userRepository.addUserIfEmailUnique(user)) {
+        if (userRepository.addUser(user)) {
             organization.addUser(user);
             return true;
         }
@@ -53,11 +53,11 @@ public class DatabaseOrWhatEverIDontCareItsSoStupid {
     }
 
     public boolean removeUserIfExists(User user) throws IOException {
-        return userRepository.removeUserIfExists(user);
+        return userRepository.removeUser(user);
     }
 
     public boolean editUserIfExists(User user) throws IOException {
-        return userRepository.editUserIfExists(user);
+        return userRepository.editUser(user);
     }
 
     public List<Category> getAllCategories() {

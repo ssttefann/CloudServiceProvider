@@ -1,14 +1,20 @@
 [
   {
-    "name": "vm1",
-    "categoryName": "kategorija1",
-    "organizationName": "Organization 2",
+    "name": "VM1",
+    "categoryName": "KAT1",
+    "organizationName": "ORG1",
     "activities": []
   },
   {
-    "name": "vm2",
-    "categoryName": "kategorija2",
-    "organizationName": "Organization 1",
+    "name": "VM2",
+    "categoryName": "KAT2",
+    "organizationName": "ORG3",
+    "activities": []
+  },
+  {
+    "name": "VM3",
+    "categoryName": "KAT2",
+    "organizationName": "ORG2",
     "activities": []
   }
 ]

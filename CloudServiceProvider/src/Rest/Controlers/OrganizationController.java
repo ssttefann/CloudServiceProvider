@@ -1,6 +1,6 @@
 package Rest.Controlers;
 
-import Model.DatabaseOrWhatEverIDontCareItsSoStupid;
+import Model.Database;
 import Model.Entities.User;
 import Model.Entities.UserRole;
 import com.google.gson.Gson;
@@ -10,11 +10,11 @@ import java.io.IOException;
 
 public class OrganizationController {
     private static Gson gson = new Gson();
-    private static DatabaseOrWhatEverIDontCareItsSoStupid db;
+    private static Database db;
 
     static {
         try {
-            db = DatabaseOrWhatEverIDontCareItsSoStupid.getInstance();
+            db = Database.getInstance();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -29,6 +29,9 @@ public class OrganizationController {
 
         if(user.getRole().equals(UserRole.SuperAdmin)){
             return gson.toJson(db.getAllOrganizations());
+        }
+        else if(user.getRole().equals(UserRole.Admin)){
+
         }
 
         response.status(403);

@@ -73,6 +73,7 @@ export default {
         { text: "Name", align: "left", value: "name" },
         { text: "Capacity", value: "capacity" },
         { text: "Type", value: "type" },
+        { text: "Virtual Machine", value: "virtualMachineName" },
         { text: "Actions", value: "action", sortable: false }
       ],
 
@@ -82,10 +83,10 @@ export default {
       dialog: false,
       editedIndex: -1,
       editedItem: {
-        name: "", capacity : 1, type : ""
+        name: "", capacity : 1, type : "", virtualMachineName : ""
       },
       defaultItem: {
-        name: "", capacity : 1, type : ""
+        name: "", capacity : 1, type : "", virtualMachineName : ""
       }
     };
   },

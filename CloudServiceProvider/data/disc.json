@@ -1,20 +1,20 @@
 [
   {
-    "name": "disk1",
+    "name": "Disk1",
     "type": "SSD",
     "capacity": 12000,
-    "virtualMachineName": "vm1"
+    "virtualMachineName": "VM1"
   },
   {
     "name": "disk2",
     "type": "SSD",
     "capacity": 122000,
-    "virtualMachineName": "vm1"
+    "virtualMachineName": "VM3"
   },
   {
     "name": "disk3",
     "type": "SSD",
     "capacity": 1201100,
-    "virtualMachineName": "vm2"
+    "virtualMachineName": "VM2"
   }
 ]

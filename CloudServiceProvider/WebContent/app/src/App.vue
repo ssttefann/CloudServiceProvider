@@ -21,11 +21,10 @@ export default {
     //
   }),
 
-  mounted() {
-
+  created() {
     // ako se refreshuje stranica, ili ako se otvori u drugom tabu
     // pogledaj da li postojao vec ulogovani korisnik
-    this.$store.commit('logUser');
+    // this.$store.commit('logUser');
   },
 
   methods : {

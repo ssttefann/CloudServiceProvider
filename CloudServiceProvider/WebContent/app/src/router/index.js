@@ -6,6 +6,7 @@ import Login from '../components/auth/Login'
 import Register from '../components/auth/Register'
 import NotFound from '../components/global/NotFound'
 import Dashboard from '../components/Dashboard'
+// import store from '../store/store'
 
 Vue.use(VueRouter)
 
@@ -13,22 +14,35 @@ const routes = [
   {
     path: '/admin',
     name: 'admin',
-    component: Admin
+    component: Admin,
+    meta : {
+      requiresAuth : true,
+      is_admin : true
+    }
   },
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: Home,
+    meta : {
+      guest : true
+    }
   },
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: Dashboard
+    component: Dashboard,
+    meta : {
+      requiresAuth : true
+    }
   },
   {
     path: '/login',
     name: 'login',
-    component: Login
+    component: Login,
+    meta : {
+      guest : true
+    }
   },
   {
     path: '/register',
@@ -38,11 +52,17 @@ const routes = [
   {
     path: '*',
     name: 'notfound',
-    component: NotFound
+    component: NotFound,
+    meta : {
+      guest : true
+    }
   },
   {
     path: '/about',
     name: 'about',
+    meta : {
+      guest : true
+    },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -55,5 +75,11 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+
+// router.beforeEach(() => {
+//   if(store.state.loggedUser.name != "")
+//     alert(store.state.loggedUser.name);
+// })
 
 export default router

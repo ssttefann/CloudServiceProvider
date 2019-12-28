@@ -43,7 +43,7 @@
                   </v-col>
                   
                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field :disabled=emailDisabled v-model="editedItem.organization" label="Organization" ></v-text-field>
+                    <v-text-field :disabled=emailDisabled v-model="editedItem.organizationName" label="Organization" ></v-text-field>
                   </v-col>
 
                   <v-col :hidden=emailDisabled cols="12" sm="6" md="4">
@@ -89,7 +89,7 @@ export default {
         { text: "Last Name", value: "lastName" },
         { text: "Email", value: "email" },
         { text: "Role", value: "role" },
-        { text: "Organization", value: "organization" },
+        { text: "Organization", value: "organizationName" },
         { text: "Actions", value: "action", sortable: false }
       ],
 
@@ -103,6 +103,7 @@ export default {
           email : "",
           password : "",
           role : "",
+          organizationName : ""
       },
       defaultItem: {
           firstName : "",
@@ -110,6 +111,7 @@ export default {
           email : "",
           password : "",
           role : "",
+          organizationName : ""
       }
     };
   },

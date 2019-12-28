@@ -22,6 +22,12 @@ public class User {
         this.organization = organization;
     }
 
+    public User() {
+        this.email = "";
+        this.password = "";
+        this.firstName = "";
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

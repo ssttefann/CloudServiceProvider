@@ -43,7 +43,7 @@
                     <v-text-field v-model="editedItem.category.name" label="Category"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field :disabled="nameDisabled" v-model="editedItem.organization" label="Organization"></v-text-field>
+                    <v-text-field :disabled="nameDisabled" v-model="editedItem.organizationName" label="Organization"></v-text-field>
                   </v-col>
                   <v-row cols="12" sm="6" md="4">
                     <DiskCard/>
@@ -87,7 +87,7 @@ export default {
         { text: "Cores", value: "category.cores" },
         { text: "RAM", value: "category.RAM" },
         { text: "GPU", value: "category.GPU" },
-        { text: "Organization", value: "organization" },
+        { text: "Organization", value: "organizationName" },
         { text: "Actions", value: "action", sortable: false }
       ],
 
@@ -96,7 +96,7 @@ export default {
       editedIndex: -1,
       editedItem: {
         name: "",
-        organization: "",
+        organizationName: "",
         category: {
           name: "",
           cores: 0,
@@ -106,7 +106,7 @@ export default {
       },
       defaultItem: {
         name: "",
-        organization: "",
+        organizationName: "",
         category: {
           name: "",
           cores: 0,

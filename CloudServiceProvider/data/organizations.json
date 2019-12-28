@@ -1,12 +1,17 @@
 [
   {
-    "name": "Organization 1",
-    "description": "descas;df ",
-    "pathToLogo": "adsfa"
+    "name": "ORG1",
+    "description": "Neka Org",
+    "pathToLogo": ""
   },
   {
-    "name": "Organization 2",
-    "description": "descas;df ",
-    "pathToLogo": "adsfa"
+    "name": "ORG2",
+    "description": "Neka Druga",
+    "pathToLogo": ""
+  },
+  {
+    "name": "ORG3",
+    "description": "Neka Treca",
+    "pathToLogo": ""
   }
 ]

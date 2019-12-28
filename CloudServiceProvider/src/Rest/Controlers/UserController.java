@@ -1,6 +1,6 @@
 package Rest.Controlers;
 
-import Model.DatabaseOrWhatEverIDontCareItsSoStupid;
+import Model.Database;
 import Model.Entities.*;
 import com.google.gson.Gson;
 import spark.Route;
@@ -9,11 +9,11 @@ import java.io.IOException;
 
 public class UserController {
     private static Gson gson = new Gson();
-    private static DatabaseOrWhatEverIDontCareItsSoStupid db;
+    private static Database db;
 
     static {
         try {
-            db = DatabaseOrWhatEverIDontCareItsSoStupid.getInstance();
+            db = Database.getInstance();
         } catch (IOException e) {
             e.printStackTrace();
         }

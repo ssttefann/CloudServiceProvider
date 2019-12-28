@@ -53,8 +53,8 @@ public class UserController {
         String userJson = request.body();
         User newUser = gson.fromJson(userJson, User.class);
         if(!db.addUserToOrganizationIfEmailUnique(newUser)){
-            response.status(401);
-            return "Unauthorized";
+            response.status(400);
+            return "Email vec posotji";
         }
 
         return "OK";
@@ -74,8 +74,8 @@ public class UserController {
         }
 
         if(!db.removeUserIfExists(user)){
-            response.status(403);
-            return "Email je zauzet";
+            response.status(400);
+            return "Korisnik sa tim emailom ne postoji";
         }
 
         return "OK";
@@ -95,7 +95,7 @@ public class UserController {
         }
 
         if(!db.editUserIfExists(user)){
-            response.status(403);
+            response.status(400);
             return "Korisnik sa tim emailom ne postoji.";
         }
 

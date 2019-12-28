@@ -23,16 +23,16 @@ public class OrganizationController {
     public static Route getAllOrganizations = (request, response) -> {
         User user = request.session().attribute("user");
         if(user == null){
-            // TODO vrati 400 nesto
-            throw new Exception("nisi ulogovan");
+            response.status(401);
+            return "Unauthorized";
         }
 
         if(user.getRole().equals(UserRole.SuperAdmin)){
             return gson.toJson(db.getAllOrganizations());
         }
 
-        // TODO : vrati neki 400
-        throw new Exception("Nema prava da to uradis");
+        response.status(403);
+        return "Unauthorized";
     };
 
     public static Route addOrganization = (request, response) -> {

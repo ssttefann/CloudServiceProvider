@@ -6,7 +6,7 @@ import Login from '../components/auth/Login'
 import Register from '../components/auth/Register'
 import NotFound from '../components/global/NotFound'
 import Dashboard from '../components/Dashboard'
-// import store from '../store/store'
+import {store} from '../store/store.js'
 
 Vue.use(VueRouter)
 
@@ -77,9 +77,17 @@ const router = new VueRouter({
 })
 
 
-// router.beforeEach(() => {
-//   if(store.state.loggedUser.name != "")
-//     alert(store.state.loggedUser.name);
-// })
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+      // if (store.state.loggedUser.name != "") {
+        if(store.getters.isLogged){
+          next()
+          return
+      }
+      next('/login')
+  } else {
+      next()
+  }
+})
 
 export default router

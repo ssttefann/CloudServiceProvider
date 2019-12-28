@@ -25,9 +25,15 @@ public class Main {
     private static OrganizationRepository organizationRepository;
 
     public static void main(String[] args) throws Exception {
-        port(8000);
+        port(8080);
         staticFiles.externalLocation(new File("CloudServiceProvider/WebContent/app/dist").getCanonicalPath());
         System.out.println();
+
+        //redirect
+        get("/admin", (req, res) -> {
+            res.redirect("/#/admin");
+            return "OK";
+        });
 
         // Login
         post("/rest/login", LoginController.login);

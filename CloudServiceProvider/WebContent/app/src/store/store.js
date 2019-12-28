@@ -3,6 +3,7 @@ import Vue from'vue'
 import Vuex from 'vuex'
 import createPersistedState from "vuex-persistedstate";
 import axios from 'axios';
+import router from '../router/index'
 
 Vue.use(Vuex)
 
@@ -33,9 +34,13 @@ export const store = new Vuex.Store({
     getters : {
 
         // vraca da li postoji ulogovan korisnik
-        isLogged(state) {
-            return !state.loggedUser.firstName == "";
-        }
+        // isLogged(state) {
+        //     return !state.loggedUser.firstName == "";
+        // }
+
+        isLogged : state => !state.loggedUser.firstName == "",
+
+        isAdmin : state => state.loggedUser.role == "Admin" || state.loggedUser.role == "SuperAdmin"
     },
 
     mutations : {
@@ -56,6 +61,11 @@ export const store = new Vuex.Store({
             .get('rest/loggedUser/')
             .then(res => {
               state.loggedUser = res.data;
+              if (this.getters.isAdmin) {
+                    router.push('/admin')
+              } else if (this.getters.isLogged){
+                    router.push('/dashboard');
+              }
             })
             .catch(err => alert(err));
             

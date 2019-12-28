@@ -122,11 +122,11 @@ export default {
             
             this.$store.commit('logUser');
             if (res.data.role == "Admin" || res.data.role == "SuperAdmin"){
-              this.$router.push('/admin');
+              // this.$router.push('/admin');
         
             }
-            else if (res.data.role == "User")
-              this.$router.push('/dashboard');
+            else if (res.data.role == "User"){}
+              // this.$router.push('/dashboard');
             else
               alert("Pogresna kombinacija user/pass");
           })

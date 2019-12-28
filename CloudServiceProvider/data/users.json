@@ -38,5 +38,21 @@
     "lastName": "kandic",
     "organizationName": "Organization 1",
     "role": "Admin"
+  },
+  {
+    "email": "s",
+    "password": "s",
+    "firstName": "Stefan",
+    "lastName": "kandic",
+    "organizationName": "Organization 1",
+    "role": "SuperAdmin"
+  },
+  {
+    "email": "123",
+    "password": "123",
+    "firstName": "Nikola",
+    "lastName": "Nikolic",
+    "organizationName": "Organization 1",
+    "role": "User"
   }
 ]

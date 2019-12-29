@@ -20,10 +20,13 @@ public class VirtualMachineRepository {
     private Map<String, VirtualMachine> virtualMachinesIndexedByName;
     private List<VirtualMachine> virtualMachineList;
 
-    /** Singleton */
+    /**
+     * Singleton
+     */
     private static VirtualMachineRepository instance;
+
     public static VirtualMachineRepository getInstance() throws IOException {
-        if(instance == null){
+        if (instance == null) {
             instance = new VirtualMachineRepository();
         }
         return instance;
@@ -41,7 +44,8 @@ public class VirtualMachineRepository {
 
     private void loadVirtualMachines() throws FileNotFoundException {
         Reader reader = new FileReader(PATH_TO_FILE);
-        Type listType = new TypeToken<ArrayList<VirtualMachine>>() {}.getType();
+        Type listType = new TypeToken<ArrayList<VirtualMachine>>() {
+        }.getType();
         virtualMachineList = gson.fromJson(reader, listType);
         virtualMachinesIndexedByName = virtualMachineList.stream()
                 .collect(Collectors.toMap(VirtualMachine::getName, virtualMachine -> virtualMachine, (oldValue, newValue) -> newValue));
@@ -58,7 +62,7 @@ public class VirtualMachineRepository {
      * Mora da se inicijalizuje ova lista ovde
      * a ne u konstruktoru jer je gson postavi na null
      */
-    private void initializeDiscList(){
+    private void initializeDiscList() {
         virtualMachineList.forEach(virtualMachine -> {
             virtualMachine.setDiscList(new ArrayList<>());
         });
@@ -91,7 +95,30 @@ public class VirtualMachineRepository {
         return virtualMachineList;
     }
 
-    public VirtualMachine getVirtualMachineByName(String virtualMachineName) {
+    public VirtualMachine getVirtualMachine(String virtualMachineName) {
         return virtualMachinesIndexedByName.get(virtualMachineName);
+    }
+
+    public boolean addVirtualMachine(VirtualMachine virtualMachine) throws IOException {
+        String virtualMachineName = virtualMachine.getName();
+        if (!virtualMachinesIndexedByName.containsKey(virtualMachineName)) {
+            virtualMachinesIndexedByName.put(virtualMachineName, virtualMachine);
+            virtualMachineList.add(virtualMachine);
+            saveVirtualMachines();
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean removeVirtualMachine(String virtualMachineName) throws IOException {
+        if (virtualMachinesIndexedByName.containsKey(virtualMachineName)) {
+            virtualMachineList.remove(virtualMachinesIndexedByName.get(virtualMachineName));
+            virtualMachinesIndexedByName.remove(virtualMachineName);
+            saveVirtualMachines();
+            return true;
+        }
+
+        return false;
     }
 }

@@ -1,8 +1,6 @@
 package Model;
 
-import Model.Entities.Category;
-import Model.Entities.Organization;
-import Model.Entities.User;
+import Model.Entities.*;
 import Model.Repositories.*;
 
 import java.io.IOException;
@@ -33,17 +31,20 @@ public class Database {
         organizationRepository = OrganizationRepository.getInstance();
     }
 
-    public List<User> getUsers() {
+    public List<User> getAllUsers() {
         return userRepository.getUsersList();
     }
-
 
     public List<User> getUsersOfOrganization(User user) {
         return user.getOrganization().getUsersList();
     }
 
-    public boolean addUserToOrganizationIfEmailUnique(User user) throws IOException {
-        Organization organization = organizationRepository.getOrganizationByName(user.getOrganizationName());
+    public User getUser(String email) {
+        return userRepository.getUser(email);
+    }
+
+    public boolean addUserToOrganization(User user) throws IOException {
+        Organization organization = organizationRepository.getOrganization(user.getOrganizationName());
         user.setOrganization(organization);
         if (userRepository.addUser(user)) {
             organization.addUser(user);
@@ -52,35 +53,88 @@ public class Database {
         return false;
     }
 
-    public boolean removeUserIfExists(User user) throws IOException {
-        return userRepository.removeUser(user);
+    public boolean removeUser(String email) throws IOException {
+        return userRepository.removeUser(email);
     }
 
-    public boolean editUserIfExists(User user) throws IOException {
-        return userRepository.editUser(user);
-    }
 
     public List<Category> getAllCategories() {
         return categoryRepository.getCategoryList();
     }
 
-    public boolean addCategory(Category category) {
+    public boolean addCategory(Category category) throws IOException {
+        return categoryRepository.addIfNameIsUnique(category);
+    }
+
+    public boolean removeCategory(String categoryName) throws IOException {
+        return categoryRepository.removeIfExists(categoryName);
+    }
+
+
+
+    public List<Disc> getAllDiscs() {
+        return discRepository.getDiscList();
+    }
+
+    public List<Disc> getDiscsOfOrganization(String organizationName) {
+        Organization organization = organizationRepository.getOrganization(organizationName);
+        return organization.getDiscs();
+    }
+
+    public boolean addDisc(Disc disc) throws IOException {
+        if (discRepository.addDisc(disc)) {
+            String virtualMachineName = disc.getVirtualMachineName();
+            VirtualMachine virtualMachine = virtualMachineRepository
+                    .getVirtualMachine(virtualMachineName);
+
+            virtualMachine.addDisc(disc);
+            return true;
+        }
+
         return false;
     }
 
-    public boolean removeCategory(Category category) {
+    public boolean removeDisc(String discName) throws IOException {
+        Disc disc = discRepository.getDisc(discName);
+        if (disc != null) {
+            String virtualMachineName = disc.getVirtualMachineName();
+            VirtualMachine virtualMachine = virtualMachineRepository
+                    .getVirtualMachine(virtualMachineName);
+            virtualMachine.removeDisc(disc);
+            discRepository.removeDisc(discName);
+            return true;
+        }
+
         return false;
     }
 
-    public boolean editCategory(Category category) {
-        return false;
+    public List<VirtualMachine> getAllVirtualMachines(){
+        return virtualMachineRepository.getVirtualMachineList();
     }
 
-    public List<Organization> getAllOrganizations() {
+    public List<VirtualMachine> getAllVirtualMachinesOfOrganization(String organizationName){
+        Organization organization = organizationRepository.getOrganization(organizationName);
+        return organization.getVirtualMachinesList();
+    }
+
+    public boolean addVirtualMachine(VirtualMachine virtualMachine) throws IOException {
+        return virtualMachineRepository.addVirtualMachine(virtualMachine);
+    }
+
+    public boolean removeVirtualMachine(String virtualMachineName) throws IOException {
+        return virtualMachineRepository.removeVirtualMachine(virtualMachineName);
+    }
+
+    public List<Organization> getAllOrganizations(){
         return organizationRepository.getOrganizationsList();
     }
 
-    public User getUser(String email) {
-        return userRepository.getUser(email);
+    public boolean addOrganization(Organization organization) throws IOException {
+        return organizationRepository.addOrganization(organization);
     }
+
+    public boolean removeOrganization(String organizationName) throws IOException {
+        return organizationRepository.removeOrganization(organizationName);
+    }
+
 }

@@ -74,26 +74,10 @@ public class UserRepository {
         return true;
     }
 
-    public boolean removeUser(User user) throws IOException {
-        String email = user.getEmail();
+    public boolean removeUser(String email) throws IOException {
         if(usersIndexedByEmail.containsKey(email)){
+            usersList.remove(usersIndexedByEmail.get(email));
             usersIndexedByEmail.remove(email);
-            usersList.remove(user);
-            saveUsers();
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean editUser(User user) throws IOException {
-        String email = user.getEmail();
-        if(usersIndexedByEmail.containsKey(email)){
-            usersIndexedByEmail.put(user.getEmail(), user);
-            // prvo skloni korisnika sa starim podacima
-            // pa doda istog tog korisnika sa novim podacima
-            usersList.remove(user);
-            usersList.add(user);
             saveUsers();
             return true;
         }

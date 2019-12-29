@@ -1,7 +1,5 @@
 package Model.Entities;
 
-import com.google.gson.annotations.Expose;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -90,5 +88,20 @@ public class VirtualMachine {
         }
 
         return false;
+    }
+
+    public boolean addDisc(Disc disc) {
+        if(!discList.contains(disc)){
+            discList.add(disc);
+            return true;
+        }
+
+        return false;
+    }
+
+    public void removeDisc(Disc disc) {
+        if(discList.contains(disc)){
+            discList.remove(disc);
+        }
     }
 }

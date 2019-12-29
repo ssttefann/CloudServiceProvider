@@ -35,7 +35,8 @@ export const store = new Vuex.Store({
 
         isLogged : state => !state.loggedUser.firstName == "",
 
-        isAdmin : state => state.loggedUser.role == "Admin" || state.loggedUser.role == "SuperAdmin"
+        isAdmin : state => state.loggedUser.role == "Admin" || state.loggedUser.role == "SuperAdmin",
+
     },
 
     mutations : {

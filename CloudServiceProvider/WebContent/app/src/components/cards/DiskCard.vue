@@ -19,7 +19,7 @@
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on }">
+          <template  v-if="isAdmin" v-slot:activator="{ on }">
             <v-btn color="blue-grey darken-1 white--text" dark class="mb-2" v-on="on">New Disc</v-btn>
           </template>
           <v-card>
@@ -69,6 +69,7 @@
 export default {
   data() {
     return {
+      isAdmin: this.$store.getters.isAdmin,
       headers: [
         { text: "Name", align: "left", value: "name" },
         { text: "Capacity", value: "capacity" },

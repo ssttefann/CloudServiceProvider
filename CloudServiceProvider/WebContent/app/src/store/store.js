@@ -12,7 +12,7 @@ export const store = new Vuex.Store({
     // plugins: [createPersistedState()],
 
     plugins: [createPersistedState({
-        storage: window.sessionStorage,
+        storage: window.localStorage,
     })],
 
     state : {
@@ -33,11 +33,6 @@ export const store = new Vuex.Store({
 
     getters : {
 
-        // vraca da li postoji ulogovan korisnik
-        // isLogged(state) {
-        //     return !state.loggedUser.firstName == "";
-        // }
-
         isLogged : state => !state.loggedUser.firstName == "",
 
         isAdmin : state => state.loggedUser.role == "Admin" || state.loggedUser.role == "SuperAdmin"
@@ -52,15 +47,24 @@ export const store = new Vuex.Store({
                 lastName : "",
                 role : ""
             };
+
+            router.push('/');
         },
 
         // iz resta ucitava ulogovanog korisnika
         logUser(state) {
+            
+            //ako je vec ucitan ne radi nista
+            if(this.getters.isLogged)
+                return;
         
             axios
             .get('rest/loggedUser/')
             .then(res => {
               state.loggedUser = res.data;
+              
+              this.commit('loadAllData');
+
               if (this.getters.isAdmin) {
                     router.push('/admin')
               } else if (this.getters.isLogged){
@@ -68,14 +72,17 @@ export const store = new Vuex.Store({
               }
             })
             .catch(err => alert(err));
+
+
             
-            // ucitaj sve podatke potrebne za korisnika
-            if(state.loggedUser.role != "" && state.loggedUser.role != undefined){
-                store.commit('loadVMs');
-                store.commit('loadDiscs');
-                store.commit('loadUsers');
-                store.commit('loadCategories');
-                // store.commit('loadOrganizations');
+        },
+
+        loadAllData() {
+            if(this.getters.isLogged){
+                this.commit('loadVMs');
+                this.commit('loadDiscs');
+                this.commit('loadUsers');
+                this.commit('loadCategories');
             }
         },
 

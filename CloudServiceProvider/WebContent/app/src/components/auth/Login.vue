@@ -18,6 +18,7 @@
                     v-model="email"
                     prepend-icon="mdi-account"
                     type="text"
+                    :rules="[rules.required]"
                   ></v-text-field>
 
                   <v-text-field
@@ -27,6 +28,7 @@
                     name="password"
                     prepend-icon="mdi-lock"
                     type="password"
+                    :rules="[rules.required]"
                   ></v-text-field>
                 </v-form>
               </v-card-text>
@@ -59,25 +61,24 @@ export default {
   data() {
     return {
       email : null,
-      password : null
+      password : null,
+      rules: {
+        required: value => !!value || 'Required.'
+      }
     }
   },
 
-  created() {
+  mounted() {
     
     //ako je vec ulogovan redirektuj ga
-    // this.$axios
-    //   .get("/rest/LoggedUser/")
-    //   .then(res => {
-    //     let uloga = res.data;
-    //     if (uloga == "USER")
-    //       this.$router.push('/dashboard')
-    //     else if(uloga == "ADMIN")
-    //       this.$router.push('/admin')
-    //   })
-    //   .catch(err => alert(err));
-    
+    if(this.$store.getters.isLogged){
 
+      if(this.$store.getters.isAdmin) 
+        this.$router.push('/admin');
+      else
+        this.$router.push('/dashboard')
+    }
+      
   },
   methods : {
 
@@ -105,9 +106,8 @@ export default {
      * Poziva se kada korisnik stisne na dugme za login
      */
     async submit() {
-      let resp = this.validate();
 
-      // let uloga;
+      let resp = this.validate();
 
       // ako je RESP ok mozes poslati serveru
       if(resp === "OK"){
@@ -121,25 +121,19 @@ export default {
             this.$store.state.loggedUser.role = res.data.role;
             
             this.$store.commit('logUser');
-            if (res.data.role == "Admin" || res.data.role == "SuperAdmin"){
-              // this.$router.push('/admin');
-        
+
+            if(!['User', 'Admin', 'SuperAdmin'].includes(res.data.role)){
+              alert('Pogresna kombinacija user/pass');
             }
-            else if (res.data.role == "User"){}
-              // this.$router.push('/dashboard');
-            else
-              alert("Pogresna kombinacija user/pass");
           })
           .catch(res => alert(res));
 
-        // 
-
-        
 
       //ako nije ispisi poruku o gresci
-      }else{
-        alert("Labele " +resp+ " moraju biti popunjene pre prijavljivanja")
       }
+      // else{
+      //   alert("Labele " +resp+ " moraju biti popunjene pre prijavljivanja")
+      // }
     }
   }
 }

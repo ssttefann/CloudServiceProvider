@@ -4,12 +4,17 @@ import Home from '../views/Home.vue'
 import Admin from '../components/Admin'
 import Login from '../components/auth/Login'
 import Register from '../components/auth/Register'
-import NotFound from '../components/global/NotFound'
+import NotFound from '../components/errors/NotFound'
 import Dashboard from '../components/Dashboard'
 import {store} from '../store/store.js'
 
 Vue.use(VueRouter)
 
+/**
+ * guest :  svako moze da pristupi ruti
+ * requiresAuth : treba biti ulogovan za pristup
+ * is_admin : samo administratori mogu videti
+ */
 const routes = [
   {
     path: '/admin',
@@ -63,9 +68,6 @@ const routes = [
     meta : {
       guest : true
     },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../components/global/About.vue')
   }
 ]
@@ -77,16 +79,37 @@ const router = new VueRouter({
 })
 
 
+// metoda koja se poziva pre svakog rutiranja u aplikaciji
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-      // if (store.state.loggedUser.name != "") {
-        if(store.getters.isLogged){
-          next()
-          return
-      }
-      next('/login')
-  } else {
+  
+  store.commit('logUser');
+
+  // da li je potrebna administratorksa privilegija
+  if (to.matched.some(record => record.meta.is_admin)) {
+    
+    // ako je admin
+    if(store.getters.isAdmin){
+      next();
+      return;
+    }
+    next('/login');
+  }
+
+  // ako je potrebno biti ulogovan za pristup
+  else if (to.matched.some(record => record.meta.requiresAuth)) {
+      
+    // da li postoji ulogovani korinik?
+    if (store.getters.isLogged) {
       next()
+      return
+    }
+    // ako ne postoji vrati ga na login
+    next('/login')
+
+  } 
+  // dozvoljen pristup svima
+  else {
+    next()
   }
 })
 

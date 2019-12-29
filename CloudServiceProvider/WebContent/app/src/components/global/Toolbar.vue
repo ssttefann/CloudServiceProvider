@@ -51,10 +51,10 @@
         <v-divider class="blue-grey darken-1" ></v-divider>
         <br><br>
 
-        <!-- Ako je ulogovan obican user -->
-        <div v-if="this.$store.state.loggedUser.role == 'User'">
+        <!-- Ako je ulogovan admin -->
+        <div v-if="this.$store.getters.isAdmin">
           <v-list dense>
-            <v-list-item v-for="link in links_user" :key="link.text" router :to="link.route">
+            <v-list-item v-for="link in links_admin" :key="link.text" router :to="link.route">
               <v-list-item-icon>
                 <v-icon>{{ link.icon }}</v-icon>
               </v-list-item-icon>
@@ -66,11 +66,10 @@
           </v-list>
         </div>
 
-
-        <!-- Ako je ulogovan admin -->
-        <div v-else-if="this.$store.state.loggedUser.role == 'Admin'">
+        <!-- Ako je ulogovan obican user -->
+        <div v-else-if="this.$store.getters.isLogged">
           <v-list dense>
-            <v-list-item v-for="link in links_admin" :key="link.text" router :to="link.route">
+            <v-list-item v-for="link in links_user" :key="link.text" router :to="link.route">
               <v-list-item-icon>
                 <v-icon>{{ link.icon }}</v-icon>
               </v-list-item-icon>
@@ -142,7 +141,6 @@ export default {
 
           this.$axios
             .get('/rest/logout/')
-            .then(this.$router.push('/'))
             .then(this.drawerVisible = false)
             .then(this.drawerDisabled = true)
             .then(this.$store.commit('logOut'))

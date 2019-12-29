@@ -29,12 +29,6 @@ public class Main {
         staticFiles.externalLocation(new File("CloudServiceProvider/WebContent/app/dist").getCanonicalPath());
         System.out.println();
 
-        //redirect
-        get("/admin", (req, res) -> {
-            res.redirect("/#/admin");
-            return "OK";
-        });
-
         // Login
         post("/rest/login", LoginController.login);
         get("/rest/loggedUser/", LoginController.getLoggedUser);
@@ -55,5 +49,12 @@ public class Main {
 
         //Organizacije
 //        get("/rest/getOrganizations/", OrganizationController.getAllOrganizations);
+
+        //redirect
+        get("/*", (req, res) -> {
+            res.redirect("/#/" + req.splat()[0]);
+            return "OK";
+        });
+
     }
 }

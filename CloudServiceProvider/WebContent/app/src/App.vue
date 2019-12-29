@@ -25,6 +25,7 @@ export default {
     // ako se refreshuje stranica, ili ako se otvori u drugom tabu
     // pogledaj da li postojao vec ulogovani korisnik
     // this.$store.commit('logUser');
+
   },
 
   methods : {

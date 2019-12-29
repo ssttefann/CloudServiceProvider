@@ -16,7 +16,8 @@ public class VirtualMachineController {
         User user = request.session().attribute("user");
         if(user == null){
             // TODO vrati 400 nesto
-            throw new Exception("nisi ulogovan");
+//            throw new Exception("nisi ulogovan");
+            return null;
         }
 
         List<VirtualMachine> virtualMachines;

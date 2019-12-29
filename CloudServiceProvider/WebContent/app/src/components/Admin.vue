@@ -56,17 +56,12 @@ export default {
 
   //trebalo bi ovde da se ucitaju sve kolekcije za prikaz
   created() {
-    this.$store.commit('logUser');
+    // this.$store.commit('logUser');
+    this.$store.commit('loadAllData');
   },
 
   mounted() {
-      
-      // let uloga = this.$store.state.loggedUser.role;
-      // if (uloga == "" || uloga == undefined){
-      //   this.$router.push('/login');
-      // }
-      // else if(uloga == "User")
-      //   this.$router.push('/dashboard');
+    
   }
 }
 </script>

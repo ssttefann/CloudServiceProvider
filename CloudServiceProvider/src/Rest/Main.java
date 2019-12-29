@@ -48,7 +48,9 @@ public class Main {
         get("/rest/getCategories/", CategoryController.getAllCategories);
 
         //Organizacije
-//        get("/rest/getOrganizations/", OrganizationController.getAllOrganizations);
+        get("/rest/getOrganizations/", OrganizationController.getAllOrganizations);
+        post("/rest/addOrganization", OrganizationController.addOrganization);
+        post("/rest/removeOrganization", OrganizationController.removeOrganization);
 
         //redirect
         get("/*", (req, res) -> {

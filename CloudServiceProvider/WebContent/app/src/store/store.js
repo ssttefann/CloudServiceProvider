@@ -84,6 +84,7 @@ export const store = new Vuex.Store({
                 this.commit('loadDiscs');
                 this.commit('loadUsers');
                 this.commit('loadCategories');
+                this.commit('loadOrganizations');
             }
         },
 
@@ -148,7 +149,7 @@ export const store = new Vuex.Store({
         // Ucitava sve potrebne organizacije
         loadOrganizations(state) {
             axios
-                .get('rest/getOrganizations/')
+                .get('/rest/getOrganizations/')
                 .then(res => {
                     state.organizations = res.data;
                 })

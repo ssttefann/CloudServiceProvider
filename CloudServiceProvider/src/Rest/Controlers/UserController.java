@@ -28,7 +28,7 @@ public class UserController {
         }
 
         if (user.getRole().equals(UserRole.SuperAdmin)) {
-            return gson.toJson(db.getUsers());
+            return gson.toJson(db.getAllUsers());
         } else if(user.getRole().equals(UserRole.Admin)){
             return gson.toJson(db.getUsersOfOrganization(user));
         }
@@ -52,7 +52,7 @@ public class UserController {
 
         String userJson = request.body();
         User newUser = gson.fromJson(userJson, User.class);
-        if(!db.addUserToOrganizationIfEmailUnique(newUser)){
+        if(!db.addUserToOrganization(newUser)){
             response.status(400);
             return "Email vec posotji";
         }
@@ -73,7 +73,7 @@ public class UserController {
             return "Unauthorized";
         }
 
-        if(!db.removeUserIfExists(user)){
+        if(!db.removeUser(user.getEmail())){
             response.status(400);
             return "Korisnik sa tim emailom ne postoji";
         }
@@ -81,25 +81,25 @@ public class UserController {
         return "OK";
     };
 
-    public static Route editUser = (request, response) -> {
-        response.type("application/json");
-        User user = request.session().attribute("user");
-        if (user == null) {
-            response.status(401);
-            return "Unauthorized";
-        }
-
-        if (user.getRole().equals(UserRole.User)) {
-            response.status(401);
-            return "Unauthorized";
-        }
-
-        if(!db.editUserIfExists(user)){
-            response.status(400);
-            return "Korisnik sa tim emailom ne postoji.";
-        }
-
-        return "OK";
-    };
+//    public static Route editUser = (request, response) -> {
+//        response.type("application/json");
+//        User user = request.session().attribute("user");
+//        if (user == null) {
+//            response.status(401);
+//            return "Unauthorized";
+//        }
+//
+//        if (user.getRole().equals(UserRole.User)) {
+//            response.status(401);
+//            return "Unauthorized";
+//        }
+//
+//        if(!db.editUserIfExists(user)){
+//            response.status(400);
+//            return "Korisnik sa tim emailom ne postoji.";
+//        }
+//
+//        return "OK";
+//    };
 
 }

@@ -1,6 +1,7 @@
 package Rest.Controlers;
 
 import Model.Database;
+import Model.Entities.Organization;
 import Model.Entities.User;
 import Model.Entities.UserRole;
 import com.google.gson.Gson;
@@ -30,20 +31,39 @@ public class OrganizationController {
         if(user.getRole().equals(UserRole.SuperAdmin)){
             return gson.toJson(db.getAllOrganizations());
         }
-        else if(user.getRole().equals(UserRole.Admin)){
 
-        }
-
-        response.status(403);
+        response.status(401);
         return "Unauthorized";
     };
 
     public static Route addOrganization = (request, response) -> {
-        return "addOrganization not yet impolemented";
+        response.type("application/type");
+        Organization newOrganization = gson.fromJson(request.body(), Organization.class);
+
+        if(db.addOrganization(newOrganization)){
+            return "Success";
+        }
+
+        response.status(403);
+        return "Organization name already exists";
     };
 
     public static Route removeOrganization = (request, response) -> {
-        return "removeOrganization not yet impolemented";
+        response.type("application/type");
+
+        String organizationName = request.queryParams("organizationName");
+
+        if(organizationName == null){
+            response.status(403);
+            return "Organization name doesn't exist";
+        }
+
+        if (db.removeOrganization(organizationName)) {
+            return "Success";
+        }
+
+        response.status(403);
+        return "Organization name doesn't exist";
     };
 
     public static Route editOrganization = (request, response) -> {

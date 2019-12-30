@@ -20,7 +20,7 @@ public class Organization {
         this.pathToLogo = pathToLogo;
     }
 
-    public List<Disc> getDiscsOfOrganization() {
+    public List<Disc> getDiscs() {
         return virtualMachinesList
                 .stream()
                 .flatMap(virtualMachine -> virtualMachine.getDiscList().stream())

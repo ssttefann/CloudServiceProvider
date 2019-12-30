@@ -48,7 +48,7 @@ public class DiscRepository {
         writer.close();
     }
 
-    public Disc getDiscByName(String discName) {
+    public Disc getDisc(String discName) {
         return discsIndexedByName.get(discName);
     }
 
@@ -59,4 +59,28 @@ public class DiscRepository {
     public List<Disc> getDiscList() {
         return discList;
     }
+
+    public boolean addDisc(Disc disc) throws IOException {
+        String discName = disc.getName();
+        if(!discsIndexedByName.containsKey(discName)){
+            discsIndexedByName.put(discName, disc);
+            discList.add(disc);
+            saveDiscs();
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean removeDisc(String discName) throws IOException {
+        if (discsIndexedByName.containsKey(discName)) {
+            discList.remove(discsIndexedByName.get(discName));
+            discsIndexedByName.remove(discName);
+            saveDiscs();
+            return true;
+        }
+
+        return false;
+    }
+
 }

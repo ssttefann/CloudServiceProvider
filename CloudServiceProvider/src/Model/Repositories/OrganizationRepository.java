@@ -16,10 +16,13 @@ public class OrganizationRepository {
     private List<Organization> organizationsList;
     private Map<String, Organization> organizationsIndexedByName;
 
-    /** singleton */
+    /**
+     * singleton
+     */
     private static OrganizationRepository instance;
+
     public static OrganizationRepository getInstance() throws IOException {
-        if(instance == null){
+        if (instance == null) {
             instance = new OrganizationRepository();
         }
 
@@ -37,7 +40,8 @@ public class OrganizationRepository {
 
     private void loadOrganizations() throws FileNotFoundException {
         FileReader reader = new FileReader(PATH_TO_FILE);
-        Type listType = new TypeToken<ArrayList<Organization>>() {}.getType();
+        Type listType = new TypeToken<ArrayList<Organization>>() {
+        }.getType();
         organizationsList = gson.fromJson(reader, listType);
         organizationsIndexedByName = organizationsList.stream()
                 .collect(Collectors.toMap(Organization::getName, org -> org, (oldValue, newValue) -> newValue));
@@ -54,7 +58,7 @@ public class OrganizationRepository {
      * Mora da se inicijalizuju ove dve liste ovde
      * a ne u konstruktoru jer ih gson postavi na null
      */
-    private void initializeUserAndVmLists(){
+    private void initializeUserAndVmLists() {
         organizationsList.forEach(organization -> {
             organization.setVirtualMachinesList(new ArrayList<>());
             organization.setUsersList(new ArrayList<>());
@@ -80,7 +84,7 @@ public class OrganizationRepository {
         });
     }
 
-    public Organization getOrganizationByName(String organizationName) {
+    public Organization getOrganization(String organizationName) {
         return organizationsIndexedByName.get(organizationName);
     }
 
@@ -98,5 +102,28 @@ public class OrganizationRepository {
 
     public void setOrganizationsIndexedByName(Map<String, Organization> organizationsIndexedByName) {
         this.organizationsIndexedByName = organizationsIndexedByName;
+    }
+
+    public boolean addOrganization(Organization organization) throws IOException {
+        String organizationName = organization.getName();
+        if (!organizationsIndexedByName.containsKey(organizationName)) {
+            organizationsIndexedByName.put(organizationName, organization);
+            organizationsList.add(organization);
+            saveOrganizations();
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean removeOrganization(String organizationName) throws IOException {
+        if (organizationsIndexedByName.containsKey(organizationName)) {
+            organizationsList.remove(organizationsIndexedByName.get(organizationName));
+            organizationsIndexedByName.remove(organizationName);
+            saveOrganizations();
+            return true;
+        }
+
+        return false;
     }
 }

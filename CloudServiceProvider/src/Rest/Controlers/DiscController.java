@@ -25,7 +25,7 @@ public class DiscController {
             DiscRepository discRepository = DiscRepository.getInstance();
             discs = discRepository.getDiscList();
         } else {
-            discs = user.getOrganization().getDiscsOfOrganization();
+            discs = user.getOrganization().getDiscs();
         }
 
         return gson.toJson(discs);

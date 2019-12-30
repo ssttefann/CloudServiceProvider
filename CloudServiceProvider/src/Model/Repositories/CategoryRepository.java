@@ -20,8 +20,9 @@ public class CategoryRepository {
     private List<Category> categoryList;
 
     private static CategoryRepository instance;
+
     public static CategoryRepository getInstance() throws IOException {
-        if(instance == null){
+        if (instance == null) {
             instance = new CategoryRepository();
         }
         return instance;
@@ -36,7 +37,8 @@ public class CategoryRepository {
 
     private void loadCategories() throws FileNotFoundException {
         FileReader reader = new FileReader(PATH_TO_FILE);
-        Type listType = new TypeToken<ArrayList<Category>>() {}.getType();
+        Type listType = new TypeToken<ArrayList<Category>>() {
+        }.getType();
         categoryList = gson.fromJson(reader, listType);
         categoriesIndexedByName = categoryList.stream()
                 .collect(Collectors.toMap(Category::getName, category -> category, (oldValue, newValue) -> newValue));
@@ -54,11 +56,31 @@ public class CategoryRepository {
         return categoriesIndexedByName.get(categoryName);
     }
 
-    public Map<String, Category> getCategoriesIndexedByName() {
-        return categoriesIndexedByName;
-    }
-
     public List<Category> getCategoryList() {
         return categoryList;
+    }
+
+    public boolean addIfNameIsUnique(Category category) throws IOException {
+        String categoryName = category.getName();
+        if (!categoriesIndexedByName.containsKey(categoryName)) {
+            categoryList.add(category);
+            categoriesIndexedByName.put(categoryName, category);
+            saveCategories();
+            return true;
+
+        }
+
+        return false;
+    }
+
+    public boolean removeIfExists(String categoryName) throws IOException {
+        if (categoriesIndexedByName.containsKey(categoryName)) {
+            categoryList.remove(categoriesIndexedByName.get(categoryName));
+            categoriesIndexedByName.remove(categoryName);
+            saveCategories();
+            return true;
+        }
+
+        return false;
     }
 }

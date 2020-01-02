@@ -43,12 +43,8 @@ export const store = new Vuex.Store({
 
         // brise ulogovanog usera
         logOut(state) {
-            state.loggedUser = {
-                firstName : "", 
-                lastName : "",
-                role : ""
+            state.loggedUser = { firstName : "", lastName : "",role : ""
             };
-
             router.push('/');
         },
 
@@ -73,9 +69,6 @@ export const store = new Vuex.Store({
               }
             })
             .catch(err => alert(err));
-
-
-            
         },
 
         loadAllData() {
@@ -97,7 +90,7 @@ export const store = new Vuex.Store({
         },
 
         //dodaje novi disk
-        addDick(state, payload) {
+        addDisc(state, payload) {
             state.discs.push({
                 name : payload.name,
                 capacity : payload.capacity,

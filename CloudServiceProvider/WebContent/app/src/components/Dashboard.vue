@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <v-container class="my-5">
-      <h1 class="subheading grey--text">This is the Dashboard</h1>
+      <h1 class="subheading grey--text">Dashboard</h1>
 
       <v-layout row wrap>
         <v-flex xs12 sm6 md6>
@@ -26,7 +26,15 @@ export default {
   components: {
     VMCard,
     DiskCard
-  }
+  },
+
+  //trebalo bi ovde da se ucitaju sve kolekcije za prikaz
+  created() {
+    // this.$store.commit('logUser');
+    this.$store.commit("loadAllData");
+  },
+
+
 };
 </script>
 

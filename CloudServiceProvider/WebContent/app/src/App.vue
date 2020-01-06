@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :dark="true">
     <Toolbar/>
     <v-content class="dob">
       <router-view> </router-view>

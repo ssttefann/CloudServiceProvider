@@ -54,7 +54,7 @@
     </template>
     
         <!-- Template za brisanje -->
-        <template v-slot:item.action="{ item }">
+        <template v-if="isAdmin" v-slot:item.action="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)">mdi-lead-pencil</v-icon>
             <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
         </template>

@@ -1,27 +1,76 @@
 <template>
-  <div class="about">
-    <h1 class="subheading grey--text" >Admin Page</h1>
+ <div>
+    <v-content>
 
-    <v-container class="my-5">
-      
-      <v-layout row wrap> 
+      <v-container fluid fill-height>
 
-        <v-flex xs12 sm6 md6>
-        </v-flex>
+        <v-layout align-center justify-center>
 
-        <v-spacer></v-spacer>
+          <v-flex s12 sm8  md4>
 
-        <v-flex xs12 sm6 md6>
-        </v-flex>
+            <v-card class="elevation-12">
 
-        <v-flex xs12 sm6 md6>
-        </v-flex>
+              <v-toolbar color="blue-grey" dark flat>
+                <v-toolbar-title>Change account information</v-toolbar-title>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+              
+              <v-card-text>
+                <v-form>
 
-      </v-layout>
+                  <v-text-field
+                    label="First Name"
+                    name="name"
+                    v-model="firstName"
+                    prepend-icon="mdi-account"
+                    type="text"
+                  ></v-text-field>
 
-    </v-container>
+                  <v-text-field
+                    label="Last Name"
+                    name="lastname"
+                    v-model="lastName"
+                    prepend-icon="mdi-account"
+                    type="text"
+                  ></v-text-field>
 
-  </div>
+                  <v-text-field
+                    id="password"
+                    label="Enter the new password"
+                    name="password"
+                    v-model="password1"
+                    prepend-icon="mdi-lock"
+                    type="password"
+                  ></v-text-field>
+
+                  <v-text-field
+                    id="password2"
+                    label="Repeat the new password"
+                    name="password"
+                    v-model="password2"
+                    prepend-icon="mdi-lock"
+                    type="password"
+                  ></v-text-field>
+                </v-form>
+
+              </v-card-text>
+
+              <v-card-actions>
+
+                <v-spacer></v-spacer>
+                <v-btn @click="submit" color="blue-grey white--text">Save</v-btn>
+              </v-card-actions>
+
+            </v-card>
+          </v-flex>
+
+        </v-layout>
+
+      </v-container>
+
+
+    </v-content>
+</div>
 </template>
 
 <script>
@@ -29,6 +78,49 @@
 
 export default {
     components: {
+  },
+
+  data() {
+    return {
+      firstName : this.$store.state.loggedUser.firstName,
+      lastName : this.$store.state.loggedUser.lastName,
+      password1 : "",
+      password2 : "",
+      rules: {
+        required: value => !!value || 'Required.'
+      }
+    }
+  },
+
+  methods : {
+
+    submit() {
+      let changed = false;
+
+      if(this.firstName != this.$store.state.loggedUser.firstName){
+        this.$store.state.loggedUser.firstName = this.firstName;
+        changed = true;
+      }
+
+      if(this.lastName != this.$store.state.loggedUser.lastName){
+        this.$store.state.loggedUser.lastName = this.lastName;
+        changed = true;
+      }
+    
+      if(this.password1 + this.password2 != ""){
+        if(this.password1 != this.password2)
+          alert("Passwords must match!")
+        else{
+          this.$store.state.loggedUser.password = this.password1;
+          changed = true
+        }
+      }
+
+      // ako je doslo do promene salji zahtev na srv
+      if(changed){
+        alert("Uspesno promenjene informacije")
+      }
+    }
   }
 }
 </script>

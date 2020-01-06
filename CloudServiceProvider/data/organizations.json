@@ -2,16 +2,16 @@
   {
     "name": "ORG1",
     "description": "Neka Org",
-    "pathToLogo": ""
+    "logo": ""
   },
   {
     "name": "ORG2",
     "description": "Neka Druga",
-    "pathToLogo": ""
+    "logo": ""
   },
   {
     "name": "ORG3",
     "description": "Neka Treca",
-    "pathToLogo": ""
+    "logo": ""
   }
 ]

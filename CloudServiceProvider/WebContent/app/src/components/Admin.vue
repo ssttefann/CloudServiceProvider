@@ -34,10 +34,7 @@ export default {
   created() {
     // this.$store.commit('logUser');
     this.$store.commit("loadAllData");
-
   },
-
-  mounted() {}
 };
 </script>
 

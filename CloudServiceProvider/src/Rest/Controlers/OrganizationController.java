@@ -31,9 +31,12 @@ public class OrganizationController {
         if(user.getRole().equals(UserRole.SuperAdmin)){
             return gson.toJson(db.getAllOrganizations());
         }
+        else if(user.getRole().equals(UserRole.Admin)){
+            return gson.toJson(db.getOrganization(user.getOrganizationName()));
+        }
 
-        response.status(401);
-        return "Unauthorized";
+        //response.status(401);
+        return "[]";
     };
 
     public static Route addOrganization = (request, response) -> {
@@ -44,7 +47,7 @@ public class OrganizationController {
             return "Success";
         }
 
-        response.status(403);
+        //response.status(403);
         return "Organization name already exists";
     };
 

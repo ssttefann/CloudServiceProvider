@@ -4,6 +4,7 @@ import Model.Entities.*;
 import Model.Repositories.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
@@ -127,6 +128,12 @@ public class Database {
 
     public List<Organization> getAllOrganizations(){
         return organizationRepository.getOrganizationsList();
+    }
+
+    public List<Organization> getOrganization(String name) {
+        List<Organization> list = new ArrayList<Organization>();
+        list.add(organizationRepository.getOrganization(name));
+        return list;
     }
 
     public boolean addOrganization(Organization organization) throws IOException {

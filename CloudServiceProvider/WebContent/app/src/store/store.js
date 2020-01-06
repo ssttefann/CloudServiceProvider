@@ -12,7 +12,7 @@ export const store = new Vuex.Store({
     // plugins: [createPersistedState()],
 
     plugins: [createPersistedState({
-        storage: window.localStorage,
+        storage: window.sessionStorage ,
     })],
 
     state : {
@@ -33,18 +33,16 @@ export const store = new Vuex.Store({
 
     getters : {
 
-        isLogged : state => !state.loggedUser.firstName == "",
+        isLogged : state => state.loggedUser.firstName != "",
 
         isAdmin : state => state.loggedUser.role == "Admin" || state.loggedUser.role == "SuperAdmin",
-
     },
 
     mutations : {
 
         // brise ulogovanog usera
         logOut(state) {
-            state.loggedUser = { firstName : "", lastName : "",role : ""
-            };
+            state.loggedUser = { firstName : "", lastName : "",role : ""};
             router.push('/');
         },
 
@@ -60,7 +58,7 @@ export const store = new Vuex.Store({
             .then(res => {
               state.loggedUser = res.data;
               
-              this.commit('loadAllData');
+            //   this.commit('loadAllData');
 
               if (this.getters.isAdmin) {
                     router.push('/admin')
@@ -80,7 +78,6 @@ export const store = new Vuex.Store({
                 this.commit('loadOrganizations');
             }
         },
-
 
         //dodaje novu VM 
         addVM(state, payload) {
@@ -148,5 +145,8 @@ export const store = new Vuex.Store({
                 })
                 .catch(err => alert(err));
         },
+    },
+
+    actions : {
     }
 })

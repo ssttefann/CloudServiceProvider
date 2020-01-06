@@ -6,6 +6,7 @@ import Login from '../components/auth/Login'
 import Register from '../components/auth/Register'
 import NotFound from '../components/errors/NotFound'
 import Dashboard from '../components/Dashboard'
+import Account from '../components/global/Account'
 import {store} from '../store/store.js'
 
 Vue.use(VueRouter)
@@ -53,6 +54,15 @@ const routes = [
     path: '/register',
     name: 'register',
     component: Register
+  },
+  {
+    path: '/account',
+    name: 'account',
+    component: Account,
+    meta : {
+      requiresAuth : true,
+      is_admin : false
+    }
   },
   {
     path: '*',

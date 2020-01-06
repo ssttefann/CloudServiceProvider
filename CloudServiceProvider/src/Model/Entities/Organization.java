@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 public class Organization {
     private String name;
     private String description;
-    private String pathToLogo;
+    private String logo;
     private transient List<User> usersList;
     private transient List<VirtualMachine> virtualMachinesList;
 
     public Organization(String name, String description, String pathToLogo) {
         this.name = name;
         this.description = description;
-        this.pathToLogo = pathToLogo;
+        this.logo = pathToLogo;
     }
 
     public List<Disc> getDiscs() {
@@ -43,12 +43,12 @@ public class Organization {
         this.description = description;
     }
 
-    public String getPathToLogo() {
-        return pathToLogo;
+    public String getLogo() {
+        return logo;
     }
 
-    public void setPathToLogo(String pathToLogo) {
-        this.pathToLogo = pathToLogo;
+    public void setLogo(String pathToLogo) {
+        this.logo = pathToLogo;
     }
 
     public List<User> getUsersList() {

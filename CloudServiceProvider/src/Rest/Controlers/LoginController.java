@@ -51,6 +51,7 @@ public class LoginController {
     public static Route logOut = (req, res) -> {
         res.type("text/plain");
         req.session().invalidate();
+        System.out.println("invalidated");
         return "OK";
     };
 

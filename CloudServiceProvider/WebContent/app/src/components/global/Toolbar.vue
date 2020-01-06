@@ -31,6 +31,11 @@
             <v-icon color="white" size="20">mdi-bell</v-icon>
         </v-btn>
 
+        <span class="switch">
+          <v-switch color="secondary" value="secondary" :label="`Dark Theme`" v-model="dark" @change ="darkMode"> 
+          </v-switch>
+        </span>
+
     </v-app-bar> 
 
     
@@ -104,6 +109,7 @@ export default {
     },
     data() {
         return{
+            dark : false,
             drawerDisabled: true,
             drawerVisible: false,
             user : {
@@ -159,17 +165,24 @@ export default {
             this.$router.push('/');
           }
 
+        },
+
+        darkMode : function() {
+          if(this.dark){
+            this.$vuetify.theme.dark = true;
+          }
+          else{
+            this.$vuetify.theme.dark = false;
+          }
         }
     },
 
     computed : {
 
       /** Ako ne postoji ulogavan korisnik disable-uje dugme  */
-        isDisabled() {
+      isDisabled() {
           return !this.$store.getters.isLogged;
-        }
-
-
+      },
     }
 }
 </script>
@@ -196,5 +209,14 @@ export default {
     }
 
     a {  text-decoration: none;}
+
+    .switch {
+      display: flex;
+      justify-content: center;
+      margin-top: 25px;
+      color: white !important;
+    }
+
+    
 
 </style>

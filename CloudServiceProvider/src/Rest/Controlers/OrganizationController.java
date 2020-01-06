@@ -35,7 +35,6 @@ public class OrganizationController {
             return gson.toJson(db.getOrganization(user.getOrganizationName()));
         }
 
-        //response.status(401);
         return "[]";
     };
 
@@ -44,11 +43,10 @@ public class OrganizationController {
         Organization newOrganization = gson.fromJson(request.body(), Organization.class);
 
         if(db.addOrganization(newOrganization)){
-            return "Success";
+            return "SUCCESS";
         }
 
-        //response.status(403);
-        return "Organization name already exists";
+        return "NAME_ERR";
     };
 
     public static Route removeOrganization = (request, response) -> {
@@ -58,15 +56,15 @@ public class OrganizationController {
 
         if(organizationName == null){
             response.status(403);
-            return "Organization name doesn't exist";
+            return "NAME_ERR";
         }
 
         if (db.removeOrganization(organizationName)) {
-            return "Success";
+            return "SUCCESS";
         }
 
         response.status(403);
-        return "Organization name doesn't exist";
+        return "NAME_ERR";
     };
 
     public static Route editOrganization = (request, response) -> {

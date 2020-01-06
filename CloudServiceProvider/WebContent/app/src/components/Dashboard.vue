@@ -31,7 +31,7 @@ export default {
   //trebalo bi ovde da se ucitaju sve kolekcije za prikaz
   created() {
     // this.$store.commit('logUser');
-    this.$store.commit("loadAllData");
+    this.$store.dispatch("loadAllData");
   },
 
 

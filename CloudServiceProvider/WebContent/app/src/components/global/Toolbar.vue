@@ -32,7 +32,7 @@
         </v-btn>
 
         <span class="switch">
-          <v-switch color="secondary" value="secondary" :label="`Dark Theme`" v-model="dark" @change ="darkMode"> 
+          <v-switch color="secondary" value="secondary" :label="`Dark Mode`" v-model="dark" @change ="darkMode"> 
           </v-switch>
         </span>
 

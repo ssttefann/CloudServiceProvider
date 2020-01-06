@@ -82,7 +82,7 @@ export default {
 
   data() {
     return {
-      isAdmin: this.$store.getters.isAdmin,
+      isAdmin: this.$store.getters['users/isAdmin'],
       headers: [
         { text: "Name", align: "left", value: "name" },
         { text: "Cores", value: "category.cores" },

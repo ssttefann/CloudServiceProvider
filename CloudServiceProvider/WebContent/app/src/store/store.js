@@ -36,18 +36,18 @@ export const store = new Vuex.Store({
 
     mutations : {
 
-        loadAllData() {
-            if(this.getters['users/isLogged']){
-                this.dispatch('vms/load');
-                this.dispatch('users/load');
-                this.dispatch('categories/load');
-                this.dispatch('disc/load');
-                this.dispatch('orgs/load');
-            }
-        },
-
     },
 
     actions : {
+
+        loadAllData({dispatch}) {
+            if(this.getters['users/isLogged']){
+                dispatch('vms/load');
+                dispatch('users/load');
+                dispatch('categories/load');
+                dispatch('disc/load');
+                dispatch('orgs/load');
+            }
+        },
     }
 })

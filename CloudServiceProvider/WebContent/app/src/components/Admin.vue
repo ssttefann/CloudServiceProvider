@@ -38,7 +38,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .grid-container {
   column-count: 2;

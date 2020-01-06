@@ -14,7 +14,7 @@
     </v-card-title>
 
     <!-- Tabela za prikaz svih elemenata -->
-    <v-data-table :search="search" :headers="headers" :items="this.$store.state.users">
+    <v-data-table :search="search" :headers="headers" :items="this.$store.state.users.users">
 
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
@@ -143,16 +143,16 @@ export default {
 
     // korisnik menja nekog usera
     editItem(item) {
-      this.editedIndex = this.$store.state.users.indexOf(item);
+      this.editedIndex = this.$store.state.users.users.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     // korisnik brise usera
     deleteItem(item) {
-      const index = this.$store.state.users.indexOf(item);
+      const index = this.$store.state.users.users.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.$store.state.users.splice(index, 1);
+        this.$store.state.users.users.splice(index, 1);
     },
 
     // korisnik odustao od izmene
@@ -168,11 +168,11 @@ export default {
     save() {
       if (this.editedIndex > -1) {
         Object.assign(
-          this.$store.state.users[this.editedIndex],
+          this.$store.state.users.users[this.editedIndex],
           this.editedItem
         );
       } else {
-          this.$store.state.users.push(this.editedItem);
+          this.$store.state.users.users.push(this.editedItem);
         // this.$store.commit('addVM',this.editedItem);
       }
       this.close();

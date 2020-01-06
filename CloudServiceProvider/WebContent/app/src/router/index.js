@@ -98,7 +98,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.is_admin)) {
     
     // ako je admin
-    if(store.getters.isAdmin){
+    if(store.getters['users/isAdmin']){
       next();
       return;
     }
@@ -109,7 +109,7 @@ router.beforeEach((to, from, next) => {
   else if (to.matched.some(record => record.meta.requiresAuth)) {
       
     // da li postoji ulogovani korinik?
-    if (store.getters.isLogged) {
+    if (store.getters['users/isLogged']) {
       next()
       return
     }

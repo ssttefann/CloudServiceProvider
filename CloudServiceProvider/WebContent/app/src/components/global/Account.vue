@@ -82,8 +82,8 @@ export default {
 
   data() {
     return {
-      firstName : this.$store.state.loggedUser.firstName,
-      lastName : this.$store.state.loggedUser.lastName,
+      firstName : this.$store.state.users.loggedUser.firstName,
+      lastName : this.$store.state.users.loggedUser.lastName,
       password1 : "",
       password2 : "",
       rules: {
@@ -97,21 +97,23 @@ export default {
     submit() {
       let changed = false;
 
-      if(this.firstName != this.$store.state.loggedUser.firstName){
-        this.$store.state.loggedUser.firstName = this.firstName;
+      if(this.firstName != this.$store.state.users.loggedUser.firstName && this.firstName.trim()){
+        this.$store.state.users.loggedUser.firstName = this.firstName;
         changed = true;
       }
 
-      if(this.lastName != this.$store.state.loggedUser.lastName){
-        this.$store.state.loggedUser.lastName = this.lastName;
+      if(this.lastName != this.$store.state.users.loggedUser.lastName && this.lastName.trim()){
+        this.$store.state.users.loggedUser.lastName = this.lastName;
         changed = true;
       }
     
-      if(this.password1 + this.password2 != ""){
-        if(this.password1 != this.password2)
+      if(this.password1.trim() + this.password2.trim() != ""){
+        if(this.password1 != this.password2){
           alert("Passwords must match!")
+          changed = false;
+        }
         else{
-          this.$store.state.loggedUser.password = this.password1;
+          this.$store.state.users.loggedUser.password = this.password1;
           changed = true
         }
       }

@@ -12,7 +12,7 @@
         hide-details
       ></v-text-field>
     </v-card-title>
-    <v-data-table :search="search" :headers="headers" :items="this.$store.state.discs">
+    <v-data-table :search="search" :headers="headers" :items="this.$store.state.disc.discs">
         
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
@@ -69,7 +69,7 @@
 export default {
   data() {
     return {
-      isAdmin: this.$store.getters.isAdmin,
+      isAdmin: this.$store.getters['users/isAdmin'],
       headers: [
         { text: "Name", align: "left", value: "name" },
         { text: "Capacity", value: "capacity" },
@@ -116,15 +116,15 @@ export default {
     initialize() {},
 
     editItem(item) {
-      this.editedIndex = this.$store.state.discs.indexOf(item);
+      this.editedIndex = this.$store.state.disc.discs.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      const index = this.$store.state.discs.indexOf(item);
+      const index = this.$store.state.disc.discs.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.$store.state.discs.splice(index, 1);
+        this.$store.state.disc.discs.splice(index, 1);
     },
 
     close() {
@@ -138,11 +138,12 @@ export default {
     save() {
       if (this.editedIndex > -1) {
         Object.assign(
-          this.$store.state.discs[this.editedIndex],
+          this.$store.state.disc.discs[this.editedIndex],
           this.editedItem
         );
       } else {
-        this.$store.commit('addDisc',this.editedItem);
+        this.$store.state.disc.discs.push(this.editedItem);
+        // this.$store.commit('addDisc',this.editedItem);
       }
       this.close();
     }

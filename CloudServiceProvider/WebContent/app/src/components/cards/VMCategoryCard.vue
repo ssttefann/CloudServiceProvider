@@ -14,7 +14,7 @@
     </v-card-title>
 
     <!-- Tabela za prikaz svih elemenata -->
-    <v-data-table :search="search" :headers="headers" :items="this.$store.state.VMCategories">
+    <v-data-table :search="search" :headers="headers" :items="this.$store.state.categories.VMCategories">
 
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
@@ -33,7 +33,7 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.name" label="Category"></v-text-field>
+                    <v-text-field v-model="editedItem.name" label="Category" :disabled="nameDisabled"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.cores" label="Cores" type="number" min="1"></v-text-field>
@@ -126,16 +126,16 @@ export default {
 
     // korisnik menja neku VM
     editItem(item) {
-      this.editedIndex = this.$store.state.VMCategories.indexOf(item);
+      this.editedIndex = this.$store.state.categories.VMCategories.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     // korisnik brise VM
     deleteItem(item) {
-      const index = this.$store.state.VMCategories.indexOf(item);
+      const index = this.$store.state.categories.VMCategories.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.$store.state.VMCategories.splice(index, 1);
+        this.$store.state.categories.VMCategories.splice(index, 1);
     },
 
     // korisnik odustao od izmene
@@ -151,11 +151,11 @@ export default {
     save() {
       if (this.editedIndex > -1) {
         Object.assign(
-          this.$store.state.VMCategories[this.editedIndex],
+          this.$store.state.categories.VMCategories[this.editedIndex],
           this.editedItem
         );
       } else {
-        this.$store.state.VMCategories.push(this.editedItem);
+        this.$store.state.categories.VMCategories.push(this.editedItem);
         // this.$store.commit('addVM',this.editedItem);
       }
       this.close();

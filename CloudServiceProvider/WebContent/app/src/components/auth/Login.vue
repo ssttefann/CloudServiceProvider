@@ -69,11 +69,10 @@ export default {
   },
 
   mounted() {
-    
     //ako je vec ulogovan redirektuj ga
-    if(this.$store.getters.isLogged){
+    if(this.$store.getters['users/isLogged']){
 
-      if(this.$store.getters.isAdmin) 
+      if(this.$store.getters['users/isAdmin']) 
         this.$router.push('/admin');
       else
         this.$router.push('/dashboard')
@@ -116,11 +115,12 @@ export default {
           email : this.email
         };
 
-        await this.$axios.post('/rest/login', stringify(user))
+
+        this.$axios.post('/rest/login', stringify(user))
           .then(res => {
-            this.$store.state.loggedUser.role = res.data.role;
+            this.$store.state.users.loggedUser.role = res.data.role;
             
-            this.$store.commit('logUser');
+            this.$store.dispatch('users/logUser');
 
             if(!['User', 'Admin', 'SuperAdmin'].includes(res.data.role)){
               alert('Pogresna kombinacija user/pass');

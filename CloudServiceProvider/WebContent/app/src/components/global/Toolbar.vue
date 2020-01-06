@@ -48,7 +48,7 @@
           </v-list-item-avatar>
   
           <v-list-item-title v-model="user">
-            {{this.$store.state.loggedUser.firstName + " " + this.$store.state.loggedUser.lastName}}
+            {{this.$store.state.users.loggedUser.firstName + " " + this.$store.state.users.loggedUser.lastName}}
           </v-list-item-title>
 
         </v-list-item>
@@ -57,7 +57,7 @@
         <br><br>
 
         <!-- Ako je ulogovan admin -->
-        <div v-if="this.$store.getters.isAdmin">
+        <div v-if="this.$store.getters['users/isAdmin']">
           <v-list dense>
             <v-list-item v-for="link in links_admin" :key="link.text" router :to="link.route">
               <v-list-item-icon>
@@ -72,7 +72,7 @@
         </div>
 
         <!-- Ako je ulogovan obican user -->
-        <div v-else-if="this.$store.getters.isLogged">
+        <div v-else-if="this.$store.getters['users/isLogged']">
           <v-list dense>
             <v-list-item v-for="link in links_user" :key="link.text" router :to="link.route">
               <v-list-item-icon>
@@ -149,17 +149,17 @@ export default {
             .get('/rest/logout/')
             .then(this.drawerVisible = false)
             .then(this.drawerDisabled = true)
-            .then(this.$store.commit('logOut'))
+            .then(this.$store.dispatch('users/logOut'))
             .catch(err => alert(err))
         },
 
         /** Kada korisnik pritisne na Home Dugme */
         homeButon : function() {
 
-          if (this.$store.state.loggedUser.role === "User") {
+          if (this.$store.state.users.loggedUser.role === "User") {
             this.$router.push('/dashboard');
           }
-          else if(this.$store.state.loggedUser.role === "Admin" || this.$store.state.loggedUser.role === "SuperAdmin"){
+          else if(this.$store.state.users.loggedUser.role === "Admin" || this.$store.state.users.loggedUser.role === "SuperAdmin"){
             this.$router.push('/admin');
           }else{
             this.$router.push('/');
@@ -181,7 +181,7 @@ export default {
 
       /** Ako ne postoji ulogavan korisnik disable-uje dugme  */
       isDisabled() {
-          return !this.$store.getters.isLogged;
+          return !this.$store.getters['users/isLogged'];
       },
     }
 }

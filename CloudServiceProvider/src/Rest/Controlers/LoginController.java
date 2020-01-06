@@ -21,6 +21,7 @@ public class LoginController {
 
     public static Route login = (request, response) -> {
         response.type("application/json");
+//        System.out.println("USO");
         String password = request.queryParams("password");
         String email = request.queryParams("email");
 

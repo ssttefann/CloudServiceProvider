@@ -14,7 +14,7 @@
     </v-card-title>
 
     <!-- Tabela za prikaz svih elemenata -->
-    <v-data-table :search="search" :headers="headers" :items="this.$store.state.virtualMachines">
+    <v-data-table :search="search" :headers="headers" :items="this.$store.state.vms.virtualMachines">
       
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
@@ -144,16 +144,16 @@ export default {
 
     // korisnik menja neku VM
     editItem(item) {
-      this.editedIndex = this.$store.state.virtualMachines.indexOf(item);
+      this.editedIndex = this.$store.state.vms.virtualMachines.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     // korisnik brise VM
     deleteItem(item) {
-      const index = this.$store.state.virtualMachines.indexOf(item);
+      const index = this.$store.state.vms.virtualMachines.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.$store.state.virtualMachines.splice(index, 1);
+        this.$store.state.vms.virtualMachines.splice(index, 1);
     },
 
     // korisnik odustao od izmene
@@ -169,7 +169,7 @@ export default {
     save() {
       if (this.editedIndex > -1) {
         Object.assign(
-          this.$store.state.virtualMachines[this.editedIndex],
+          this.$store.state.vms.virtualMachines[this.editedIndex],
           this.editedItem
         );
       } else {

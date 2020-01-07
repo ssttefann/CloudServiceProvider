@@ -13,12 +13,25 @@ export default {
             state.organizations = data;
         },
 
+        ADD_ORGANIZATION(state, user) {
+            state.organizations.push(user);
+        },
+
+        EDIT_ORGANIZATION(state, tuple) {
+            let index = tuple[0]
+            let newOrg = tuple[1]
+            state.organizations[index] = newOrg
+        },
+
+        DELETE_ORGANIZATION(state, index) {
+            state.organizations.splice(index, 1)
+        }
     },
 
     actions : {
 
         async load({commit}) {
-            axios.get('/rest/getOrganizations/')
+            axios.get('/rest/organizations/getOrganizations/')
                 .then(res => {
                     commit('SET_ORGANIZATIONS', res.data)
                 })

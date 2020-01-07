@@ -39,7 +39,7 @@ public class OrganizationController {
     };
 
     public static Route addOrganization = (request, response) -> {
-        response.type("application/type");
+        response.type("text/plain");
         Organization newOrganization = gson.fromJson(request.body(), Organization.class);
 
         if(db.addOrganization(newOrganization)){
@@ -50,8 +50,7 @@ public class OrganizationController {
     };
 
     public static Route removeOrganization = (request, response) -> {
-        response.type("application/type");
-
+        response.type("text/plain");
         String organizationName = request.queryParams("organizationName");
 
         if(organizationName == null){

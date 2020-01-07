@@ -15,6 +15,16 @@ export default {
 
         ADD_CATEGORY(state, category) {
             state.VMCategories.push(category);
+        },
+
+        EDIT_CATEGORY(state, tuple) {
+            let index = tuple[0]
+            let newCat = tuple[1]
+            state.VMCategories[index] = newCat
+        },
+
+        DELETE_CATEGORY(state, index) {
+            state.VMCategories.splice(index, 1)
         }
 
     },
@@ -22,7 +32,7 @@ export default {
     actions : {
 
         async load({commit}) {
-            axios.get('rest/getCategories/')
+            axios.get('rest/categories/getCategories/')
                 .then(res => {
                     commit('SET_CATEGORIES', res.data)
                 })

@@ -40,6 +40,9 @@
                     <v-combobox append-icon="mdi-minidisc" :items="options" v-model="editedItem.type" label="Type"> 
                     </v-combobox>
                   </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-select :items=vmNames v-model="editedItem.virtualMachineName" label="Virtual Machine"></v-select>
+                  </v-col>
                 </v-row>
               </v-container>
             </v-card-text>
@@ -99,6 +102,10 @@ export default {
 
     nameDisabled() {
       return this.editedIndex != -1;
+    },
+
+    vmNames() {
+      return this.$store.state.vms.virtualMachines.map(i => i.name);
     }
   },
 

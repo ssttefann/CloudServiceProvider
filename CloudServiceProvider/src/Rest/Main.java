@@ -51,15 +51,15 @@ public class Main {
 
 
         //Diskovi
-        get("/rest/getDiscs/", DiscController.getDiscs);
+        get("/rest/discs/getDiscs/", DiscController.getDiscs);
 
         //Kategorije
-        get("/rest/getCategories/", CategoryController.getAllCategories);
+        get("/rest/categories/getCategories/", CategoryController.getAllCategories);
 
         //Organizacije
-        get("/rest/getOrganizations/", OrganizationController.getAllOrganizations);
-        post("/rest/addOrganization", OrganizationController.addOrganization);
-        post("/rest/removeOrganization", OrganizationController.removeOrganization);
+        get("/rest/organizations/getOrganizations/", OrganizationController.getAllOrganizations);
+        post("/rest/organizations/addOrganization", OrganizationController.addOrganization);
+        post("/rest/organizations/removeOrganization", OrganizationController.removeOrganization);
 
         //redirect
         get("/*", (req, res) -> {

@@ -92,7 +92,7 @@ const router = new VueRouter({
 // metoda koja se poziva pre svakog rutiranja u aplikaciji
 router.beforeEach((to, from, next) => {
   
-  store.commit('logUser');
+  store.dispatch('users/logUser');
 
   // da li je potrebna administratorksa privilegija
   if (to.matched.some(record => record.meta.is_admin)) {

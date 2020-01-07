@@ -44,7 +44,6 @@
                   
                  <v-col cols="12" sm="6" md="4">
                     <v-select :items=orgNames :disabled=emailDisabled v-model="editedItem.organizationName" label="Organization" ></v-select>
-                    <!-- <v-text-field :disabled=emailDisabled v-model="editedItem.organizationName" label="Organization" ></v-text-field> -->
                   </v-col>
 
                   <v-col :hidden=emailDisabled cols="12" sm="6" md="4">
@@ -96,7 +95,6 @@ export default {
 
       search : "",
       options : ["User", "Admin"],
-      // orgNames : this.$store.state.orgs.organizations.map(i => i.name),
       dialog: false,
       editedIndex: -1,
       editedItem: {
@@ -173,8 +171,6 @@ export default {
           })
           .catch( err => alert("Greska " +err))        
       }
-      // confirm("Are you sure you want to delete this item?") &&
-        // this.$store.state.users.users.splice(index, 1);
     },
 
     // korisnik odustao od izmene
@@ -189,10 +185,6 @@ export default {
     // izmena/dodavanje novog usera
     save() {
       if (this.editedIndex > -1) {
-        // Object.assign(
-        //   this.$store.state.users.users[this.editedIndex],
-        //   this.editedItem
-        // );
         this.$store.dispatch('users/edit', [this.editedIndex,this.editedItem])
           .then( () => {
             alert("Korisnik uspesno promenjen")

@@ -54,6 +54,22 @@ public class Database {
         return false;
     }
 
+    public boolean editUser(User user) throws IOException {
+
+        if(userRepository.getUsersIndexedByEmail().containsKey(user.getEmail())){
+
+            User stari = userRepository.getUsersIndexedByEmail().get(user.getEmail());
+            stari.setFirstName(user.getFirstName());
+            stari.setLastName(user.getLastName());
+            stari.setPassword(user.getPassword());
+            stari.setRole(user.getRole());
+            userRepository.saveUsers();
+            return true;
+        }
+
+        return false;
+    }
+
     public boolean removeUser(String email) throws IOException {
         return userRepository.removeUser(email);
     }
@@ -119,6 +135,10 @@ public class Database {
     }
 
     public boolean addVirtualMachine(VirtualMachine virtualMachine) throws IOException {
+        Category cat = categoryRepository.getCategoryByName(virtualMachine.getCategory().getName());
+        virtualMachine.setCategory(cat);
+        virtualMachine.setActivities(new ArrayList<>());
+        virtualMachine.setCategoryName(cat.getName());
         return virtualMachineRepository.addVirtualMachine(virtualMachine);
     }
 
@@ -143,5 +163,6 @@ public class Database {
     public boolean removeOrganization(String organizationName) throws IOException {
         return organizationRepository.removeOrganization(organizationName);
     }
+
 
 }

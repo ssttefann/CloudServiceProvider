@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import spark.Route;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserController {
     private static Gson gson = new Gson();
@@ -30,6 +32,7 @@ public class UserController {
         if (user.getRole().equals(UserRole.SuperAdmin)) {
             return gson.toJson(db.getAllUsers());
         } else if(user.getRole().equals(UserRole.Admin)){
+            List<User> var = db.getUsersOfOrganization(user);
             return gson.toJson(db.getUsersOfOrganization(user));
         }
 
@@ -38,7 +41,7 @@ public class UserController {
     };
 
     public static Route addUser = (request, response) -> {
-        response.type("application/json");
+        response.type("text/plain");
         User user = request.session().attribute("user");
         if (user == null) {
             response.status(401);
@@ -53,14 +56,13 @@ public class UserController {
         String userJson = request.body();
         User newUser = gson.fromJson(userJson, User.class);
         if(!db.addUserToOrganization(newUser)){
-            response.status(400);
-            return "Email vec posotji";
+            return "EMAIL_ERR";
         }
 
-        return "OK";
+        return "SUCCESS";
     };
 
-    public static Route removeUser = (request, response) -> {
+    public static Route deleteUser = (request, response) -> {
         response.type("application/json");
         User user = request.session().attribute("user");
         if (user == null) {
@@ -73,33 +75,36 @@ public class UserController {
             return "Unauthorized";
         }
 
-        if(!db.removeUser(user.getEmail())){
+        String userJson = request.body();
+        User newUser = gson.fromJson(userJson, User.class);
+        if(!db.removeUser(newUser.getEmail())){
             response.status(400);
-            return "Korisnik sa tim emailom ne postoji";
+            return "EMAIL_ERR";
         }
 
-        return "OK";
+        return "SUCCESS";
     };
 
-//    public static Route editUser = (request, response) -> {
-//        response.type("application/json");
-//        User user = request.session().attribute("user");
-//        if (user == null) {
-//            response.status(401);
-//            return "Unauthorized";
-//        }
-//
-//        if (user.getRole().equals(UserRole.User)) {
-//            response.status(401);
-//            return "Unauthorized";
-//        }
-//
-//        if(!db.editUserIfExists(user)){
-//            response.status(400);
-//            return "Korisnik sa tim emailom ne postoji.";
-//        }
-//
-//        return "OK";
-//    };
+    public static Route editUser = (request, response) -> {
+        response.type("text/plain");
+        User user = request.session().attribute("user");
+        if (user == null) {
+            response.status(401);
+            return "Unauthorized";
+        }
+
+        if (user.getRole().equals(UserRole.User)) {
+            response.status(401);
+            return "Unauthorized";
+        }
+
+        String userJson = request.body();
+        User newUser = gson.fromJson(userJson, User.class);
+        if(!db.editUser(newUser)){
+            return "EMAIL_ERR";
+        }
+
+        return "SUCCESS";
+    };
 
 }

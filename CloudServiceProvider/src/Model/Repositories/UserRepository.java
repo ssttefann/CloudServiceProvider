@@ -43,7 +43,7 @@ public class UserRepository {
                 .collect(Collectors.toMap(User::getEmail, user -> user, (oldVal, newVal) -> newVal));
     }
 
-    private void saveUsers() throws IOException {
+    public void saveUsers() throws IOException {
         Writer writer = new FileWriter(PATH_TO_FILE);
         gson.toJson(usersList, writer);
         writer.flush();
@@ -76,8 +76,11 @@ public class UserRepository {
 
     public boolean removeUser(String email) throws IOException {
         if(usersIndexedByEmail.containsKey(email)){
+            User user = usersIndexedByEmail.get(email);
+            user.getOrganization().getUsersList().remove(user);
             usersList.remove(usersIndexedByEmail.get(email));
             usersIndexedByEmail.remove(email);
+
             saveUsers();
             return true;
         }

@@ -21,7 +21,7 @@ export default {
 
     actions : {
 
-        load({commit}) {
+        async load({commit}) {
             axios.get('rest/getCategories/')
                 .then(res => {
                     commit('SET_CATEGORIES', res.data)

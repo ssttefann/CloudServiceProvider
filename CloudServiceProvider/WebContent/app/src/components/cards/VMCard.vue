@@ -40,14 +40,14 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.category.name" label="Category"></v-text-field>
+                    <v-select :items=catNames v-model="editedItem.category.name" label="Category"></v-select>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field :disabled="nameDisabled" v-model="editedItem.organizationName" label="Organization"></v-text-field>
+                    <v-select :items=orgNames :disabled="nameDisabled" v-model="editedItem.organizationName" label="Organization"></v-select>
                   </v-col>
-                  <v-row cols="12" sm="6" md="4">
+                  <!-- <v-row cols="12" sm="6" md="4">
                     <DiskCard/>
-                  </v-row>
+                  </v-row> -->
                 </v-row>
               </v-container>
             </v-card-text>
@@ -73,11 +73,11 @@
 
 
 <script>
-import DiskCard from './DiskCard'
+// import DiskCard from './DiskCard'
 
 export default {
   components : {
-    DiskCard
+    // DiskCard
   },
 
   data() {
@@ -125,6 +125,14 @@ export default {
 
     nameDisabled() {
       return this.editedIndex != -1;
+    }, 
+
+    orgNames() {
+      return this.$store.state.orgs.organizations.map(i => i.name);
+    },
+
+    catNames() {
+      return this.$store.state.categories.VMCategories.map(i => i.name);
     }
   },
 
@@ -172,10 +180,18 @@ export default {
           this.$store.state.vms.virtualMachines[this.editedIndex],
           this.editedItem
         );
+        this.close();
       } else {
-        this.$store.commit("addVM", this.editedItem);
+          this.$store.dispatch('vms/add', this.editedItem)
+            .then( () => {
+              alert("Virtuelna masina uspesno dodata");
+              this.$router.go();
+              this.close();
+            })
+            .catch( err => alert("Greska " +err))
+        
+        // this.$store.commit("addVM", this.editedItem);
       }
-      this.close();
     }
   }
 };

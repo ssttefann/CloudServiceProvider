@@ -40,9 +40,15 @@ public class Main {
         //Korisnici
         get("/rest/users/getAll/", UserController.getAllUsers);
         post("/rest/users/add/", UserController.addUser);
+        post("/rest/users/edit/", UserController.editUser);
+        post("/rest/users/delete/", UserController.deleteUser);
 
         //Virtuelne masine
-        get("/rest/getVMs/", VirtualMachineController.getVirtualMachines);
+        get("/rest/VMs/getVMs/", VirtualMachineController.getVirtualMachines);
+        post("/rest/VMs/addVM/", VirtualMachineController.addVirtualMachine);
+        post("/rest/VMs/editVM/", VirtualMachineController.getVirtualMachines);
+        post("/rest/VMs/deleteVM/", VirtualMachineController.getVirtualMachines);
+
 
         //Diskovi
         get("/rest/getDiscs/", DiscController.getDiscs);

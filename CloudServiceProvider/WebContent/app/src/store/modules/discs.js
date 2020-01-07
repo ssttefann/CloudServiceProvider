@@ -24,6 +24,10 @@ export default {
                 })
                 .catch(err => alert(err));
         },
+
+        add({commit}, disc) {
+            
+        }
     },
 
 

@@ -50,93 +50,77 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import { stringify } from 'querystring';
-
-
 export default {
-  components: {
-    
-  },
+  components: {},
   data() {
     return {
-      email : null,
-      password : null,
+      email: null,
+      password: null,
       rules: {
-        required: value => !!value || 'Required.'
+        required: value => !!value || "Required."
       }
-    }
+    };
   },
 
   mounted() {
     //ako je vec ulogovan redirektuj ga
-    if(this.$store.getters['users/isLogged']){
-
-      if(this.$store.getters['users/isAdmin']) 
-        this.$router.push('/admin');
-      else
-        this.$router.push('/dashboard')
+    if (this.$store.getters["users/isLogged"]) {
+      if (this.$store.getters["users/isAdmin"]) this.$router.push("/admin");
+      else this.$router.push("/dashboard");
     }
-      
   },
-  methods : {
-
-     /**
+  methods: {
+    /**
      * Proverava da li je svako polje forme popunjeno
      * @returns {String} "OK" ako su uslovi zadovoljeni, ako nisu onda imena labela koje ne zadovoljavaju uslov
      */
     validate() {
-
       let invalid = [];
 
-      if (!this.email)
-        invalid.push("Email");
-      
-      if(!this.password)
-        invalid.push("Password");
-      
-      let retval = invalid.length > 0 ?  invalid.join(",") :  "OK";
+      if (!this.email) invalid.push("Email");
+
+      if (!this.password) invalid.push("Password");
+
+      let retval = invalid.length > 0 ? invalid.join(",") : "OK";
 
       return retval;
     },
-    
 
     /**
      * Poziva se kada korisnik stisne na dugme za login
      */
-    async submit() {
-
+    submit() {
       let resp = this.validate();
 
       // ako je RESP ok mozes poslati serveru
-      if(resp === "OK"){
-        let user = {
-          password : this.password,
-          email : this.email
+      if (resp === "OK") {
+        let credentials = {
+          password: this.password,
+          email: this.email
         };
+        this.$store
+          .dispatch("users/logUser", credentials)
+          .then(user => {
+            if (!["User", "Admin", "SuperAdmin"].includes(user.role)) {
+              alert("Pogresna kombinacija user/pass");
+              return;
+            }
 
-
-        this.$axios.post('/rest/login', stringify(user))
-          .then(res => {
-            this.$store.state.users.loggedUser.role = res.data.role;
-            
-            this.$store.dispatch('users/logUser');
-
-            if(!['User', 'Admin', 'SuperAdmin'].includes(res.data.role)){
-              alert('Pogresna kombinacija user/pass');
+            if (this.$store.getters["users/isAdmin"]) {
+              this.$router.push("/admin");
+            } else if (this.$store.getters["users/isLogged"]) {
+              this.$router.push("/dashboard");
             }
           })
-          .catch(res => alert(res));
-
-
-      //ako nije ispisi poruku o gresci
+          .catch(error => {
+            alert(error);
+          });
+      } else {
+        alert("Labele " + resp + " moraju biti popunjene pre prijavljivanja");
       }
-      // else{
-      //   alert("Labele " +resp+ " moraju biti popunjene pre prijavljivanja")
-      // }
     }
   }
-}
+};
 </script>
 
 

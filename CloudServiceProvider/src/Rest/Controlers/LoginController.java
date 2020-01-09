@@ -21,7 +21,6 @@ public class LoginController {
 
     public static Route login = (request, response) -> {
         response.type("application/json");
-//        System.out.println("USO");
         String password = request.queryParams("password");
         String email = request.queryParams("email");
 
@@ -52,7 +51,6 @@ public class LoginController {
     public static Route logOut = (req, res) -> {
         res.type("text/plain");
         req.session().invalidate();
-        System.out.println("invalidated");
         return "OK";
     };
 

@@ -33,7 +33,7 @@ public class Main {
         System.out.println();
 
         // Login
-        post("/rest/login", LoginController.login);
+        post("/rest/login/", LoginController.login);
         get("/rest/loggedUser/", LoginController.getLoggedUser);
         get("/rest/logout/", LoginController.logOut);
 

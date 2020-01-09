@@ -23,17 +23,18 @@
         <v-spacer></v-spacer>
 
          <!-- DUGMICI NA TOOLBARU -->
-        <v-btn href="" target="_blank" text>
+        <v-btn href="https://youtu.be/dQw4w9WgXcQ?t=43" target="_blank" text>
             <v-icon color="white" size="20">mdi-help-circle</v-icon>
         </v-btn>
 
-        <v-btn href="" target="_blank" text>
+        <v-btn href="https://youtu.be/dQw4w9WgXcQ?t=43" target="_blank" text>
             <v-icon color="white" size="20">mdi-bell</v-icon>
         </v-btn>
 
         <span class="switch">
-          <v-switch color="secondary" value="secondary" :label="`Dark Mode`" v-model="dark" @change ="darkMode"> 
+          <v-switch dark color="secondary" value="secondary" :label="`Dark Mode`" v-model="dark" @change ="darkMode"> 
           </v-switch>
+          
         </span>
 
     </v-app-bar> 

@@ -1,20 +1,40 @@
 
 <template>
-  <v-card outline block class="ma-3 pa-6" hover>
-    <v-card-title>
+  <v-card outline block class="ma-3" hover>
+    <v-card-title class="blue-grey white--text">
       VM Categories
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
         append-icon="mdi-search-web"
+        :disabled=isHidden
+        dark
+        color="white"
         label="Search"
         single-line
         hide-details
       ></v-text-field>
+
+      <v-menu bottom left offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn dark icon v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+
+        <v-btn v-if="isHidden" @click="hide" dark class="white blue-grey--text"> 
+          <v-icon> mdi-eye</v-icon> Show
+        </v-btn>
+
+        <v-btn v-else @click="hide" dark class="white blue-grey--text"> 
+          <v-icon> mdi-eye-off </v-icon> Hide
+        </v-btn>
+      </v-menu>
+
     </v-card-title>
 
     <!-- Tabela za prikaz svih elemenata -->
-    <v-data-table :search="search" :headers="headers" :items="this.$store.state.categories.VMCategories">
+    <v-data-table :hidden=isHidden class="ma-6" :search="search" :headers="headers" :items="this.$store.state.categories.VMCategories">
 
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
@@ -73,6 +93,7 @@
 export default {
   data() {
     return {
+      hidden : false,
       headers: [
         { text: "Name", value: "name" },
         { text: "Cores", value: "cores" },
@@ -106,6 +127,10 @@ export default {
 
     nameDisabled() {
       return this.editedIndex != -1;
+    },
+
+    isHidden() {
+      return this.hidden;
     }
   },
 
@@ -159,7 +184,11 @@ export default {
         // this.$store.commit('addVM',this.editedItem);
       }
       this.close();
-    }
+    },
+
+     hide() {
+       this.hidden = !this.hidden;
+     }
   }
 };
 </script>

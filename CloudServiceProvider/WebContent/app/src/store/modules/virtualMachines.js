@@ -47,7 +47,7 @@ export default {
                         commit('ADD_USER', vm);
                         resolve();
                     }else{
-                        reject(res);
+                        reject(res.data);
                     }
 
                 })

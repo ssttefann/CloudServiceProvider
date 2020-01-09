@@ -3,27 +3,32 @@ package Model.Entities;
 import java.time.LocalDateTime;
 
 public class VirtualMachineActivity {
-    private LocalDateTime virtualMachineTurnedOnAt;
-    private LocalDateTime virtualMachineTurnedOfAt;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
-    public VirtualMachineActivity(LocalDateTime virtualMachineTurnedOnAt, LocalDateTime virtualMachineTurnedOfAt) {
-        this.virtualMachineTurnedOnAt = virtualMachineTurnedOnAt;
-        this.virtualMachineTurnedOfAt = virtualMachineTurnedOfAt;
+    public VirtualMachineActivity(LocalDateTime startTime, LocalDateTime endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
-    public LocalDateTime getVirtualMachineTurnedOnAt() {
-        return virtualMachineTurnedOnAt;
+    public VirtualMachineActivity(LocalDateTime startTime) {
+        this.startTime = startTime;
+        this.endTime = null;
     }
 
-    public void setVirtualMachineTurnedOnAt(LocalDateTime virtualMachineTurnedOnAt) {
-        this.virtualMachineTurnedOnAt = virtualMachineTurnedOnAt;
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
-    public LocalDateTime getVirtualMachineTurnedOfAt() {
-        return virtualMachineTurnedOfAt;
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 
-    public void setVirtualMachineTurnedOfAt(LocalDateTime virtualMachineTurnedOfAt) {
-        this.virtualMachineTurnedOfAt = virtualMachineTurnedOfAt;
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 }

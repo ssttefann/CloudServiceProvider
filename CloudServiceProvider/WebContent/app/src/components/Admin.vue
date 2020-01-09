@@ -3,37 +3,37 @@
     <v-container>
     <h1 class="my-5 subheading grey--text">Admin Page</h1>
 
-    <!-- <v-layout row wrap > 
+    <v-layout row wrap > 
         
-        <v-col xs12 sm6 md6 >
+        <v-flex xs12 sm6>
           <VMCard/> 
-        </v-col>
+        </v-flex>
 
-        <v-col xs12 sm6 md6 >
+        <v-flex xs12 sm6>
           <VMCategoryCard/> 
-        </v-col>
+        </v-flex>
 
-        <v-col xs12 sm6 md6 >
+        <v-flex xs12 sm6>
           <DiskCard/> 
-        </v-col>
+        </v-flex>
 
-        <v-col xs12 sm6 md6 >
+        <v-flex xs12 sm6>
           <UserCard/> 
-        </v-col>
+        </v-flex>
 
-        <v-col xs12 sm6 md6 >
+        <v-flex xs12 sm6>
           <OrganizationCard/> 
-        </v-col>
+        </v-flex>
 
-      </v-layout> -->
+      </v-layout>
 
-    <div class="grid-container">
+    <!-- <div class="grid-container">
       <VMCard class="item"/>
       <VMCategoryCard class="item"/>
       <DiskCard class="item"/>
       <UserCard class="item"/>
       <OrganizationCard class="item"/>
-    </div>
+    </div> -->
 
     </v-container> 
   </div> 

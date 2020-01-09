@@ -1,20 +1,40 @@
 
 <template>
-  <v-card outline block class="ma-3 pa-6" hover>
-    <v-card-title>
+  <v-card outline block class="ma-3" hover>
+    <v-card-title class="blue-grey white--text">
       Virtual Machines
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
         append-icon="mdi-search-web"
+        :disabled=isHidden
+        dark
+        color="white"
         label="Search"
         single-line
         hide-details
       ></v-text-field>
+
+      <v-menu bottom left offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn dark icon v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+
+        <v-btn v-if="isHidden" @click="hide" dark class="white blue-grey--text"> 
+          <v-icon> mdi-eye</v-icon> Show
+        </v-btn>
+
+        <v-btn v-else @click="hide" dark class="white blue-grey--text"> 
+          <v-icon> mdi-eye-off </v-icon> Hide
+        </v-btn>
+      </v-menu>
+
     </v-card-title>
 
     <!-- Tabela za prikaz svih elemenata -->
-    <v-data-table :search="search" :headers="headers" :items="this.$store.state.vms.virtualMachines">
+    <v-data-table :hidden=isHidden class="ma-6" :search="search" :headers="headers" :items="this.$store.state.vms.virtualMachines">
       
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
@@ -68,6 +88,7 @@
       </template>
 
     </v-data-table>
+
   </v-card>
 </template>
 
@@ -83,6 +104,7 @@ export default {
   data() {
     return {
       isAdmin: this.$store.getters['users/isAdmin'],
+      hidden : false,
       headers: [
         { text: "Name", align: "left", value: "name" },
         { text: "Cores", value: "category.cores" },
@@ -114,8 +136,8 @@ export default {
           RAM: 0,
           GPU: 0
         }
-      }
-    };
+      },
+    }
   },
 
   computed: {
@@ -133,6 +155,10 @@ export default {
 
     catNames() {
       return this.$store.state.categories.VMCategories.map(i => i.name);
+    },
+
+    isHidden() {
+      return this.hidden;
     }
   },
 
@@ -189,9 +215,11 @@ export default {
               this.close();
             })
             .catch( err => alert("Greska " +err))
-        
-        // this.$store.commit("addVM", this.editedItem);
       }
+    },
+
+    hide() {
+      this.hidden = !this.hidden;
     }
   }
 };

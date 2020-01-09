@@ -91,36 +91,37 @@ const router = new VueRouter({
 
 // metoda koja se poziva pre svakog rutiranja u aplikaciji
 router.beforeEach((to, from, next) => {
+  store.dispatch('users/getLoggedUser').then(() => {
+    if (to.matched.some(record => record.meta.is_admin)) {
+    
+      // ako je admin
+      if(store.getters['users/isAdmin']){
+        next();
+        return;
+      }
+      next('/login');
+    }
   
-  store.dispatch('users/getLoggedUser');
+    // ako je potrebno biti ulogovan za pristup
+    else if (to.matched.some(record => record.meta.requiresAuth)) {
+        
+      // da li postoji ulogovani korinik?
+      if (store.getters['users/isLogged']) {
+        next()
+        return
+      }
+      // ako ne postoji vrati ga na login
+      next('/login')
+  
+    } 
+    // dozvoljen pristup svima
+    else {
+      next()
+    }
+  });
 
   // da li je potrebna administratorksa privilegija
-  if (to.matched.some(record => record.meta.is_admin)) {
-    
-    // ako je admin
-    if(store.getters['users/isAdmin']){
-      next();
-      return;
-    }
-    next('/login');
-  }
 
-  // ako je potrebno biti ulogovan za pristup
-  else if (to.matched.some(record => record.meta.requiresAuth)) {
-      
-    // da li postoji ulogovani korinik?
-    if (store.getters['users/isLogged']) {
-      next()
-      return
-    }
-    // ako ne postoji vrati ga na login
-    next('/login')
-
-  } 
-  // dozvoljen pristup svima
-  else {
-    next()
-  }
 })
 
 export default router

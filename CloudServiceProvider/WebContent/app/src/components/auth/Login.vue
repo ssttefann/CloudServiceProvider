@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   components: {},
   data() {
@@ -62,14 +64,27 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters({
+      isLogged: "users/isLogged",
+      isAdmin: "users/isAdmin"
+    })
+  },
+
   mounted() {
     //ako je vec ulogovan redirektuj ga
-    if (this.$store.getters["users/isLogged"]) {
-      if (this.$store.getters["users/isAdmin"]) this.$router.push("/admin");
-      else this.$router.push("/dashboard");
+    if (this.isLogged) {
+      if (this.isAdmin) {
+        this.$router.push("/admin");
+      } else {
+        this.$router.push("/dashboard");
+      }
     }
   },
   methods: {
+    ...mapActions({
+      logUser: "users/logUser"
+    }),
     /**
      * Proverava da li je svako polje forme popunjeno
      * @returns {String} "OK" ako su uslovi zadovoljeni, ako nisu onda imena labela koje ne zadovoljavaju uslov
@@ -98,17 +113,16 @@ export default {
           password: this.password,
           email: this.email
         };
-        this.$store
-          .dispatch("users/logUser", credentials)
+        this.logUser(credentials)
           .then(user => {
             if (!["User", "Admin", "SuperAdmin"].includes(user.role)) {
               alert("Pogresna kombinacija user/pass");
               return;
             }
 
-            if (this.$store.getters["users/isAdmin"]) {
+            if (this.isAdmin) {
               this.$router.push("/admin");
-            } else if (this.$store.getters["users/isLogged"]) {
+            } else if (this.isLogged) {
               this.$router.push("/dashboard");
             }
           })

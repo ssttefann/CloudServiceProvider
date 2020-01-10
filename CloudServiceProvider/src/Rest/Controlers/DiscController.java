@@ -41,7 +41,6 @@ public class DiscController {
 
     public static Route addDisc = (request, response) -> {
         User user = request.session().attribute("user");
-
         if (user == null || user.getRole().equals(UserRole.User)) {
             response.status(401);
             return "Unauthorized";
@@ -55,5 +54,38 @@ public class DiscController {
         }
 
         return gson.toJson(newDisc);
+    };
+
+    public static Route editDisc = (request, response) -> {
+        User user = request.session().attribute("user");
+        if (user == null || user.getRole().equals(UserRole.User)) {
+            response.status(401);
+            return "Unauthorized";
+        }
+
+        String discJson = request.body();
+        Disc editedDisc = gson.fromJson(discJson, Disc.class);
+        if(!db.editDisc(editedDisc)){
+            response.status(400);
+            return "Disc name doesn't exist";
+        }
+
+        return gson.toJson(editedDisc);
+    };
+
+    public static Route deleteDisc = (request, response) -> {
+        User user = request.session().attribute("user");
+        if (user == null || user.getRole().equals(UserRole.User)) {
+            response.status(401);
+            return "Unauthorized";
+        }
+
+        String discName = request.params("discname");
+        if(!db.removeDisc(discName)){
+            response.status(400);
+            return "Disc name doesn't exist";
+        }
+
+        return "Disc deleted";
     };
 }

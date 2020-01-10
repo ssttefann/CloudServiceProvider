@@ -6,6 +6,7 @@ import static spark.Spark.before;
 
 import static spark.Spark.port;
 import static spark.Spark.post;
+import static spark.Spark.delete;
 import static spark.Spark.staticFiles;
 
 import java.io.File;
@@ -53,6 +54,8 @@ public class Main {
         //Diskovi
         get("/rest/discs/getDiscs/", DiscController.getDiscs);
         post("/rest/discs/add/", DiscController.addDisc);
+        post("/rest/discs/edit/", DiscController.editDisc);
+        delete("/rest/discs/delete/:discname", DiscController.deleteDisc);
 
         //Kategorije
         get("/rest/categories/getCategories/", CategoryController.getAllCategories);

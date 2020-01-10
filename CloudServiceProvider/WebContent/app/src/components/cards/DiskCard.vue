@@ -100,7 +100,7 @@
       <!-- Template za brisanje -->
       <template v-if="isAdmin" v-slot:item.action="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)">mdi-lead-pencil</v-icon>
-        <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+        <v-icon small @click="deleteDisc(item)">mdi-delete</v-icon>
       </template>
     </v-data-table>
   </v-card>
@@ -109,7 +109,7 @@
 
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -145,6 +145,10 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      discsGetter: "disc/getDiscs"
+    }),
+
     formTitle() {
       return this.editedIndex === -1 ? "New Disc" : "Edit Disc";
     },
@@ -176,19 +180,19 @@ export default {
     initialize() {},
 
     ...mapActions({
-      addDiscAction: 'disc/add',
+      addDiscAction: "disc/add",
+      editDiscAction: "disc/edit",
+      deleteDiscAction: "disc/delete"
     }),
 
     editItem(item) {
-      this.editedIndex = this.$store.state.disc.discs.indexOf(item);
+      this.editedIndex = this.getIndexOfDisc(item.name);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
-    deleteItem(item) {
-      const index = this.$store.state.disc.discs.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.$store.state.disc.discs.splice(index, 1);
+    getIndexOfDisc(discName) {
+      return this.discsGetter.findIndex(x => x.name === discName);
     },
 
     close() {
@@ -199,41 +203,64 @@ export default {
       }, 300);
     },
 
+    deleteDisc(disc) {
+      const discIndex = this.getIndexOfDisc(disc.name);
+      if (confirm("Da li ste sigurni da zelite da obrisete ovaj disk")) {
+        this.deleteDiscAction([discIndex, disc.name])
+          .then(() => {
+            this.close();
+            alert("Disk je uspesno obrisan");
+          })
+          .catch(error => alert(error));
+      }
+    },
+
     save() {
-      if(!this.validate()){
+      if (!this.validate()) {
         alert("Sva polja moraju da budu popunjena");
         return;
       }
 
       if (this.editedIndex > -1) {
-        Object.assign(
-          this.$store.state.disc.discs[this.editedIndex],
-          this.editedItem
-        );
+        this.editDisc();
       } else {
-        this.addDiscAction(this.editedItem)
-          .then(() => {
-            alert("Disk uspesno dodat");
-            this.$router.go();
-            this.close();
-          })
-          .catch((error) => {
-            alert(error);
-          });
+        this.addDisc();
       }
-      this.close();
     },
 
-    validate(){
-      if (this.editedItem.name === "" || this.editedItem.name.trim() === ""
-        || this.editedItem.capacity === 0
-        || this.editedItem.virtualMachineName === ""
-        || (this.editedItem.type !== "SSD" && this.editedItem.type !== "HDD"))
-      {
+    validate() {
+      if (
+        this.editedItem.name === "" ||
+        this.editedItem.name.trim() === "" ||
+        this.editedItem.capacity === 0 ||
+        this.editedItem.virtualMachineName === "" ||
+        (this.editedItem.type !== "SSD" && this.editedItem.type !== "HDD")
+      ) {
         return false;
-
       }
       return true;
+    },
+
+    editDisc() {
+      this.editDiscAction([this.editedIndex, this.editedItem])
+        .then(() => {
+          this.close();
+          alert("Disk uspesno izmenjen");
+        })
+        .catch(error => {
+          alert(error);
+        });
+    },
+
+    addDisc() {
+      this.addDiscAction(this.editedItem)
+        .then(() => {
+          this.close();
+          alert("Disk uspesno dodat");
+        })
+        .catch(error => {
+          alert(error);
+        });
     },
 
     hide() {

@@ -20,7 +20,10 @@ export default {
         EDIT_ORGANIZATION(state, tuple) {
             let index = tuple[0]
             let newOrg = tuple[1]
-            state.organizations[index] = newOrg
+            Object.assign(
+                state.organizations[index],
+                newOrg
+            );
         },
 
         DELETE_ORGANIZATION(state, index) {

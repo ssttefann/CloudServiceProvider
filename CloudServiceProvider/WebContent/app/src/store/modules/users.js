@@ -27,7 +27,10 @@ export default {
         EDIT_USER(state, tuple) {
             let index = tuple[0]
             let newUser = tuple[1]
-            state.users[index] = newUser
+            Object.assign(
+                state.users[index],
+                newUser
+            );
         },
 
         DELETE_USER(state, index) {

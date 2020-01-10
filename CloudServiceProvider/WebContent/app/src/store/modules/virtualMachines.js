@@ -20,7 +20,10 @@ export default {
         EDIT_VIRTUAL_MACHINE(state, tuple) {
             let index = tuple[0]
             let newVM = tuple[1]
-            state.virtualMachines[index] = newVM
+            Object.assign(
+                state.virtualMachines[index],
+                newVM
+            );
         },
 
         DELETE_VIRTUAL_MACHINE(state, index) {

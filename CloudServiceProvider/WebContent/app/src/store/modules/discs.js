@@ -21,7 +21,11 @@ export default {
         EDIT_DISC(state, tuple) {
             let index = tuple[0]
             let newDisc = tuple[1]
-            state.discs[index] = newDisc
+            
+            Object.assign(
+                state.discs[index],
+                newDisc
+            );
         },
 
         DELETE_DISC(state, index) {

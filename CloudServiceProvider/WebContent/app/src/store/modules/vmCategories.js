@@ -20,7 +20,10 @@ export default {
         EDIT_CATEGORY(state, tuple) {
             let index = tuple[0]
             let newCat = tuple[1]
-            state.VMCategories[index] = newCat
+            Object.assign(
+                state.VMCategories[index],
+                newCat
+            );
         },
 
         DELETE_CATEGORY(state, index) {

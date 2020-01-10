@@ -213,7 +213,7 @@ export default {
         this.$store.dispatch('users/edit', [this.editedIndex,this.editedItem])
           .then( () => {
             alert("Korisnik uspesno promenjen")
-            this.$router.go();
+            // this.$router.go();
             this.close();
           })
           .catch( err => alert("Greska " +err))
@@ -222,7 +222,7 @@ export default {
           this.$store.dispatch('users/add', this.editedItem)
             .then( () => {
               alert("Korisnik uspesno dodat");
-              this.$router.go();
+              // this.$router.go();
               this.close();
             })
             .catch( err => alert("Greska " +err))

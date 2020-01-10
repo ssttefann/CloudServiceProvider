@@ -36,7 +36,7 @@
       class="ma-6"
       :search="search"
       :headers="headers"
-      :items="this.$store.state.disc.discs"
+      :items="discsGetter"
     >
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>

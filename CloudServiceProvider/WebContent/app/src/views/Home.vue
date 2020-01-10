@@ -54,15 +54,15 @@ export default {
     })
   },
 
-  mounted() {
-    if (this.isLogged) {
-      if (this.isAdmin) {
-        this.$router.push("/admin");
-      } else {
-        this.$router.push("/dashboard");
-      }
-    }
-  }
+  // mounted() { 
+  //   if (this.isLogged) {
+  //     if (this.isAdmin) {
+  //       this.$router.push("/admin");
+  //     } else {
+  //       this.$router.push("/dashboard");
+  //     }
+  //   }
+  // }
 };
 </script>
 

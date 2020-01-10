@@ -71,16 +71,17 @@ export default {
     })
   },
 
-  mounted() {
-    //ako je vec ulogovan redirektuj ga
-    if (this.isLogged) {
-      if (this.isAdmin) {
-        this.$router.push("/admin");
-      } else {
-        this.$router.push("/dashboard");
-      }
-    }
-  },
+// da vim da l radi bez
+  // mounted() {
+  //   //ako je vec ulogovan redirektuj ga
+  //   if (this.isLogged) {
+  //     if (this.isAdmin) {
+  //       this.$router.push("/admin");
+  //     } else {
+  //       this.$router.push("/dashboard");
+  //     }
+  //   }
+  // },
   methods: {
     ...mapActions({
       logUser: "users/logUser"

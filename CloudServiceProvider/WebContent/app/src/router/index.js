@@ -7,7 +7,7 @@ import Register from '../components/auth/Register'
 import NotFound from '../components/errors/NotFound'
 import Dashboard from '../components/Dashboard'
 import Account from '../components/global/Account'
-import {store} from '../store/store.js'
+import { store } from '../store/store.js'
 
 Vue.use(VueRouter)
 
@@ -21,33 +21,35 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: Admin,
-    meta : {
-      requiresAuth : true,
-      is_admin : true
+    meta: {
+      requiresAuth: true,
+      is_admin: true
     }
   },
   {
     path: '/',
     name: 'home',
     component: Home,
-    meta : {
-      guest : true
+    meta: {
+      guest: true,
+      redirectIfLogged: true
     }
   },
   {
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
-    meta : {
-      requiresAuth : true
+    meta: {
+      requiresAuth: true
     }
   },
   {
     path: '/login',
     name: 'login',
     component: Login,
-    meta : {
-      guest : true
+    meta: {
+      guest: true,
+      redirectIfLogged: true
     }
   },
   {
@@ -59,24 +61,24 @@ const routes = [
     path: '/account',
     name: 'account',
     component: Account,
-    meta : {
-      requiresAuth : true,
-      is_admin : false
+    meta: {
+      requiresAuth: true,
+      is_admin: false
     }
   },
   {
     path: '*',
     name: 'notfound',
     component: NotFound,
-    meta : {
-      guest : true
+    meta: {
+      guest: true
     }
   },
   {
     path: '/about',
     name: 'about',
-    meta : {
-      guest : true
+    meta: {
+      guest: true
     },
     component: () => import(/* webpackChunkName: "about" */ '../components/global/About.vue')
   }
@@ -93,18 +95,18 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   store.dispatch('users/getLoggedUser').then(() => {
     if (to.matched.some(record => record.meta.is_admin)) {
-    
+
       // ako je admin
-      if(store.getters['users/isAdmin']){
+      if (store.getters['users/isAdmin']) {
         next();
         return;
       }
       next('/login');
     }
-  
+
     // ako je potrebno biti ulogovan za pristup
     else if (to.matched.some(record => record.meta.requiresAuth)) {
-        
+
       // da li postoji ulogovani korinik?
       if (store.getters['users/isLogged']) {
         next()
@@ -112,10 +114,21 @@ router.beforeEach((to, from, next) => {
       }
       // ako ne postoji vrati ga na login
       next('/login')
+
+    } else if (to.matched.some(record => record.meta.redirectIfLogged)) {
   
-    } 
-    // dozvoljen pristup svima
-    else {
+      if(store.getters['users/isAdmin']){
+        next('/admin');
+
+      } else if (store.getters['users/isLogged']){
+        next('/dashboard');
+
+      } else {
+        next();
+      }
+
+      // dozvoljen pristup svima
+    } else {
       next()
     }
   });

@@ -55,19 +55,7 @@ public class Database {
     }
 
     public boolean editUser(User user) throws IOException {
-
-        if(userRepository.getUsersIndexedByEmail().containsKey(user.getEmail())){
-
-            User stari = userRepository.getUsersIndexedByEmail().get(user.getEmail());
-            stari.setFirstName(user.getFirstName());
-            stari.setLastName(user.getLastName());
-            stari.setPassword(user.getPassword());
-            stari.setRole(user.getRole());
-            userRepository.saveUsers();
-            return true;
-        }
-
-        return false;
+        return userRepository.editUser(user);
     }
 
     public boolean removeUser(String email) throws IOException {

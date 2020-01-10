@@ -87,4 +87,19 @@ public class UserRepository {
 
         return false;
     }
+
+    public boolean editUser(User user) throws IOException {
+        String email = user.getEmail();
+        if(usersIndexedByEmail.containsKey(email)){
+            usersIndexedByEmail.put(email, user);
+            // izbrisi usera sa starim podacima
+            usersList.remove(user);
+            // dodaj sa novim
+            usersList.add(user);
+            saveUsers();
+            return true;
+        }
+
+        return false;
+    }
 }

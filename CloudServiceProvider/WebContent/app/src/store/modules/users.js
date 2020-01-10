@@ -98,7 +98,6 @@ export default {
 
         edit({ commit }, tuple) {
             let user = tuple[1]
-            alert("IME: " + user.firstName)
 
             return new Promise((resolve, reject) => {
                 axios.post('rest/users/edit/', JSON.stringify(user))

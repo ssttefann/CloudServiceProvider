@@ -7,7 +7,7 @@
       <v-text-field
         v-model="search"
         append-icon="mdi-search-web"
-        :disabled=isHidden
+        :disabled="isHidden"
         dark
         color="white"
         label="Search"
@@ -22,24 +22,28 @@
           </v-btn>
         </template>
 
-        <v-btn v-if="isHidden" @click="hide" dark class="white blue-grey--text"> 
-          <v-icon> mdi-eye</v-icon> Show
+        <v-btn v-if="isHidden" @click="hide" dark class="white blue-grey--text">
+          <v-icon>mdi-eye</v-icon>Show
         </v-btn>
 
-        <v-btn v-else @click="hide" dark class="white blue-grey--text"> 
-          <v-icon> mdi-eye-off </v-icon> Hide
+        <v-btn v-else @click="hide" dark class="white blue-grey--text">
+          <v-icon>mdi-eye-off</v-icon>Hide
         </v-btn>
       </v-menu>
-
     </v-card-title>
-    <v-data-table :hidden=isHidden class="ma-6" :search="search" :headers="headers" :items="this.$store.state.disc.discs">
-        
+    <v-data-table
+      :hidden="isHidden"
+      class="ma-6"
+      :search="search"
+      :headers="headers"
+      :items="this.$store.state.disc.discs"
+    >
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
-          <template  v-if="isAdmin" v-slot:activator="{ on }">
+          <template v-if="isAdmin" v-slot:activator="{ on }">
             <v-btn color="blue-grey darken-1 white--text" dark class="mb-2" v-on="on">New Disc</v-btn>
           </template>
           <v-card>
@@ -51,17 +55,34 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field :disabled=nameDisabled v-model="editedItem.name" label="Disc name"></v-text-field>
+                    <v-text-field
+                      :disabled="nameDisabled"
+                      v-model="editedItem.name"
+                      label="Disc name"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.capacity" type="number" min="1" label="Capacity"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.capacity"
+                      type="number"
+                      min="1"
+                      label="Capacity"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-combobox append-icon="mdi-minidisc" :items="options" v-model="editedItem.type" label="Type"> 
-                    </v-combobox>
+                    <v-combobox
+                      append-icon="mdi-minidisc"
+                      :items="options"
+                      v-model="editedItem.type"
+                      label="Type"
+                    ></v-combobox>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-select :items=vmNames v-model="editedItem.virtualMachineName" label="Virtual Machine"></v-select>
+                    <v-select
+                      :items="vmNames"
+                      v-model="editedItem.virtualMachineName"
+                      label="Virtual Machine"
+                    ></v-select>
                   </v-col>
                 </v-row>
               </v-container>
@@ -74,14 +95,13 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-    </template>
-    
-        <!-- Template za brisanje -->
-        <template v-if="isAdmin" v-slot:item.action="{ item }">
-            <v-icon small class="mr-2" @click="editItem(item)">mdi-lead-pencil</v-icon>
-            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
-        </template>
+      </template>
 
+      <!-- Template za brisanje -->
+      <template v-if="isAdmin" v-slot:item.action="{ item }">
+        <v-icon small class="mr-2" @click="editItem(item)">mdi-lead-pencil</v-icon>
+        <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+      </template>
     </v-data-table>
   </v-card>
 </template>
@@ -89,11 +109,13 @@
 
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
-      isAdmin: this.$store.getters['users/isAdmin'],
-      hidden : false,
+      isAdmin: this.$store.getters["users/isAdmin"],
+      hidden: false,
       headers: [
         { text: "Name", align: "left", value: "name" },
         { text: "Capacity", value: "capacity" },
@@ -102,16 +124,22 @@ export default {
         { text: "Actions", value: "action", sortable: false }
       ],
 
-      options : ["SSD", "HDD"],
+      options: ["SSD", "HDD"],
 
-      search : "",
+      search: "",
       dialog: false,
       editedIndex: -1,
       editedItem: {
-        name: "", capacity : 1, type : "", virtualMachineName : ""
+        name: "",
+        capacity: 0,
+        type: "",
+        virtualMachineName: ""
       },
       defaultItem: {
-        name: "", capacity : 1, type : "", virtualMachineName : ""
+        name: "",
+        capacity: 0,
+        type: "",
+        virtualMachineName: ""
       }
     };
   },
@@ -128,7 +156,7 @@ export default {
     vmNames() {
       return this.$store.state.vms.virtualMachines.map(i => i.name);
     },
-    
+
     isHidden() {
       return this.hidden;
     }
@@ -146,6 +174,10 @@ export default {
 
   methods: {
     initialize() {},
+
+    ...mapActions({
+      addDiscAction: 'disc/add',
+    }),
 
     editItem(item) {
       this.editedIndex = this.$store.state.disc.discs.indexOf(item);
@@ -168,16 +200,40 @@ export default {
     },
 
     save() {
+      if(!this.validate()){
+        alert("Sva polja moraju da budu popunjena");
+        return;
+      }
+
       if (this.editedIndex > -1) {
         Object.assign(
           this.$store.state.disc.discs[this.editedIndex],
           this.editedItem
         );
       } else {
-        this.$store.state.disc.discs.push(this.editedItem);
-        // this.$store.commit('addDisc',this.editedItem);
+        this.addDiscAction(this.editedItem)
+          .then(() => {
+            alert("Disk uspesno dodat");
+            this.$router.go();
+            this.close();
+          })
+          .catch((error) => {
+            alert(error);
+          });
       }
       this.close();
+    },
+
+    validate(){
+      if (this.editedItem.name === "" || this.editedItem.name.trim() === ""
+        || this.editedItem.capacity === 0
+        || this.editedItem.virtualMachineName === ""
+        || (this.editedItem.type !== "SSD" && this.editedItem.type !== "HDD"))
+      {
+        return false;
+
+      }
+      return true;
     },
 
     hide() {

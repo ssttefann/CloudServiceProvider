@@ -83,4 +83,16 @@ public class DiscRepository {
         return false;
     }
 
+    public boolean editDisc(Disc disc) throws IOException {
+        String discName = disc.getName();
+        if(discsIndexedByName.containsKey(discName)){
+            discList.remove(disc);
+            discList.add(disc);
+            discsIndexedByName.put(discName, disc);
+            saveDiscs();
+            return true;
+        }
+
+        return false;
+    }
 }

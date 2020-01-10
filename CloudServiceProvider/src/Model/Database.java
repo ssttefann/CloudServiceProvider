@@ -113,6 +113,10 @@ public class Database {
         return false;
     }
 
+    public boolean editDisc(Disc disc) throws IOException {
+        return discRepository.editDisc(disc);
+    }
+
     public List<VirtualMachine> getAllVirtualMachines(){
         return virtualMachineRepository.getVirtualMachineList();
     }

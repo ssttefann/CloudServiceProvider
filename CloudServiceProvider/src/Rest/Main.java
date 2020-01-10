@@ -52,6 +52,7 @@ public class Main {
 
         //Diskovi
         get("/rest/discs/getDiscs/", DiscController.getDiscs);
+        post("/rest/discs/add/", DiscController.addDisc);
 
         //Kategorije
         get("/rest/categories/getCategories/", CategoryController.getAllCategories);

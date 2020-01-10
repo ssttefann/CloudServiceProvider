@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 export default {
 
     namespaced : true,
@@ -13,8 +12,8 @@ export default {
             state.discs = data;
         },
 
-        ADD_DISC(state, category) {
-            state.discs.push(category);
+        ADD_DISC(state, disc) {
+            state.discs.push(disc);
         },
 
         EDIT_DISC(state, tuple) {
@@ -39,8 +38,25 @@ export default {
                 .catch(err => alert(err));
         },
 
-        // add({commit}, disc) {
-            
+        add({commit}, disc) {
+            return new Promise((resolve, reject) => {
+                axios.post("/rest/discs/add/", JSON.stringify(disc))
+                .then((response) => {
+                    if (response.status === 200){
+                        commit('ADD_DISC', response.data);
+                        resolve();
+                    }
+                })
+                .catch(error => reject(error));
+            });
+        },
+
+        // edit({commit}, tuple){
+
+        // },
+
+        // delete({commit}, tuple){
+
         // }
     },
 

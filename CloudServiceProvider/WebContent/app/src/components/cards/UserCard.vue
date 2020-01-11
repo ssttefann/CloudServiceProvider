@@ -188,7 +188,7 @@ export default {
       }
 
       if( confirm("Are you sure you want to delete this item?")){
-        this.$store.dispatch('users/delete', [index, item])
+        this.$store.dispatch('users/delete', [index, item.email])
           .then( () => {
             alert("Korisnik uspesno obrisan")
             this.$router.go();

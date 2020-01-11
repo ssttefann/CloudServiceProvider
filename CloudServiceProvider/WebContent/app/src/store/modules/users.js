@@ -124,10 +124,10 @@ export default {
 
         delete({ commit }, tuple) {
             let index = tuple[0]
-            let user = tuple[1]
+            let email = tuple[1]
 
             return new Promise((resolve, reject) => {
-                axios.delete('rest/users/delete/' + user.email)
+                axios.delete('rest/users/delete/' + email)
                     .then(res => {
                         if (res.status === 200) {
                             commit('DELETE_USER', index);

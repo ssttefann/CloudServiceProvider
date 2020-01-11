@@ -38,7 +38,7 @@ public class Main {
         get("/rest/users/getAll/", UserController.getAllUsers);
         post("/rest/users/add/", UserController.addUser);
         post("/rest/users/edit/", UserController.editUser);
-        delete("/rest/users/delete/", UserController.deleteUser);
+        delete("/rest/users/delete/:email", UserController.deleteUser);
 
         //Virtuelne masine
         get("/rest/VMs/getVMs/", VirtualMachineController.getVirtualMachines);

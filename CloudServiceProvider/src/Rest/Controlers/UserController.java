@@ -65,19 +65,13 @@ public class UserController {
     public static Route deleteUser = (request, response) -> {
         response.type("application/json");
         User user = request.session().attribute("user");
-        if (user == null) {
+        if (user == null || user.getRole().equals(UserRole.User)) {
             response.status(401);
             return "Unauthorized";
         }
 
-        if (user.getRole().equals(UserRole.User)) {
-            response.status(401);
-            return "Unauthorized";
-        }
-
-        String userJson = request.body();
-        User newUser = gson.fromJson(userJson, User.class);
-        if(!db.removeUser(newUser.getEmail())){
+        String email = request.params("email");
+        if(!db.removeUser(email)){
             response.status(400);
             return "EMAIL_ERR";
         }

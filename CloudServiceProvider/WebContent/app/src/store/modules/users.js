@@ -127,9 +127,9 @@ export default {
             let user = tuple[1]
 
             return new Promise((resolve, reject) => {
-                axios.post('rest/users/delete/', JSON.stringify(user))
+                axios.delete('rest/users/delete/' + user.email)
                     .then(res => {
-                        if (res.data == "SUCCESS") {
+                        if (res.status === 200) {
                             commit('DELETE_USER', index);
                             resolve();
                         } else {

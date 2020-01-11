@@ -97,7 +97,7 @@
 
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
   data() {
     return {
@@ -129,6 +129,10 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      categoriesGetter: "categories/getAll",
+    }),
+
     formTitle() {
       return this.editedIndex === -1 ? "New Category" : "Edit Category";
     },
@@ -157,26 +161,33 @@ export default {
     ...mapActions({
       addCategoryAction: "categories/add",
       editCategoryAction: "categories/edit",
-      removeCategoryAction: "categories/delete",
+      deleteCategoryAction: "categories/delete",
     }),
-    
+
     // za sada nista ne radi
     initialize() {},
 
     // korisnik menja neku VM
     editItem(item) {
-      this.editedIndex = this.$store.state.categories.VMCategories.indexOf(
-        item
-      );
+      this.editedIndex = this.getIndexOfCategory(item.name);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
-    // korisnik brise VM
-    deleteItem(item) {
-      const index = this.$store.state.categories.VMCategories.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.$store.state.categories.VMCategories.splice(index, 1);
+    getIndexOfCategory(categoryName) {
+      return this.categoriesGetter.findIndex(x => x.name === categoryName);
+    },
+
+    deleteItem(category) {
+      const categoryIndex = this.getIndexOfCategory(category.name);
+      if(confirm("Da li ste sigurni da zelite da obrisete ovu kategoriju ? ")){
+        this.deleteCategoryAction([categoryIndex, category.name])
+          .then(() => {
+            this.close();
+            alert("Kategorija je uspesno obrisana");
+          }).catch(error => alert(error));
+      }
+
     },
 
     // korisnik odustao od izmene
@@ -209,12 +220,12 @@ export default {
     },
 
     editCategory() {
-      // this.editVmAction([this.editedIndex, this.editedItem])
-      //   .then(() => {
-      //     alert("Virtuelna masina uspesno izmenjena");
-      //     this.close();
-      //   })
-      //   .catch(error => alert(error));
+      this.editCategoryAction([this.editedIndex, this.editedItem])
+        .then(() => {
+          alert("Kategorija uspesno izmenjena");
+          this.close();
+        })
+        .catch(error => alert(error));
     },
 
     addCategory() {

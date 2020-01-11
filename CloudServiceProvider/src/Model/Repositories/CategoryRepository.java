@@ -83,4 +83,17 @@ public class CategoryRepository {
 
         return false;
     }
+
+    public boolean editCategory(Category editedCategory) throws IOException {
+        String categoryName = editedCategory.getName();
+        if(categoriesIndexedByName.containsKey(categoryName)){
+            categoryList.remove(editedCategory);
+            categoryList.add(editedCategory);
+            categoriesIndexedByName.put(categoryName, editedCategory);
+            saveCategories();
+            return true;
+        }
+
+        return false;
+    }
 }

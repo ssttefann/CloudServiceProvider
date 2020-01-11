@@ -71,6 +71,10 @@ public class Database {
         return categoryRepository.addCategory(category);
     }
 
+    public boolean editCategory(Category editedCategory) throws IOException {
+        return categoryRepository.editCategory(editedCategory);
+    }
+
     public boolean removeCategory(String categoryName) throws IOException {
         return categoryRepository.removeIfExists(categoryName);
     }
@@ -166,4 +170,6 @@ public class Database {
     public boolean editVirtualMachine(VirtualMachine editedVm) throws IOException {
         return virtualMachineRepository.editVirtualMachine(editedVm);
     }
+
+
 }

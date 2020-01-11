@@ -3,16 +3,16 @@ import axios from 'axios';
 
 export default {
 
-    namespaced : true,
+    namespaced: true,
     state: {
-        VMCategories : [],
+        VMCategories: [],
     },
 
     getters: {
         getAll: state => state.VMCategories,
     },
 
-    mutations : {
+    mutations: {
         SET_CATEGORIES(state, categories) {
             state.VMCategories = categories;
         },
@@ -36,9 +36,9 @@ export default {
 
     },
 
-    actions : {
+    actions: {
 
-        async load({commit}) {
+        async load({ commit }) {
             axios.get('rest/categories/getCategories/')
                 .then(res => {
                     commit('SET_CATEGORIES', res.data)
@@ -46,22 +46,50 @@ export default {
                 .catch(err => alert(err));
         },
 
-        add({commit}, category) {
-            return new Promise((resolve,reject) => {
+        add({ commit }, category) {
+            return new Promise((resolve, reject) => {
                 axios.post('rest/categories/add/', category)
-                .then( res => {
-                    if(res.status == 200) {
-                        commit('ADD_CATEGORY', category);
-                        resolve();
-                    }else{
-                        reject(res.data);
-                    }
+                    .then(res => {
+                        if (res.status == 200) {
+                            commit('ADD_CATEGORY', category);
+                            resolve();
+                        } else {
+                            reject(res.data);
+                        }
 
-                })
-                .catch(err => reject(err));
+                    })
+                    .catch(err => reject(err));
             })
 
         },
+
+        edit({ commit }, tuple) {
+            const category = tuple[1];
+            return new Promise((resolve, reject) => {
+                axios.post("/rest/categories/edit/", category)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            commit("EDIT_CATEGORY", tuple);
+                            resolve();
+                        }
+                    })
+                    .catch(error => reject(error));
+            })
+        },
+
+        delete({ commit }, tuple) {
+            const categoryIndex = tuple[0];
+            const categoryName = tuple[1];
+            return new Promise((resolve, reject) => {
+                axios.delete("/rest/categories/delete/" + categoryName)
+                    .then(response => {
+                        if (response.status === 200) {
+                            commit("DELETE_CATEGORY", categoryIndex);
+                            resolve();
+                        }
+                    }).catch(error => reject(error));
+            })
+        }
     },
 
 

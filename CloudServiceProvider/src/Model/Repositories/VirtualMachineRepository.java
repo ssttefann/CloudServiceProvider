@@ -121,4 +121,18 @@ public class VirtualMachineRepository {
 
         return false;
     }
+
+    public boolean editVirtualMachine(VirtualMachine editedVm) throws IOException {
+        String vmName = editedVm.getName();
+        if(virtualMachinesIndexedByName.containsKey(vmName)){
+            VirtualMachine vm = virtualMachinesIndexedByName.get(vmName);
+            String newCategoryName = editedVm.getCategory().getName();
+            vm.setCategoryName(newCategoryName);
+            vm.setCategory(editedVm.getCategory());
+            saveVirtualMachines();
+            return true;
+        }
+
+        return false;
+    }
 }

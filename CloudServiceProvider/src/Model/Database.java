@@ -161,7 +161,7 @@ public class Database {
     }
 
 
-    public boolean editVirtualMachine(VirtualMachine editedVm) {
-        return false;
+    public boolean editVirtualMachine(VirtualMachine editedVm) throws IOException {
+        return virtualMachineRepository.editVirtualMachine(editedVm);
     }
 }

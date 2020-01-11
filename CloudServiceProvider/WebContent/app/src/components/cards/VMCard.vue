@@ -149,7 +149,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      categoriesGetter: "categories/getAll"
+      categoriesGetter: "categories/getAll",
+      vmsGetter: "vms/getAll",
     }),
 
     formTitle() {
@@ -193,9 +194,13 @@ export default {
     initialize() {},
 
     editItem(item) {
-      this.editedIndex = this.$store.state.vms.virtualMachines.indexOf(item);
+      this.editedIndex = this.getIndexOfVm(item.name);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
+    },
+    
+    getIndexOfVm(vmName) {
+      return this.vmsGetter.findIndex(x => x.name === vmName);
     },
 
     deleteItem(item) {
@@ -214,11 +219,11 @@ export default {
     },
 
     save() {
-      if(!this.validateForm()){
+      if (!this.validateForm()) {
         alert("Sva polja moraju biti popunjena");
         return;
       }
-      
+
       this.editedItem.category = this.getCategoryByName(
         this.editedItem.category.name
       );
@@ -230,13 +235,12 @@ export default {
       }
     },
 
-    validateForm(){
-      if(
-        this.editedItem.organizationName.trim() === "" 
-        || this.editedItem.name.trim() === ""
-        || this.editedItem.category.name.trim() === ""
-      )
-      {
+    validateForm() {
+      if (
+        this.editedItem.organizationName.trim() === "" ||
+        this.editedItem.name.trim() === "" ||
+        this.editedItem.category.name.trim() === ""
+      ) {
         return false;
       }
 
@@ -250,8 +254,12 @@ export default {
     },
 
     editVm() {
-      alert("Virtuelna masina uspesno izmenjena");
-      this.close();
+      this.editVmAction([this.editedIndex, this.editedItem])
+        .then(() => {
+          alert("Virtuelna masina uspesno izmenjena");
+          this.close();
+        })
+        .catch(error => alert(error));
     },
 
     addVm() {

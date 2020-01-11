@@ -1,1 +1,146 @@
-[{"name":"VM1","categoryName":"KAT1","organizationName":"ORG1","activities":[],"category":{"name":"KAT1","cores":6,"RAM":16,"GPU":1}},{"name":"VM2","categoryName":"KAT2","organizationName":"ORG3","activities":[],"category":{"name":"KAT2","cores":12,"RAM":64,"GPU":3}},{"name":"VM3","categoryName":"KAT2","organizationName":"ORG2","activities":[],"category":{"name":"KAT2","cores":12,"RAM":64,"GPU":3}},{"name":"VM4","categoryName":"KAT2","organizationName":"ORG2","activities":[],"category":{"name":"KAT2","cores":12,"RAM":64,"GPU":3}},{"name":"NOVA","categoryName":"KAT1","organizationName":"ORG2","activities":[],"category":{"name":"KAT1","cores":6,"RAM":16,"GPU":1}},{"name":"test1","categoryName":"KAT1","organizationName":"ORG1","activities":[],"category":{"name":"KAT1","cores":6,"RAM":16,"GPU":1}},{"name":"test2","categoryName":"KAT1","organizationName":"ORG1","activities":[],"category":{"name":"KAT1","cores":6,"RAM":16,"GPU":1}},{"name":"test3","categoryName":"KAT1","organizationName":"ORG1","activities":[],"category":{"name":"KAT1","cores":6,"RAM":16,"GPU":1}},{"name":"test4","categoryName":"KAT1","organizationName":"ORG1","activities":[],"category":{"name":"KAT1","cores":6,"RAM":16,"GPU":1}},{"name":"test5","categoryName":"KAT1","organizationName":"ORG1","activities":[],"category":{"name":"KAT1","cores":6,"RAM":16,"GPU":1}},{"name":"test6","categoryName":"KAT1","organizationName":"ORG1","activities":[],"category":{"name":"KAT1","cores":6,"RAM":16,"GPU":1}},{"name":"test","categoryName":"KAT1","organizationName":"ORG1","activities":[],"category":{"name":"KAT1","cores":6,"RAM":16,"GPU":1}}]
+[
+  {
+    "name": "VM2",
+    "categoryName": "KAT2",
+    "organizationName": "ORG3",
+    "activities": [],
+    "category": {
+      "name": "KAT2",
+      "cores": 12,
+      "RAM": 64,
+      "GPU": 3
+    }
+  },
+  {
+    "name": "VM3",
+    "categoryName": "KAT2",
+    "organizationName": "ORG2",
+    "activities": [],
+    "category": {
+      "name": "KAT2",
+      "cores": 12,
+      "RAM": 64,
+      "GPU": 3
+    }
+  },
+  {
+    "name": "VM4",
+    "categoryName": "KAT2",
+    "organizationName": "ORG2",
+    "activities": [],
+    "category": {
+      "name": "KAT2",
+      "cores": 12,
+      "RAM": 64,
+      "GPU": 3
+    }
+  },
+  {
+    "name": "NOVA",
+    "categoryName": "KAT1",
+    "organizationName": "ORG2",
+    "activities": [],
+    "category": {
+      "name": "KAT1",
+      "cores": 6,
+      "RAM": 16,
+      "GPU": 1
+    }
+  },
+  {
+    "name": "VM1",
+    "categoryName": "KAT2",
+    "organizationName": "ORG1",
+    "activities": [],
+    "category": {
+      "name": "KAT2",
+      "cores": 12,
+      "RAM": 64,
+      "GPU": 3
+    }
+  },
+  {
+    "name": "test1",
+    "categoryName": "KAT1",
+    "organizationName": "ORG1",
+    "activities": [],
+    "category": {
+      "name": "KAT1",
+      "cores": 6,
+      "RAM": 16,
+      "GPU": 1
+    }
+  },
+  {
+    "name": "test2",
+    "categoryName": "KAT1",
+    "organizationName": "ORG1",
+    "activities": [],
+    "category": {
+      "name": "KAT1",
+      "cores": 6,
+      "RAM": 16,
+      "GPU": 1
+    }
+  },
+  {
+    "name": "test3",
+    "categoryName": "KAT1",
+    "organizationName": "ORG1",
+    "activities": [],
+    "category": {
+      "name": "KAT1",
+      "cores": 6,
+      "RAM": 16,
+      "GPU": 1
+    }
+  },
+  {
+    "name": "test4",
+    "categoryName": "KAT1",
+    "organizationName": "ORG1",
+    "activities": [],
+    "category": {
+      "name": "KAT1",
+      "cores": 6,
+      "RAM": 16,
+      "GPU": 1
+    }
+  },
+  {
+    "name": "test6",
+    "categoryName": "KAT2",
+    "organizationName": "ORG1",
+    "activities": [],
+    "category": {
+      "name": "KAT2",
+      "cores": 12,
+      "RAM": 64,
+      "GPU": 3
+    }
+  },
+  {
+    "name": "test5",
+    "categoryName": "KAT2",
+    "organizationName": "ORG1",
+    "activities": [],
+    "category": {
+      "name": "KAT2",
+      "cores": 12,
+      "RAM": 64,
+      "GPU": 3
+    }
+  },
+  {
+    "name": "test",
+    "categoryName": "KAT2",
+    "organizationName": "ORG1",
+    "activities": [],
+    "category": {
+      "name": "KAT2",
+      "cores": 12,
+      "RAM": 64,
+      "GPU": 3
+    }
+  }
+]

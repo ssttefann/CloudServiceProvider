@@ -8,6 +8,10 @@ export default {
         virtualMachines : [],
     },
 
+    getters: {
+        getAll: state => state.virtualMachines,
+    },
+
     mutations : {
         SET_VIRTUAL_MACHINES(state, vms) {
             state.virtualMachines = vms;
@@ -59,9 +63,20 @@ export default {
 
         },
 
-        edit({commit}, vm){
-            alert(commit);
-            alert(vm);
+        edit({commit}, tuple){
+            const vm = tuple[1];
+            return new Promise((resolve, reject) => {
+                axios.post("/rest/VMs/edit/", vm)
+                    .then((response) => {
+                        if(response.status === 200){
+                            commit("EDIT_VIRTUAL_MACHINE", tuple);
+                            resolve();
+                        }
+
+                        reject(response.data);
+                    })
+                    .catch(error => reject(error));
+            })
         },
 
         delete({commit}, vmName){

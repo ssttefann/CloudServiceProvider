@@ -125,16 +125,16 @@ public class Database {
         return organization.getVirtualMachinesList();
     }
 
-    public boolean addVirtualMachine(VirtualMachine virtualMachine) throws IOException {
-        String categoryName = virtualMachine.getCategory().getName();
+    public boolean addVirtualMachine(VirtualMachine vm) throws IOException {
+        String categoryName = vm.getCategory().getName();
         Category category = categoryRepository.getCategoryByName(categoryName);
-        virtualMachine.setCategory(category);
-        virtualMachine.setActivities(new ArrayList<>());
-        virtualMachine.setDiscList(new ArrayList<>());
-        virtualMachine.setCategoryName(category.getName());
-        Organization organization = organizationRepository.getOrganization(virtualMachine.getOrganizationName());
-        organization.addVirtualMachine(virtualMachine);
-        return virtualMachineRepository.addVirtualMachine(virtualMachine);
+        vm.setCategory(category);
+        vm.setActivities(new ArrayList<>());
+        vm.setDiscList(new ArrayList<>());
+        vm.setCategoryName(category.getName());
+        Organization organization = organizationRepository.getOrganization(vm.getOrganizationName());
+        organization.addVirtualMachine(vm);
+        return virtualMachineRepository.addVirtualMachine(vm);
     }
 
     public boolean removeVirtualMachine(String vmName) throws IOException {

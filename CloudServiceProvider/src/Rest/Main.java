@@ -62,7 +62,7 @@ public class Main {
         //Organizacije
         get("/rest/organizations/getOrganizations/", OrganizationController.getAllOrganizations);
         post("/rest/organizations/addOrganization", OrganizationController.addOrganization);
-        post("/rest/organizations/removeOrganization", OrganizationController.removeOrganization);
+        post("/rest/organizations/edit", OrganizationController.editOrganization);
 
         //redirect
         get("/*", (req, res) -> {

@@ -49,22 +49,6 @@ public class OrganizationController {
         return "NAME_ERR";
     };
 
-    public static Route removeOrganization = (request, response) -> {
-        response.type("text/plain");
-        String organizationName = request.queryParams("organizationName");
-
-        if(organizationName == null){
-            response.status(403);
-            return "NAME_ERR";
-        }
-
-        if (db.removeOrganization(organizationName)) {
-            return "SUCCESS";
-        }
-
-        response.status(403);
-        return "NAME_ERR";
-    };
 
     public static Route editOrganization = (request, response) -> {
         return "editOrganization not yet impolemented";

@@ -46,8 +46,8 @@ export default {
             return new Promise((resolve,reject) => {
                 axios.post('rest/VMs/add/', vm)
                 .then( res => {
-                    if(res.data == "SUCCESS") {
-                        commit('ADD_USER', vm);
+                    if(res.status == 200) {
+                        commit('ADD_VIRTUAL_MACHINE', vm);
                         resolve();
                     }else{
                         reject(res.data);
@@ -58,6 +58,18 @@ export default {
             })
 
         },
+
+        edit({commit}, vm){
+            alert(commit);
+            alert(vm);
+        },
+
+        delete({commit}, vmName){
+            alert(commit);
+            alert(vmName);
+        }
+
+
 
     },
 

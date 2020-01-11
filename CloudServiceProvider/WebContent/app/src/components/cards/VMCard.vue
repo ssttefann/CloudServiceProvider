@@ -7,7 +7,7 @@
       <v-text-field
         v-model="search"
         append-icon="mdi-search-web"
-        :disabled=isHidden
+        :disabled="isHidden"
         dark
         color="white"
         label="Search"
@@ -22,20 +22,24 @@
           </v-btn>
         </template>
 
-        <v-btn v-if="isHidden" @click="hide" dark class="white blue-grey--text"> 
-          <v-icon> mdi-eye</v-icon> Show
+        <v-btn v-if="isHidden" @click="hide" dark class="white blue-grey--text">
+          <v-icon>mdi-eye</v-icon>Show
         </v-btn>
 
-        <v-btn v-else @click="hide" dark class="white blue-grey--text"> 
-          <v-icon> mdi-eye-off </v-icon> Hide
+        <v-btn v-else @click="hide" dark class="white blue-grey--text">
+          <v-icon>mdi-eye-off</v-icon>Hide
         </v-btn>
       </v-menu>
-
     </v-card-title>
 
     <!-- Tabela za prikaz svih elemenata -->
-    <v-data-table :hidden=isHidden class="ma-6" :search="search" :headers="headers" :items="this.$store.state.vms.virtualMachines">
-      
+    <v-data-table
+      :hidden="isHidden"
+      class="ma-6"
+      :search="search"
+      :headers="headers"
+      :items="this.$store.state.vms.virtualMachines"
+    >
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
         <v-divider class="mx-4" inset vertical></v-divider>
@@ -60,14 +64,19 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-select :items=catNames v-model="editedItem.category.name" label="Category"></v-select>
+                    <v-select :items="catNames" v-model="editedItem.category.name" label="Category"></v-select>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-select :items=orgNames :disabled="nameDisabled" v-model="editedItem.organizationName" label="Organization"></v-select>
+                    <v-select
+                      :items="orgNames"
+                      :disabled="nameDisabled"
+                      v-model="editedItem.organizationName"
+                      label="Organization"
+                    ></v-select>
                   </v-col>
                   <!-- <v-row cols="12" sm="6" md="4">
                     <DiskCard/>
-                  </v-row> -->
+                  </v-row>-->
                 </v-row>
               </v-container>
             </v-card-text>
@@ -86,25 +95,23 @@
         <v-icon small class="mr-2" @click="editItem(item)">mdi-lead-pencil</v-icon>
         <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
       </template>
-
     </v-data-table>
-
   </v-card>
 </template>
 
 
 <script>
-// import DiskCard from './DiskCard'
+import { mapActions } from "vuex";
 
 export default {
-  components : {
+  components: {
     // DiskCard
   },
 
   data() {
     return {
-      isAdmin: this.$store.getters['users/isAdmin'],
-      hidden : false,
+      isAdmin: this.$store.getters["users/isAdmin"],
+      hidden: false,
       headers: [
         { text: "Name", align: "left", value: "name" },
         { text: "Cores", value: "category.cores" },
@@ -136,8 +143,8 @@ export default {
           RAM: 0,
           GPU: 0
         }
-      },
-    }
+      }
+    };
   },
 
   computed: {
@@ -147,7 +154,7 @@ export default {
 
     nameDisabled() {
       return this.editedIndex != -1;
-    }, 
+    },
 
     orgNames() {
       return this.$store.state.orgs.organizations.map(i => i.name);
@@ -173,17 +180,20 @@ export default {
   },
 
   methods: {
-    // za sada nista ne radi
+    ...mapActions({
+      addVmAction: "vms/add",
+      editVmAction: "vms/edit",
+      deleteVmAction: "vms/delete",
+    }),
+
     initialize() {},
 
-    // korisnik menja neku VM
     editItem(item) {
       this.editedIndex = this.$store.state.vms.virtualMachines.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
-    // korisnik brise VM
     deleteItem(item) {
       const index = this.$store.state.vms.virtualMachines.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
@@ -199,23 +209,26 @@ export default {
       }, 300);
     },
 
-    // izmenjena/dodata nova VM
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(
-          this.$store.state.vms.virtualMachines[this.editedIndex],
-          this.editedItem
-        );
-        this.close();
+        this.editVm();
       } else {
-          this.$store.dispatch('vms/add', this.editedItem)
-            .then( () => {
-              alert("Virtuelna masina uspesno dodata");
-              this.$router.go();
-              this.close();
-            })
-            .catch( err => alert("Greska " +err))
+        this.addVm();
       }
+    },
+
+    editVm() {
+      alert("Virtuelna masina uspesno izmenjena");
+      this.close();
+    },
+
+    addVm() {
+      this.addVmAction(this.editedItem)
+        .then(() => {
+          this.close();
+          alert("Virtuelna masina uspesno dodata");
+        })
+        .catch(err => alert("Greska " + err));
     },
 
     hide() {

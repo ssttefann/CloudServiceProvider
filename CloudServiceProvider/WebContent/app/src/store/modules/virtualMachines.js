@@ -72,16 +72,23 @@ export default {
                             commit("EDIT_VIRTUAL_MACHINE", tuple);
                             resolve();
                         }
-
-                        reject(response.data);
                     })
                     .catch(error => reject(error));
             })
         },
 
-        delete({commit}, vmName){
-            alert(commit);
-            alert(vmName);
+        delete({commit}, tuple){
+            const vmIndex = tuple[0];
+            const vmName = tuple[1];
+            return new Promise((resolve, reject) => {
+                axios.delete("/rest/VMs/delete/" + vmName)
+                    .then(response => {
+                        if(response.status === 200){
+                            commit("DELETE_VIRTUAL_MACHINE", vmIndex);
+                            resolve();
+                        }
+                    }).catch(error => reject(error));
+            })
         }
 
 

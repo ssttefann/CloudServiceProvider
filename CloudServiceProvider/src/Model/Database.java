@@ -76,7 +76,6 @@ public class Database {
     }
 
 
-
     public List<Disc> getAllDiscs() {
         return discRepository.getDiscList();
     }
@@ -117,11 +116,11 @@ public class Database {
         return discRepository.editDisc(disc);
     }
 
-    public List<VirtualMachine> getAllVirtualMachines(){
+    public List<VirtualMachine> getAllVirtualMachines() {
         return virtualMachineRepository.getVirtualMachineList();
     }
 
-    public List<VirtualMachine> getAllVirtualMachinesOfOrganization(String organizationName){
+    public List<VirtualMachine> getAllVirtualMachinesOfOrganization(String organizationName) {
         Organization organization = organizationRepository.getOrganization(organizationName);
         return organization.getVirtualMachinesList();
     }
@@ -138,11 +137,14 @@ public class Database {
         return virtualMachineRepository.addVirtualMachine(virtualMachine);
     }
 
-    public boolean removeVirtualMachine(String virtualMachineName) throws IOException {
-        return virtualMachineRepository.removeVirtualMachine(virtualMachineName);
+    public boolean removeVirtualMachine(String vmName) throws IOException {
+        VirtualMachine vm = virtualMachineRepository.getVirtualMachine(vmName);
+        Organization organization = organizationRepository.getOrganization(vm.getOrganizationName());
+        organization.removeVirtualMachine(vm);
+        return virtualMachineRepository.removeVirtualMachine(vmName);
     }
 
-    public List<Organization> getAllOrganizations(){
+    public List<Organization> getAllOrganizations() {
         return organizationRepository.getOrganizationsList();
     }
 

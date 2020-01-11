@@ -67,7 +67,6 @@ public class VirtualMachineController {
     };
 
     public static Route editVirtualMachines = (request, response) -> {
-        response.type("text/plain");
         User user = request.session().attribute("user");
         if (user == null || user.getRole().equals(UserRole.User)) {
             response.status(401);
@@ -84,8 +83,20 @@ public class VirtualMachineController {
     };
 
     public static Route deleteVirtualMachines = (request, response) -> {
-        // TODO zavrsi
-        return "";
+        User user = request.session().attribute("user");
+        if (user == null || user.getRole().equals(UserRole.User)) {
+            response.status(401);
+            return "Unauthorized";
+        }
+
+        String vmName = request.params("vmName");
+        if(!db.removeVirtualMachine(vmName)){
+            response.status(400);
+            return "Vm with that name doesn't exist";
+        }
+
+        return "Vm deleted";
+
     };
 
 }

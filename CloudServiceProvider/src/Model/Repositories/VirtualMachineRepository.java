@@ -1,6 +1,7 @@
 package Model.Repositories;
 
 import Model.Entities.Category;
+import Model.Entities.Organization;
 import Model.Entities.VirtualMachine;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -113,7 +114,8 @@ public class VirtualMachineRepository {
 
     public boolean removeVirtualMachine(String virtualMachineName) throws IOException {
         if (virtualMachinesIndexedByName.containsKey(virtualMachineName)) {
-            virtualMachineList.remove(virtualMachinesIndexedByName.get(virtualMachineName));
+            VirtualMachine vm = virtualMachinesIndexedByName.get(virtualMachineName);
+            virtualMachineList.remove(vm);
             virtualMachinesIndexedByName.remove(virtualMachineName);
             saveVirtualMachines();
             return true;

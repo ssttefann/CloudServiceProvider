@@ -203,10 +203,15 @@ export default {
       return this.vmsGetter.findIndex(x => x.name === vmName);
     },
 
-    deleteItem(item) {
-      const index = this.$store.state.vms.virtualMachines.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.$store.state.vms.virtualMachines.splice(index, 1);
+    deleteItem(vm) {
+      const vmIndex = this.getIndexOfVm(vm.name);
+      if(confirm("Da li ste sigurni da zelite da obrisete ovu virtuelnu masinu ? ")){
+        this.deleteVmAction([vmIndex, vm.name])
+          .then(() => {
+            this.close();
+            alert("Disk je uspesno obrisan");
+          }).catch(error => alert(error));
+      }
     },
 
     // korisnik odustao od izmene

@@ -76,6 +76,9 @@ public class Organization {
         virtualMachinesList.add(virtualMachine);
     }
 
+    public void removeVirtualMachine(VirtualMachine vm) {
+        virtualMachinesList.remove(vm);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -83,5 +86,6 @@ public class Organization {
         Organization that = (Organization) o;
         return Objects.equals(name, that.name);
     }
+
 
 }

@@ -44,7 +44,7 @@ public class Main {
         get("/rest/VMs/getAll/", VirtualMachineController.getVirtualMachines);
         post("/rest/VMs/add/", VirtualMachineController.addVirtualMachine);
         post("/rest/VMs/edit/", VirtualMachineController.editVirtualMachines);
-        delete("/rest/VMs/delete/", VirtualMachineController.deleteVirtualMachines);
+        delete("/rest/VMs/delete/:vmName", VirtualMachineController.deleteVirtualMachines);
 
 
         //Diskovi

@@ -7,7 +7,7 @@ import spark.Route;
 
 import java.io.IOException;
 
-public class LoginController {
+public class AuthenticationController {
     private static Gson gson = new Gson();
     private static Database db;
 
@@ -51,7 +51,7 @@ public class LoginController {
     public static Route logOut = (req, res) -> {
         res.type("text/plain");
         req.session().invalidate();
-        return "OK";
+        return gson.toJson(new User());
     };
 
 

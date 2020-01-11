@@ -66,29 +66,25 @@ public class VirtualMachineController {
         return "SUCCESS";
     };
 
-
-
-    public static Route editVirtualMachine = (request, response) -> {
+    public static Route editVirtualMachines = (request, response) -> {
         response.type("text/plain");
         User user = request.session().attribute("user");
-        if (user == null) {
-            response.status(401);
-            return "Unauthorized";
-        }
-
-        if (user.getRole().equals(UserRole.User)) {
+        if (user == null || user.getRole().equals(UserRole.User)) {
             response.status(401);
             return "Unauthorized";
         }
 
         String vmJson = request.body();
-        VirtualMachine newVM = gson.fromJson(vmJson, VirtualMachine.class);
-        //data
-        if(!db.addVirtualMachine(newVM)){
-            return "ERR";
-        }
-
+        VirtualMachine editedVm = gson.fromJson(vmJson, VirtualMachine.class);
+        // TODO: zavrsi
         return "SUCCESS";
     };
 
+    public static Route deleteVirtualMachines = (request, response) -> {
+        // TODO zavrsi
+        return "";
+    };
+
 }
+
+

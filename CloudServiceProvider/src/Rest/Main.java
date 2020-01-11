@@ -10,11 +10,7 @@ import static spark.Spark.delete;
 import static spark.Spark.staticFiles;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
-import Model.Entities.Disc;
-import Model.Entities.Organization;
 import Model.Repositories.*;
 import Rest.Controlers.*;
 import com.google.gson.Gson;
@@ -34,21 +30,21 @@ public class Main {
         System.out.println();
 
         // Login
-        post("/rest/login/", LoginController.login);
-        get("/rest/loggedUser/", LoginController.getLoggedUser);
-        get("/rest/logout/", LoginController.logOut);
+        post("/rest/login/", AuthenticationController.login);
+        get("/rest/loggedUser/", AuthenticationController.getLoggedUser);
+        post("/rest/logout/", AuthenticationController.logOut);
 
         //Korisnici
         get("/rest/users/getAll/", UserController.getAllUsers);
         post("/rest/users/add/", UserController.addUser);
         post("/rest/users/edit/", UserController.editUser);
-        post("/rest/users/delete/", UserController.deleteUser);
+        delete("/rest/users/delete/", UserController.deleteUser);
 
         //Virtuelne masine
         get("/rest/VMs/getVMs/", VirtualMachineController.getVirtualMachines);
         post("/rest/VMs/addVM/", VirtualMachineController.addVirtualMachine);
-        post("/rest/VMs/editVM/", VirtualMachineController.getVirtualMachines);
-        post("/rest/VMs/deleteVM/", VirtualMachineController.getVirtualMachines);
+        post("/rest/VMs/editVM/", VirtualMachineController.editVirtualMachines);
+        delete("/rest/VMs/deleteVM/", VirtualMachineController.deleteVirtualMachines);
 
 
         //Diskovi

@@ -1,4 +1,3 @@
-import router from '../../router/index'
 import axios from 'axios';
 import { stringify } from 'querystring';
 
@@ -67,9 +66,15 @@ export default {
             });
         },
 
-        logOut({ commit }) {
-            commit('SET_LOGGED_USER', { firstName: "", lastName: "", role: "" });
-            router.push('/');
+        logout({ commit }) {
+            return new Promise((resolve, reject) => {
+                axios.post("/rest/logout/")
+                    .then(response => {
+                        commit('SET_LOGGED_USER', response.data);
+                        resolve();
+                    })
+                    .catch(error => reject(error));
+            });
         },
 
         async load({ commit }) {

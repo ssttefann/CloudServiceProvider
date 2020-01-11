@@ -35,7 +35,7 @@ export default {
     actions : {
 
         async load({commit}) {
-            axios.get('rest/VMs/getVMs/')
+            axios.get('rest/VMs/getAll/')
                 .then(res => {
                     commit('SET_VIRTUAL_MACHINES', res.data)
                 })
@@ -44,7 +44,7 @@ export default {
 
         add({commit}, vm) {
             return new Promise((resolve,reject) => {
-                axios.post('rest/VMs/addVM/', JSON.stringify(vm))
+                axios.post('rest/VMs/add/', vm)
                 .then( res => {
                     if(res.data == "SUCCESS") {
                         commit('ADD_USER', vm);

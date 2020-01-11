@@ -41,10 +41,10 @@ public class Main {
         delete("/rest/users/delete/:email", UserController.deleteUser);
 
         //Virtuelne masine
-        get("/rest/VMs/getVMs/", VirtualMachineController.getVirtualMachines);
-        post("/rest/VMs/addVM/", VirtualMachineController.addVirtualMachine);
-        post("/rest/VMs/editVM/", VirtualMachineController.editVirtualMachines);
-        delete("/rest/VMs/deleteVM/", VirtualMachineController.deleteVirtualMachines);
+        get("/rest/VMs/getAll/", VirtualMachineController.getVirtualMachines);
+        post("/rest/VMs/add/", VirtualMachineController.addVirtualMachine);
+        post("/rest/VMs/edit/", VirtualMachineController.editVirtualMachines);
+        delete("/rest/VMs/delete/", VirtualMachineController.deleteVirtualMachines);
 
 
         //Diskovi

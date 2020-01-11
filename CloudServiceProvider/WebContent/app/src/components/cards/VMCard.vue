@@ -101,7 +101,7 @@
 
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -148,6 +148,10 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      categoriesGetter: "categories/getAll"
+    }),
+
     formTitle() {
       return this.editedIndex === -1 ? "New VM" : "Edit VM";
     },
@@ -183,7 +187,7 @@ export default {
     ...mapActions({
       addVmAction: "vms/add",
       editVmAction: "vms/edit",
-      deleteVmAction: "vms/delete",
+      deleteVmAction: "vms/delete"
     }),
 
     initialize() {},
@@ -210,11 +214,39 @@ export default {
     },
 
     save() {
+      if(!this.validateForm()){
+        alert("Sva polja moraju biti popunjena");
+        return;
+      }
+      
+      this.editedItem.category = this.getCategoryByName(
+        this.editedItem.category.name
+      );
+
       if (this.editedIndex > -1) {
         this.editVm();
       } else {
         this.addVm();
       }
+    },
+
+    validateForm(){
+      if(
+        this.editedItem.organizationName.trim() === "" 
+        || this.editedItem.name.trim() === ""
+        || this.editedItem.category.name.trim() === ""
+      )
+      {
+        return false;
+      }
+
+      return true;
+    },
+
+    getCategoryByName(categoryName) {
+      return this.categoriesGetter.find(
+        category => category.name === categoryName
+      );
     },
 
     editVm() {

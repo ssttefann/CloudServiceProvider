@@ -230,7 +230,6 @@ export default {
 
     validate() {
       if (
-        this.editedItem.name === "" ||
         this.editedItem.name.trim() === "" ||
         this.editedItem.capacity === 0 ||
         this.editedItem.virtualMachineName === "" ||

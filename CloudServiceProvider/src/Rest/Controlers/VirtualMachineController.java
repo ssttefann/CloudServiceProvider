@@ -27,9 +27,8 @@ public class VirtualMachineController {
     public static Route getVirtualMachines = (request, response) -> {
         User user = request.session().attribute("user");
         if(user == null){
-            // TODO vrati 400 nesto
-//            throw new Exception("nisi ulogovan");
-            return null;
+            response.status(401);
+            return "Unauthorized";
         }
 
         List<VirtualMachine> virtualMachines;
@@ -60,6 +59,7 @@ public class VirtualMachineController {
         String vmJson = request.body();
         VirtualMachine newVM = gson.fromJson(vmJson, VirtualMachine.class);
         if(!db.addVirtualMachine(newVM)){
+            response.status(400);
             return "ERR";
         }
 
@@ -76,7 +76,10 @@ public class VirtualMachineController {
 
         String vmJson = request.body();
         VirtualMachine editedVm = gson.fromJson(vmJson, VirtualMachine.class);
-        // TODO: zavrsi
+        if(!db.editVirtualMachine(editedVm)){
+            response.status(400);
+            return "Vm name doesn't exist";
+        }
         return "SUCCESS";
     };
 

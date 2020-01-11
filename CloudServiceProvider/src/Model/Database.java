@@ -127,10 +127,14 @@ public class Database {
     }
 
     public boolean addVirtualMachine(VirtualMachine virtualMachine) throws IOException {
-        Category cat = categoryRepository.getCategoryByName(virtualMachine.getCategory().getName());
-        virtualMachine.setCategory(cat);
+        String categoryName = virtualMachine.getCategory().getName();
+        Category category = categoryRepository.getCategoryByName(categoryName);
+        virtualMachine.setCategory(category);
         virtualMachine.setActivities(new ArrayList<>());
-        virtualMachine.setCategoryName(cat.getName());
+        virtualMachine.setDiscList(new ArrayList<>());
+        virtualMachine.setCategoryName(category.getName());
+        Organization organization = organizationRepository.getOrganization(virtualMachine.getOrganizationName());
+        organization.addVirtualMachine(virtualMachine);
         return virtualMachineRepository.addVirtualMachine(virtualMachine);
     }
 
@@ -157,4 +161,7 @@ public class Database {
     }
 
 
+    public boolean editVirtualMachine(VirtualMachine editedVm) {
+        return false;
+    }
 }

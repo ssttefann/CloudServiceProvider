@@ -8,6 +8,10 @@ export default {
         VMCategories : [],
     },
 
+    getters: {
+        getAll: state => state.VMCategories,
+    },
+
     mutations : {
         SET_CATEGORIES(state, categories) {
             state.VMCategories = categories;

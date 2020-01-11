@@ -45,6 +45,23 @@ export default {
                 })
                 .catch(err => alert(err));
         },
+
+        add({commit}, category) {
+            return new Promise((resolve,reject) => {
+                axios.post('rest/categories/add/', category)
+                .then( res => {
+                    if(res.status == 200) {
+                        commit('ADD_CATEGORY', category);
+                        resolve();
+                    }else{
+                        reject(res.data);
+                    }
+
+                })
+                .catch(err => reject(err));
+            })
+
+        },
     },
 
 

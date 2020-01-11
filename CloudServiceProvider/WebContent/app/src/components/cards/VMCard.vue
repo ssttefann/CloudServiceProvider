@@ -228,7 +228,7 @@ export default {
         alert("Sva polja moraju biti popunjena");
         return;
       }
-
+      
       this.editedItem.category = this.getCategoryByName(
         this.editedItem.category.name
       );

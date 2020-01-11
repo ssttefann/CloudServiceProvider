@@ -60,7 +60,7 @@ public class CategoryRepository {
         return categoryList;
     }
 
-    public boolean addIfNameIsUnique(Category category) throws IOException {
+    public boolean addCategory(Category category) throws IOException {
         String categoryName = category.getName();
         if (!categoriesIndexedByName.containsKey(categoryName)) {
             categoryList.add(category);

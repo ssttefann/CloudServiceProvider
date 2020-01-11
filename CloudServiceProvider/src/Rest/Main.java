@@ -55,6 +55,9 @@ public class Main {
 
         //Kategorije
         get("/rest/categories/getCategories/", CategoryController.getAllCategories);
+        post("/rest/categories/add/", CategoryController.addCategory);
+        post("/rest/categories/edit/", CategoryController.editCategory);
+        delete("/rest/categories/delete/:categoryName", CategoryController.deleteCategory);
 
         //Organizacije
         get("/rest/organizations/getOrganizations/", OrganizationController.getAllOrganizations);

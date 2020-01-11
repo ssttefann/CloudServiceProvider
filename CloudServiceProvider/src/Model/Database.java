@@ -68,7 +68,7 @@ public class Database {
     }
 
     public boolean addCategory(Category category) throws IOException {
-        return categoryRepository.addIfNameIsUnique(category);
+        return categoryRepository.addCategory(category);
     }
 
     public boolean removeCategory(String categoryName) throws IOException {

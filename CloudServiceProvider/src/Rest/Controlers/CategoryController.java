@@ -1,6 +1,7 @@
 package Rest.Controlers;
 
 import Model.Database;
+import Model.Entities.Category;
 import Model.Entities.User;
 import Model.Entities.UserRole;
 import Model.Repositories.CategoryRepository;
@@ -23,16 +24,30 @@ public class CategoryController {
 
     public static Route getAllCategories = (request, response) -> {
         User user = request.session().attribute("user");
-        if(user == null){
+        if (user == null || user.isUser()) {
             response.status(401);
             return "Unauthorized";
         }
 
-        if(user.getRole().equals(UserRole.SuperAdmin) || user.getRole().equals(UserRole.Admin)){
-            return gson.toJson(db.getAllCategories());
+        return gson.toJson(db.getAllCategories());
+    };
+
+    public static Route addCategory = (request, response) -> {
+        User user = request.session().attribute("user");
+        if (user == null || user.isUser()) {
+            response.status(401);
+            return "Unauthorized";
         }
 
-        response.status(401);
-        return "Unauthorized";
+        Category newCategory = gson.fromJson(request.body(), Category.class);
+        if(!db.addCategory(newCategory)){
+            response.status(400);
+            return "Category name already exists";
+        }
+
+        return "Category added";
     };
+
+    public static Route editCategory;
+    public static Route deleteCategory;
 }

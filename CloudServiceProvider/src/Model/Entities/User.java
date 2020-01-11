@@ -36,6 +36,18 @@ public class User {
         return Objects.equals(email, user.email);
     }
 
+    public boolean isAdmin() {
+        return role.equals(UserRole.Admin);
+    }
+
+    public boolean isSuperAdmin() {
+        return role.equals(UserRole.SuperAdmin);
+    }
+
+    public boolean isUser() {
+        return role.equals(UserRole.User);
+    }
+
     public String getEmail() {
         return email;
     }

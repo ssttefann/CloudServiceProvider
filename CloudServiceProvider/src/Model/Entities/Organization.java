@@ -1,6 +1,5 @@
 package Model.Entities;
 
-import com.google.gson.annotations.Expose;
 
 import java.beans.Transient;
 import java.util.List;

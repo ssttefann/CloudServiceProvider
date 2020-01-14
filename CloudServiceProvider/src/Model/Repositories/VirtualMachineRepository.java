@@ -1,7 +1,6 @@
 package Model.Repositories;
 
 import Model.Entities.Category;
-import Model.Entities.Organization;
 import Model.Entities.VirtualMachine;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -40,8 +39,8 @@ public class VirtualMachineRepository {
         initializeDiscList();
         connectVirtualMachinesAndDiscs();
         connectVirtualMachinesAndCategory();
+        System.out.println();
     }
-
 
     private void loadVirtualMachines() throws FileNotFoundException {
         Reader reader = new FileReader(PATH_TO_FILE);
@@ -83,7 +82,7 @@ public class VirtualMachineRepository {
         CategoryRepository categoryRepository = CategoryRepository.getInstance();
         virtualMachineList.forEach(virtualMachine -> {
             Category category = categoryRepository
-                    .getCategoryByName(virtualMachine.getCategoryName());
+                    .getCategory(virtualMachine.getCategoryName());
             virtualMachine.setCategory(category);
         });
     }

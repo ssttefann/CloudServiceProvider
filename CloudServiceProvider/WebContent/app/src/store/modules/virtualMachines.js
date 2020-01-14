@@ -1,18 +1,20 @@
 import axios from 'axios';
 
 
+
 export default {
 
-    namespaced : true,
+    namespaced: true,
     state: {
-        virtualMachines : [],
+        virtualMachines: [],
     },
 
     getters: {
         getAll: state => state.virtualMachines,
+        // getCategoryNames: state => state.virtualMachines.map(vm => vm.categoryName),
     },
 
-    mutations : {
+    mutations: {
         SET_VIRTUAL_MACHINES(state, vms) {
             state.virtualMachines = vms;
         },
@@ -32,43 +34,67 @@ export default {
 
         DELETE_VIRTUAL_MACHINE(state, index) {
             state.virtualMachines.splice(index, 1)
-        }
+        },
+
+        // ADD_CATEGORIES_TO_VMS(state, tuple) {
+        //     let categories = tuple[0];
+        //     let vms = tuple[1];
+        //     vms.forEach(vm => {
+        //         vm.category = categories.find(cat => cat.name === vm.categoryName);
+        //     });
+        // }
 
     },
 
-    actions : {
-
-        async load({commit}) {
+    actions: {
+        async load({ commit, rootState }) {
             axios.get('rest/VMs/getAll/')
-                .then(res => {
-                    commit('SET_VIRTUAL_MACHINES', res.data)
+                .then(vms => {
+                    let categories = rootState.categories.VMCategories;
+                    vms.data.forEach(vm => {
+                        vm.category = categories.find(cat => cat.name === vm.categoryName);
+                    });
+                    commit('SET_VIRTUAL_MACHINES', vms.data);
+
                 })
-                .catch(err => alert(err));
+                .catch((e) => alert(e));
+
         },
 
-        add({commit}, vm) {
-            return new Promise((resolve,reject) => {
-                axios.post('rest/VMs/add/', vm)
-                .then( res => {
-                    if(res.status == 200) {
-                        commit('ADD_VIRTUAL_MACHINE', vm);
-                        resolve();
-                    }else{
-                        reject(res.data);
-                    }
+        // getCategoriesForVms({commit}, categoryNames) {
+        //     commit;
+        //     return new Promise((resolve) => {
+        //         axios.post("/rest/categories/getCategoriesForVms/", JSON.stringify(categoryNames))
+        //             .then((response) => {
+        //                 resolve(response.data);
+        //             }).catch(error => alert(error))
+        //     })
 
-                })
-                .catch(err => reject(err));
+        // },
+
+        add({ commit }, vm) {
+            return new Promise((resolve, reject) => {
+                axios.post('rest/VMs/add/', vm)
+                    .then(res => {
+                        if (res.status == 200) {
+                            commit('ADD_VIRTUAL_MACHINE', vm);
+                            resolve();
+                        } else {
+                            reject(res.data);
+                        }
+
+                    })
+                    .catch(err => reject(err));
             })
 
         },
 
-        edit({commit}, tuple){
+        edit({ commit }, tuple) {
             const vm = tuple[1];
             return new Promise((resolve, reject) => {
                 axios.post("/rest/VMs/edit/", vm)
                     .then((response) => {
-                        if(response.status === 200){
+                        if (response.status === 200) {
                             commit("EDIT_VIRTUAL_MACHINE", tuple);
                             resolve();
                         }
@@ -77,13 +103,13 @@ export default {
             })
         },
 
-        delete({commit}, tuple){
+        delete({ commit }, tuple) {
             const vmIndex = tuple[0];
             const vmName = tuple[1];
             return new Promise((resolve, reject) => {
                 axios.delete("/rest/VMs/delete/" + vmName)
                     .then(response => {
-                        if(response.status === 200){
+                        if (response.status === 200) {
                             commit("DELETE_VIRTUAL_MACHINE", vmIndex);
                             resolve();
                         }

@@ -57,7 +57,7 @@ public class CategoryRepository {
         writer.close();
     }
 
-    public Category getCategoryByName(String categoryName) {
+    public Category getCategory(String categoryName) {
         return categoriesIndexedByName.get(categoryName);
     }
 

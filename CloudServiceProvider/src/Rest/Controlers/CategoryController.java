@@ -4,11 +4,17 @@ import Model.Database;
 import Model.Entities.Category;
 import Model.Entities.User;
 import Model.Entities.UserRole;
+import Model.Entities.VirtualMachine;
 import Model.Repositories.CategoryRepository;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import spark.Route;
 
+import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryController {
     private static Gson gson = new Gson();
@@ -77,5 +83,16 @@ public class CategoryController {
         }
 
         return "Category deleted";
+    };
+
+    public static Route getCategoriesForVms = (request, response) -> {
+        User user = request.session().attribute("user");
+        if (user == null) {
+            response.status(401);
+            return "Unauthorized";
+        }
+        Type listType = new TypeToken<ArrayList<String>>() {}.getType();
+        List<String> categoryNameList = gson.fromJson(request.body(), listType);
+        return gson.toJson(db.getCategoriesForVms(categoryNameList));
     };
 }

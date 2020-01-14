@@ -5,7 +5,10 @@ import Model.Repositories.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Database {
     private UserRepository userRepository;
@@ -65,6 +68,15 @@ public class Database {
 
     public List<Category> getAllCategories() {
         return categoryRepository.getCategoryList();
+    }
+
+    public List<Category> getCategoriesForVms(List<String> categoryNameList) {
+        Set<Category> result = categoryNameList
+                .stream()
+                .map(cat -> categoryRepository.getCategory(cat))
+                .collect(Collectors.toSet());
+
+        return new ArrayList<>(result);
     }
 
     public boolean addCategory(Category category) throws IOException {
@@ -131,7 +143,7 @@ public class Database {
 
     public boolean addVirtualMachine(VirtualMachine vm) throws IOException {
         String categoryName = vm.getCategory().getName();
-        Category category = categoryRepository.getCategoryByName(categoryName);
+        Category category = categoryRepository.getCategory(categoryName);
         vm.setCategory(category);
         vm.setActivities(new ArrayList<>());
         vm.setDiscList(new ArrayList<>());
@@ -170,6 +182,7 @@ public class Database {
     public boolean editVirtualMachine(VirtualMachine editedVm) throws IOException {
         return virtualMachineRepository.editVirtualMachine(editedVm);
     }
+
 
 
 }

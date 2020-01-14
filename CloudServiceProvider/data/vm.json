@@ -1,1 +1,26 @@
-[{"name":"VM2","categoryName":"KAT2","organizationName":"ORG3","activities":[],"category":{"name":"KAT2","cores":12,"RAM":64,"GPU":3}},{"name":"VM3","categoryName":"KAT2","organizationName":"ORG2","activities":[],"category":{"name":"KAT2","cores":12,"RAM":64,"GPU":3}},{"name":"VM4","categoryName":"KAT2","organizationName":"ORG2","activities":[],"category":{"name":"KAT2","cores":12,"RAM":64,"GPU":3}},{"name":"VM1","categoryName":"KAT2","organizationName":"ORG1","activities":[],"category":{"name":"KAT2","cores":12,"RAM":64,"GPU":3}}]
+[
+  {
+    "name": "VM2",
+    "categoryName": "KAT2",
+    "organizationName": "ORG3",
+    "activities": []
+  },
+  {
+    "name": "VM3",
+    "categoryName": "KAT2",
+    "organizationName": "ORG2",
+    "activities": []
+  },
+  {
+    "name": "VM4",
+    "categoryName": "KAT2",
+    "organizationName": "ORG2",
+    "activities": []
+  },
+  {
+    "name": "VM1",
+    "categoryName": "KAT2",
+    "organizationName": "ORG1",
+    "activities": []
+  }
+]

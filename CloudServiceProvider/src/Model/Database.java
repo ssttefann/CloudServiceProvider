@@ -176,7 +176,7 @@ public class Database {
     private void deleteVMNameFormDiscs(String vmName){
         discRepository.getDiscList().forEach(disc -> {
             if (disc.getVirtualMachineName().equals(vmName)){
-                disc.setVirtualMachineName(null);
+                disc.setVirtualMachineName("");
             }
         });
     }

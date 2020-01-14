@@ -14,7 +14,6 @@
         single-line
         hide-details
       ></v-text-field>
-
       <v-menu bottom left offset-y>
         <template v-slot:activator="{ on }">
           <v-btn dark icon v-on="on">
@@ -43,7 +42,7 @@
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
-          <template v-if="isAdmin" v-slot:activator="{ on }">
+          <template v-if="isSuper || isAdmin" v-slot:activator="{ on }">
             <v-btn color="blue-grey darken-1 white--text" dark class="mb-2" v-on="on">New Disc</v-btn>
           </template>
           <v-card>
@@ -98,7 +97,7 @@
       </template>
 
       <!-- Template za brisanje -->
-      <template v-if="isAdmin" v-slot:item.action="{ item }">
+      <template v-if="isSuper || isAdmin" v-slot:item.action="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)">mdi-lead-pencil</v-icon>
         <v-icon small @click="deleteDisc(item)">mdi-delete</v-icon>
       </template>
@@ -114,7 +113,6 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
-      isAdmin: this.$store.getters["users/isAdmin"],
       hidden: false,
       headers: [
         { text: "Name", align: "left", value: "name" },
@@ -146,7 +144,9 @@ export default {
 
   computed: {
     ...mapGetters({
-      discsGetter: "disc/getDiscs"
+      discsGetter: "disc/getDiscs",
+      isAdmin: "users/isAdmin",
+      isSuper: "users/isSuper",
     }),
 
     formTitle() {

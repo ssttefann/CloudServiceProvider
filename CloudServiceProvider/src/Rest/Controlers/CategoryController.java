@@ -30,7 +30,7 @@ public class CategoryController {
 
     public static Route getAllCategories = (request, response) -> {
         User user = request.session().attribute("user");
-        if (user == null || user.isUser()) {
+        if (user == null) {
             response.status(401);
             return "Unauthorized";
         }
@@ -90,14 +90,4 @@ public class CategoryController {
         return "Category deleted";
     };
 
-    public static Route getCategoriesForVms = (request, response) -> {
-        User user = request.session().attribute("user");
-        if (user == null) {
-            response.status(401);
-            return "Unauthorized";
-        }
-        Type listType = new TypeToken<ArrayList<String>>() {}.getType();
-        List<String> categoryNameList = gson.fromJson(request.body(), listType);
-        return gson.toJson(db.getCategoriesForVms(categoryNameList));
-    };
 }

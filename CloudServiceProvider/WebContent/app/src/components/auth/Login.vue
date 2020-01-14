@@ -67,21 +67,11 @@ export default {
   computed: {
     ...mapGetters({
       isLogged: "users/isLogged",
-      isAdmin: "users/isAdmin"
+      isAdmin: "users/isAdmin",
+      isSuper: "users/isSuper"
     })
   },
 
-// da vim da l radi bez
-  // mounted() {
-  //   //ako je vec ulogovan redirektuj ga
-  //   if (this.isLogged) {
-  //     if (this.isAdmin) {
-  //       this.$router.push("/admin");
-  //     } else {
-  //       this.$router.push("/dashboard");
-  //     }
-  //   }
-  // },
   methods: {
     ...mapActions({
       logUser: "users/logUser"
@@ -115,16 +105,13 @@ export default {
           email: this.email
         };
         this.logUser(credentials)
-          .then(user => {
-            if (!["User", "Admin", "SuperAdmin"].includes(user.role)) {
-              alert("Pogresna kombinacija user/pass");
-              return;
-            }
-
-            if (this.isAdmin) {
+          .then(() => {
+            if (this.isAdmin || this.isSuper) {
               this.$router.push("/admin");
             } else if (this.isLogged) {
               this.$router.push("/dashboard");
+            } else {
+              alert("Pogresna kombinacija user/pass");
             }
           })
           .catch(error => {
@@ -133,7 +120,9 @@ export default {
       } else {
         alert("Labele " + resp + " moraju biti popunjene pre prijavljivanja");
       }
-    }
+    },
+
+    processLoginResponse() {}
   }
 };
 </script>

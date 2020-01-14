@@ -145,7 +145,10 @@ export default {
     getters: {
         isLogged: state => state.loggedUser.firstName != "",
 
-        isAdmin: state => state.loggedUser.role == "Admin" || state.loggedUser.role == "SuperAdmin",
+        isAdmin: state => state.loggedUser.role == "Admin",
+
+        isSuper: state => state.loggedUser.role == "SuperAdmin",
+
     }
 
 }

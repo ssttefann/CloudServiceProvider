@@ -73,8 +73,10 @@ public class VirtualMachineRepository {
         DiscRepository discRepository = DiscRepository.getInstance();
         discRepository.getDiscList().forEach(disc -> {
             String virtualMachineName = disc.getVirtualMachineName();
-            VirtualMachine virtualMachine = virtualMachinesIndexedByName.get(virtualMachineName);
-            virtualMachine.addDiscIfNotInVirtualMachine(disc);
+            if(!virtualMachineName.equals("")){
+                VirtualMachine virtualMachine = virtualMachinesIndexedByName.get(virtualMachineName);
+                virtualMachine.addDiscIfNotInVirtualMachine(disc);
+            }
         });
     }
 

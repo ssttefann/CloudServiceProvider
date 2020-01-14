@@ -97,7 +97,7 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.is_admin)) {
 
       // ako je admin
-      if (store.getters['users/isAdmin']) {
+      if (store.getters['users/isAdmin'] || store.getters['users/isSuper']) {
         next();
         return;
       }
@@ -117,7 +117,7 @@ router.beforeEach((to, from, next) => {
 
     } else if (to.matched.some(record => record.meta.redirectIfLogged)) {
   
-      if(store.getters['users/isAdmin']){
+      if(store.getters['users/isAdmin'] || store.getters["users/isSuper"]){
         next('/admin');
 
       } else if (store.getters['users/isLogged']){

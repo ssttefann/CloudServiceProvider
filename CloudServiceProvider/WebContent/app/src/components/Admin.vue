@@ -9,7 +9,7 @@
           <VMCard/> 
         </v-flex>
 
-        <v-flex xs12 sm6>
+        <v-flex v-if="this.isSuper" xs12 sm6>
           <VMCategoryCard/> 
         </v-flex>
 
@@ -21,7 +21,7 @@
           <UserCard/> 
         </v-flex>
 
-        <v-flex xs12 sm6>
+        <v-flex v-if="this.isSuper" xs12 sm6>
           <OrganizationCard/> 
         </v-flex>
 
@@ -45,6 +45,7 @@ import DiskCard from "./cards/DiskCard";
 import VMCategoryCard from "./cards/VMCategoryCard";
 import OrganizationCard from "./cards/OrganizationCard";
 import UserCard from "./cards/UserCard";
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -55,10 +56,15 @@ export default {
     UserCard
   },
 
-  //trebalo bi ovde da se ucitaju sve kolekcije za prikaz
   created() {
-    // this.$store.commit('logUser');
     this.$store.dispatch("loadAllData");
+  },
+
+  computed: {
+    ...mapGetters({
+      isAdmin: "users/isAdmin",
+      isSuper: "users/isSuper"
+    })
   },
 };
 </script>

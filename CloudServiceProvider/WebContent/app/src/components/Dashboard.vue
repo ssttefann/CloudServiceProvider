@@ -21,6 +21,7 @@
 <script>
 import VMCard from "./cards/VMCard";
 import DiskCard from "./cards/DiskCard";
+import { mapActions } from 'vuex';
 
 export default {
   components: {
@@ -28,10 +29,18 @@ export default {
     DiskCard
   },
 
-  //trebalo bi ovde da se ucitaju sve kolekcije za prikaz
-  created() {
-    // this.$store.commit('logUser');
-    this.$store.dispatch("loadAllData");
+  methods: {
+    ...mapActions({
+      loadCategories: "categories/load",
+      loadVms: "vms/load",
+      loadDiscs: "disc/load"
+    })
+  },
+
+  async created() {
+    await this.loadCategories();
+    await this.loadDiscs();
+    await this.loadVms();
   },
 
 

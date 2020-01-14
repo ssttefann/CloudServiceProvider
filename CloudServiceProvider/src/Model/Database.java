@@ -168,8 +168,17 @@ public class Database {
     public boolean removeVirtualMachine(String vmName) throws IOException {
         VirtualMachine vm = virtualMachineRepository.getVirtualMachine(vmName);
         Organization organization = organizationRepository.getOrganization(vm.getOrganizationName());
+        deleteVMNameFormDiscs(vmName);
         organization.removeVirtualMachine(vm);
         return virtualMachineRepository.removeVirtualMachine(vmName);
+    }
+
+    private void deleteVMNameFormDiscs(String vmName){
+        discRepository.getDiscList().forEach(disc -> {
+            if (disc.getVirtualMachineName().equals(vmName)){
+                disc.setVirtualMachineName(null);
+            }
+        });
     }
 
     public List<Organization> getAllOrganizations() {

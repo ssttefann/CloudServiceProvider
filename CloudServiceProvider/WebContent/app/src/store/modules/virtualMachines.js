@@ -11,7 +11,6 @@ export default {
 
     getters: {
         getAll: state => state.virtualMachines,
-        // getCategoryNames: state => state.virtualMachines.map(vm => vm.categoryName),
     },
 
     mutations: {
@@ -36,14 +35,6 @@ export default {
             state.virtualMachines.splice(index, 1)
         },
 
-        // ADD_CATEGORIES_TO_VMS(state, tuple) {
-        //     let categories = tuple[0];
-        //     let vms = tuple[1];
-        //     vms.forEach(vm => {
-        //         vm.category = categories.find(cat => cat.name === vm.categoryName);
-        //     });
-        // }
-
     },
 
     actions: {
@@ -60,17 +51,6 @@ export default {
                 .catch((e) => alert(e));
 
         },
-
-        // getCategoriesForVms({commit}, categoryNames) {
-        //     commit;
-        //     return new Promise((resolve) => {
-        //         axios.post("/rest/categories/getCategoriesForVms/", JSON.stringify(categoryNames))
-        //             .then((response) => {
-        //                 resolve(response.data);
-        //             }).catch(error => alert(error))
-        //     })
-
-        // },
 
         add({ commit }, vm) {
             return new Promise((resolve, reject) => {

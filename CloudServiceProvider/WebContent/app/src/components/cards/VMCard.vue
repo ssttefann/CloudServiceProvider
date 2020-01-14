@@ -188,7 +188,8 @@ export default {
     ...mapActions({
       addVmAction: "vms/add",
       editVmAction: "vms/edit",
-      deleteVmAction: "vms/delete"
+      deleteVmAction: "vms/delete",
+      loadDiscs: "disc/load",
     }),
 
     initialize() {},
@@ -208,8 +209,9 @@ export default {
       if(confirm("Da li ste sigurni da zelite da obrisete ovu virtuelnu masinu ? ")){
         this.deleteVmAction([vmIndex, vm.name])
           .then(() => {
+            this.loadDiscs();
             this.close();
-            alert("Disk je uspesno obrisan");
+            alert("Virtuelna masina je uspesno obrisana");
           }).catch(error => alert(error));
       }
     },

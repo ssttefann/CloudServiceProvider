@@ -77,6 +77,11 @@ public class CategoryController {
         }
 
         String categoryName = request.params("categoryName");
+        if(db.vmHasCategory(categoryName)){
+            response.status(403);
+            return "Can't delete that category";
+        }
+
         if (!db.removeCategory(categoryName)) {
             response.status(400);
             return "Category name doesn't exists";

@@ -87,6 +87,18 @@ public class Database {
         return categoryRepository.editCategory(editedCategory);
     }
 
+
+    /**
+     * Proverava da li neka vm ima trazenu kategoriju.
+     * @param categoryName
+     * @return
+     */
+    public boolean vmHasCategory(String categoryName) {
+        return virtualMachineRepository.getVirtualMachineList()
+                .stream()
+                .anyMatch(vm -> vm.getCategoryName().equals(categoryName));
+    }
+
     public boolean removeCategory(String categoryName) throws IOException {
         return categoryRepository.removeIfExists(categoryName);
     }
@@ -182,7 +194,6 @@ public class Database {
     public boolean editVirtualMachine(VirtualMachine editedVm) throws IOException {
         return virtualMachineRepository.editVirtualMachine(editedVm);
     }
-
 
 
 }

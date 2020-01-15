@@ -164,8 +164,6 @@ export default {
     // korisnik menja neku VM
     editItem(item) {
       this.editedIndex = this.getIndexOfOrg(item.name);
-      // mora ovo jer pukne kad proba da ubaci string u text-field za file input
-      item.logo = "";
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },

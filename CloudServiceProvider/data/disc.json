@@ -9,13 +9,13 @@
     "name": "test",
     "type": "SSD",
     "capacity": 7,
-    "virtualMachineName": "VM1"
+    "virtualMachineName": ""
   },
   {
     "name": "test2",
     "type": "SSD",
     "capacity": 124,
-    "virtualMachineName": "VM1"
+    "virtualMachineName": ""
   },
   {
     "name": "disk2",

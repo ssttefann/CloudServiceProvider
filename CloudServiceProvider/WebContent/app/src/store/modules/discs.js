@@ -48,7 +48,6 @@ export default {
             return new Promise((resolve, reject) => {
                 axios.post("/rest/discs/add/", JSON.stringify(disc))
                     .then((response) => {
-                        alert(response.status);
                         if (response.status === 200) {
                             commit('ADD_DISC', response.data);
                             resolve();

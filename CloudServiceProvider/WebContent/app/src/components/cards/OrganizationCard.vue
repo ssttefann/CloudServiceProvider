@@ -112,12 +112,12 @@ export default {
       editedItem: {
           name: "",
           description: "",
-          logo : null,
+          logo : "",
       },
       defaultItem: {
           name: "",
           description: "",
-          logo : null,
+          logo : "",
       }
     };
   },
@@ -205,8 +205,7 @@ export default {
 
     validateForm(){
       if (
-        this.editedItem.name.trim() === "" ||
-        this.editedItem.logo.trim() === ""
+        this.editedItem.name.trim() === ""
       ) {
         return false;
       }

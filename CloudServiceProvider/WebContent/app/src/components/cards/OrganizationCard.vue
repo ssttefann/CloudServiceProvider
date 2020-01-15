@@ -68,7 +68,7 @@
                     <v-text-field v-model="editedItem.description" label="Description"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.logo" label="Logo" type="file"></v-text-field>
+                    <v-file-input ref="iconUpload" prepend-icon="mdi-photo" @change="fileSubmited" placeholder="Ikonica organizacije"></v-file-input>
                   </v-col>
                 </v-row>
               </v-container>
@@ -172,6 +172,10 @@ export default {
       return this.orgGetter.findIndex(x => x.name === orgName);
     },
 
+    fileSubmited(file){
+      this.editedItem.logo = file.name;
+    },
+
     // korisnik odustao od izmene
     close() {
       this.dialog = false;
@@ -193,6 +197,8 @@ export default {
       } else {
         this.addOrg();
       }
+
+      this.$refs.iconUpload.value = undefined;
       this.close();
     },
 

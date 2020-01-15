@@ -68,7 +68,7 @@
                     <v-text-field v-model="editedItem.description" label="Description"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-file-input ref="iconUpload" prepend-icon="mdi-photo" @change="fileSubmited" placeholder="Ikonica organizacije"></v-file-input>
+                    <v-file-input ref="iconUpload" prepend-icon="mdi-image" @change="fileSubmited" placeholder="Ikonica organizacije"></v-file-input>
                   </v-col>
                 </v-row>
               </v-container>

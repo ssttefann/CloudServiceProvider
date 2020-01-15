@@ -164,19 +164,14 @@ export default {
     // korisnik menja neku VM
     editItem(item) {
       this.editedIndex = this.getIndexOfOrg(item.name);
+      // mora ovo jer pukne kad proba da ubaci string u text-field za file input
+      item.logo = "";
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     getIndexOfOrg(orgName) {
       return this.orgGetter.findIndex(x => x.name === orgName);
-    },
-
-    // korisnik brise VM
-    deleteItem(item) {
-      const index = this.$store.state.orgs.organizations.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.$store.state.orgs.organizations.splice(index, 1);
     },
 
     // korisnik odustao od izmene

@@ -28,10 +28,10 @@ public class OrganizationController {
             return "Unauthorized";
         }
 
-        if(user.getRole().equals(UserRole.SuperAdmin)){
+        if(user.isSuperAdmin()){
             return gson.toJson(db.getAllOrganizations());
         }
-        else if(user.getRole().equals(UserRole.Admin)){
+        else if(user.isAdmin()){
             return gson.toJson(db.getOrganization(user.getOrganizationName()));
         }
 

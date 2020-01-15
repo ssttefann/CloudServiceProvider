@@ -32,7 +32,7 @@ public class VirtualMachineController {
         }
 
         List<VirtualMachine> virtualMachines;
-        if(user.getRole().equals(UserRole.SuperAdmin)){
+        if(user.isSuperAdmin()){
             VirtualMachineRepository virtualMachineRepository = VirtualMachineRepository.getInstance();
             virtualMachines = virtualMachineRepository.getVirtualMachineList();
         } else {
@@ -44,14 +44,8 @@ public class VirtualMachineController {
 
 
     public static Route addVirtualMachine = (request, response) -> {
-        response.type("text/plain");
         User user = request.session().attribute("user");
-        if (user == null) {
-            response.status(401);
-            return "Unauthorized";
-        }
-
-        if (user.getRole().equals(UserRole.User)) {
+        if (user == null || user.isUser()) {
             response.status(401);
             return "Unauthorized";
         }
@@ -68,7 +62,7 @@ public class VirtualMachineController {
 
     public static Route editVirtualMachines = (request, response) -> {
         User user = request.session().attribute("user");
-        if (user == null || user.getRole().equals(UserRole.User)) {
+        if (user == null || user.isUser()) {
             response.status(401);
             return "Unauthorized";
         }
@@ -84,7 +78,7 @@ public class VirtualMachineController {
 
     public static Route deleteVirtualMachines = (request, response) -> {
         User user = request.session().attribute("user");
-        if (user == null || user.getRole().equals(UserRole.User)) {
+        if (user == null || user.isUser()) {
             response.status(401);
             return "Unauthorized";
         }

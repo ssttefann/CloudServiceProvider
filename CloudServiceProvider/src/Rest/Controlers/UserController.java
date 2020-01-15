@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import spark.Route;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserController {
@@ -24,38 +23,30 @@ public class UserController {
     public static Route getAllUsers = (request, response) -> {
         response.type("application/json");
         User user = request.session().attribute("user");
-        if (user == null) {
+        if (user == null || user.isUser()) {
             response.status(401);
             return "Unauthorized";
         }
 
-        if (user.getRole().equals(UserRole.SuperAdmin)) {
+        if (user.isSuperAdmin()) {
             return gson.toJson(db.getAllUsers());
-        } else if(user.getRole().equals(UserRole.Admin)){
+        } else {
             List<User> var = db.getUsersOfOrganization(user);
             return gson.toJson(db.getUsersOfOrganization(user));
         }
-
-        response.status(401);
-        return "Unauthorized";
     };
 
     public static Route addUser = (request, response) -> {
-        response.type("text/plain");
         User user = request.session().attribute("user");
-        if (user == null) {
-            response.status(401);
-            return "Unauthorized";
-        }
-
-        if (user.getRole().equals(UserRole.User)) {
+        if (user == null || user.isUser()) {
             response.status(401);
             return "Unauthorized";
         }
 
         String userJson = request.body();
         User newUser = gson.fromJson(userJson, User.class);
-        if(!db.addUserToOrganization(newUser)){
+        if(!db.addUser(newUser)){
+            response.status(400);
             return "EMAIL_ERR";
         }
 
@@ -65,7 +56,7 @@ public class UserController {
     public static Route deleteUser = (request, response) -> {
         response.type("application/json");
         User user = request.session().attribute("user");
-        if (user == null || user.getRole().equals(UserRole.User)) {
+        if (user == null || user.isUser()) {
             response.status(401);
             return "Unauthorized";
         }
@@ -82,12 +73,7 @@ public class UserController {
     public static Route editUser = (request, response) -> {
         response.type("text/plain");
         User user = request.session().attribute("user");
-        if (user == null) {
-            response.status(401);
-            return "Unauthorized";
-        }
-
-        if (user.getRole().equals(UserRole.User)) {
+        if (user == null || user.isUser()) {
             response.status(401);
             return "Unauthorized";
         }
@@ -95,6 +81,7 @@ public class UserController {
         String userJson = request.body();
         User newUser = gson.fromJson(userJson, User.class);
         if(!db.editUser(newUser)){
+            response.status(400);
             return "EMAIL_ERR";
         }
 

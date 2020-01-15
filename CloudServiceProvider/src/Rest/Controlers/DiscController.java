@@ -30,7 +30,7 @@ public class DiscController {
         }
 
         List<Disc> discs;
-        if (user.getRole().equals(UserRole.SuperAdmin)) {
+        if (user.isSuperAdmin()) {
             discs = db.getAllDiscs();
         } else {
             discs = db.getDiscsOfOrganization(user.getOrganizationName());
@@ -41,7 +41,7 @@ public class DiscController {
 
     public static Route addDisc = (request, response) -> {
         User user = request.session().attribute("user");
-        if (user == null || user.getRole().equals(UserRole.User)) {
+        if (user == null || user.isUser()) {
             response.status(401);
             return "Unauthorized";
         }
@@ -58,7 +58,7 @@ public class DiscController {
 
     public static Route editDisc = (request, response) -> {
         User user = request.session().attribute("user");
-        if (user == null || user.getRole().equals(UserRole.User)) {
+        if (user == null || user.isUser()) {
             response.status(401);
             return "Unauthorized";
         }
@@ -75,7 +75,7 @@ public class DiscController {
 
     public static Route deleteDisc = (request, response) -> {
         User user = request.session().attribute("user");
-        if (user == null || user.getRole().equals(UserRole.User)) {
+        if (user == null || user.isUser()) {
             response.status(401);
             return "Unauthorized";
         }

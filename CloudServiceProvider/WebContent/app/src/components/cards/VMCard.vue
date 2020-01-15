@@ -104,8 +104,7 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  components: {
-  },
+  components: {},
 
   data() {
     return {
@@ -150,7 +149,7 @@ export default {
       categoriesGetter: "categories/getAll",
       vmsGetter: "vms/getAll",
       isSuper: "users/isSuper",
-      isAdmin: "users/isAdmin",
+      isAdmin: "users/isAdmin"
     }),
 
     formTitle() {
@@ -189,7 +188,7 @@ export default {
       addVmAction: "vms/add",
       editVmAction: "vms/edit",
       deleteVmAction: "vms/delete",
-      loadDiscs: "disc/load",
+      loadDiscs: "disc/load"
     }),
 
     initialize() {},
@@ -199,20 +198,25 @@ export default {
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
-    
+
     getIndexOfVm(vmName) {
       return this.vmsGetter.findIndex(x => x.name === vmName);
     },
 
     deleteItem(vm) {
       const vmIndex = this.getIndexOfVm(vm.name);
-      if(confirm("Da li ste sigurni da zelite da obrisete ovu virtuelnu masinu ? ")){
+      if (
+        confirm(
+          "Da li ste sigurni da zelite da obrisete ovu virtuelnu masinu ? "
+        )
+      ) {
         this.deleteVmAction([vmIndex, vm.name])
           .then(() => {
             this.loadDiscs();
             this.close();
             alert("Virtuelna masina je uspesno obrisana");
-          }).catch(error => alert(error));
+          })
+          .catch(error => alert(error));
       }
     },
 
@@ -230,10 +234,12 @@ export default {
         alert("Sva polja moraju biti popunjena");
         return;
       }
-      
+
       this.editedItem.category = this.getCategoryByName(
         this.editedItem.category.name
       );
+
+      this.editedItem.categoryName = this.editedItem.category.name;
 
       if (this.editedIndex > -1) {
         this.editVm();
@@ -270,6 +276,7 @@ export default {
     },
 
     addVm() {
+      alert(this.editedItem.categoryName);
       this.addVmAction(this.editedItem)
         .then(() => {
           alert("Virtuelna masina uspesno dodata");

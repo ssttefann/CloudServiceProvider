@@ -2,7 +2,9 @@ package Rest.Controlers;
 
 import Model.Database;
 import Model.Entities.User;
+import Model.Entities.UserRole;
 import com.google.gson.Gson;
+import spark.Request;
 import spark.Route;
 
 import java.io.IOException;
@@ -17,6 +19,25 @@ public class AuthenticationController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static User authenticateUser(Request request, UserRole... allowedRoles) {
+        User user = request.session().attribute("user");
+        if (user == null) {
+            return null;
+        }
+
+        if(allowedRoles.length == 0){
+            return user;
+        }
+
+        for (UserRole userRole : allowedRoles) {
+            if (user.getRole().equals(userRole)){
+                return user;
+            }
+        }
+
+        return null;
     }
 
     public static Route login = (request, response) -> {
@@ -40,7 +61,7 @@ public class AuthenticationController {
     public static Route getLoggedUser = (req, res) -> {
         res.type("application/json");
 
-        if(req.session().attribute("user") != null){
+        if (req.session().attribute("user") != null) {
             User user = req.session().attribute("user");
             return gson.toJson(user);
         }

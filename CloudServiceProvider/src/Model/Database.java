@@ -47,7 +47,7 @@ public class Database {
         return userRepository.getUser(email);
     }
 
-    public boolean addUserToOrganization(User user) throws IOException {
+    public boolean addUser(User user) throws IOException {
         Organization organization = organizationRepository.getOrganization(user.getOrganizationName());
         user.setOrganization(organization);
         if (userRepository.addUser(user)) {
@@ -154,7 +154,7 @@ public class Database {
     }
 
     public boolean addVirtualMachine(VirtualMachine vm) throws IOException {
-        String categoryName = vm.getCategory().getName();
+        String categoryName = vm.getCategoryName();
         Category category = categoryRepository.getCategory(categoryName);
         vm.setCategory(category);
         vm.setActivities(new ArrayList<>());

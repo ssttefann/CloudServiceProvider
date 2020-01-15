@@ -52,7 +52,7 @@
 
         <v-list-item-title
           v-model="user"
-        >{{this.$store.state.users.loggedUser.firstName + " " + this.$store.state.users.loggedUser.lastName}}</v-list-item-title>
+        >{{this.getLoggedUser.firstName + " " + this.getLoggedUser.lastName}}</v-list-item-title>
       </v-list-item>
 
       <v-divider class="blue-grey darken-1"></v-divider>
@@ -60,7 +60,7 @@
       <br />
 
       <!-- Ako je ulogovan admin -->
-      <div v-if="this.$store.getters['users/isAdmin']">
+      <div v-if="isAdmin">
         <v-list dense>
           <v-list-item v-for="link in links_admin" :key="link.text" router :to="link.route">
             <v-list-item-icon>
@@ -75,9 +75,9 @@
       </div>
 
       <!-- Ako je ulogovan obican user -->
-      <div v-else-if="this.$store.getters['users/isLogged']">
+      <div v-else-if="isLogged">
         <v-list dense>
-          <v-list-item v-for="link in links_user" :key="link.text" router :to="link.route">
+          <v-list-item @click="toggleDrawer" v-for="link in links_user" :key="link.text" router :to="link.route">
             <v-list-item-icon>
               <v-icon>{{ link.icon }}</v-icon>
             </v-list-item-icon>
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 
 export default {
@@ -155,16 +155,14 @@ export default {
 
         /** Kada korisnik pritisne na Home Dugme */
         homeButon : function() {
-
-          if (this.$store.state.users.loggedUser.role === "User") {
+          if (this.isUser) {
             this.$router.push('/dashboard');
           }
-          else if(this.$store.state.users.loggedUser.role === "Admin" || this.$store.state.users.loggedUser.role === "SuperAdmin"){
+          else if(this.isAdmin || this.isSuper){
             this.$router.push('/admin');
           }else{
             this.$router.push('/');
           }
-
         },
 
         darkMode : function() {
@@ -179,9 +177,16 @@ export default {
 
     computed : {
 
+      ...mapGetters({
+        isLogged: "users/isLogged",
+        getLoggedUser: "users/getUser",
+        isUser: "users/isUser",
+        isAdmin: "users/isAdmin",
+        isSuper: "users/isSuper",
+      }),
       /** Ako ne postoji ulogavan korisnik disable-uje dugme  */
       isDisabled() {
-          return !this.$store.getters['users/isLogged'];
+          return !this.isLogged;
       },
     }
 }

@@ -232,7 +232,6 @@ export default {
       if (
         this.editedItem.name.trim() === "" ||
         this.editedItem.capacity === 0 ||
-        this.editedItem.virtualMachineName === "" ||
         (this.editedItem.type !== "SSD" && this.editedItem.type !== "HDD")
       ) {
         return false;

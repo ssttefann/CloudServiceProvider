@@ -1,23 +1,17 @@
 <template>
- <div>
+  <div>
     <v-content>
-
       <v-container fluid fill-height>
-
         <v-layout align-center justify-center>
-
-          <v-flex s12 sm8  md4>
-
+          <v-flex s12 sm8 md4>
             <v-card class="elevation-12">
-
               <v-toolbar color="blue-grey" dark flat>
-                <v-toolbar-title>Change account information</v-toolbar-title>
+                <v-toolbar-title>Licni podaci</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
-              
+
               <v-card-text>
                 <v-form>
-
                   <v-text-field
                     label="First Name"
                     name="name"
@@ -52,78 +46,97 @@
                     type="password"
                   ></v-text-field>
                 </v-form>
-
               </v-card-text>
 
               <v-card-actions>
-
                 <v-spacer></v-spacer>
                 <v-btn @click="submit" color="blue-grey white--text">Save</v-btn>
               </v-card-actions>
-
             </v-card>
           </v-flex>
-
         </v-layout>
-
       </v-container>
-
-
     </v-content>
-</div>
+  </div>
 </template>
 
 <script>
-
-
+import { mapActions, mapGetters } from "vuex";
 export default {
-    components: {
-  },
+  components: {},
 
   data() {
     return {
-      firstName : this.$store.state.users.loggedUser.firstName,
-      lastName : this.$store.state.users.loggedUser.lastName,
-      password1 : "",
-      password2 : "",
-      rules: {
-        required: value => !!value || 'Required.'
-      }
-    }
+      firstName: "",
+      lastName: "",
+      password1: "",
+      password2: ""
+    };
   },
 
-  methods : {
+  computed: {
+    ...mapGetters({
+      getUser: "users/getUser"
+    })
+  },
+
+  created(){
+    this.firstName = this.getUser.firstName;
+    this.lastName = this.getUser.lastName;
+  },
+
+  methods: {
+    ...mapActions({
+      changeUserAction: "users/updateAccount"
+    }),
 
     submit() {
-      let changed = false;
-
-      if(this.firstName != this.$store.state.users.loggedUser.firstName && this.firstName.trim()){
-        this.$store.state.users.loggedUser.firstName = this.firstName;
-        changed = true;
+      let userInformationChanged = false;
+      let passwordChanged = false;
+      if (this.getUser.firstName != this.firstName) {
+        userInformationChanged = true;
       }
 
-      if(this.lastName != this.$store.state.users.loggedUser.lastName && this.lastName.trim()){
-        this.$store.state.users.loggedUser.lastName = this.lastName;
-        changed = true;
+      if (this.getUser.lastName != this.lastName) {
+        userInformationChanged = true;
       }
-    
-      if(this.password1.trim() + this.password2.trim() != ""){
-        if(this.password1 != this.password2){
-          alert("Passwords must match!")
-          changed = false;
-        }
-        else{
-          this.$store.state.users.loggedUser.password = this.password1;
-          changed = true
+
+      if (this.password1.trim() != "") {
+        userInformationChanged = true;
+        passwordChanged = true;
+
+        if (this.password1 != this.password2) {
+          alert("Sifre se ne poklapaju");
+          return;
         }
       }
 
-      // ako je doslo do promene salji zahtev na srv
-      if(changed){
-        alert("Uspesno promenjene informacije")
+      if (!userInformationChanged) {
+        alert("Nista niste promenUUUUli");
+        return;
       }
+
+      let user = {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.getUser.email,
+        role: this.getUser.role,
+        organizationName: this.getUser.organizationName
+      };
+
+      if (passwordChanged) {
+        user.password = this.password1;
+      }
+
+      this.changeUserAction(user)
+        .then(() => {
+          alert("PromenUUUUli ste svoj nalog");
+          this.$router.go();
+          this.$router.push("/");
+        })
+        .catch(error => alert(error));
     }
   }
-}
+};
 </script>
 

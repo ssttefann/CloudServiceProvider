@@ -1,7 +1,8 @@
 <template>
   <div class="about">
     <v-container>
-    <h1  class="my-5 subheading grey--text">Admin Page</h1>
+    <h1 v-if="isAdmin" class="my-5 subheading grey--text">Admin Page</h1>
+    <h1 v-if="isSuper" class="my-5 subheading grey--text">Super Admin Page</h1>
 
     <v-layout row wrap > 
         
@@ -26,14 +27,6 @@
         </v-flex>
 
       </v-layout>
-
-    <!-- <div class="grid-container">
-      <VMCard class="item"/>
-      <VMCategoryCard class="item"/>
-      <DiskCard class="item"/>
-      <UserCard class="item"/>
-      <OrganizationCard class="item"/>
-    </div> -->
 
     </v-container> 
   </div> 
@@ -70,14 +63,4 @@ export default {
 </script>
 
 <style scoped>
-.grid-container {
-  column-count: 2;
-  -moz-column-count: 2;
-  -webkit-column-count: 2;
-}
-
-.item {
-  display: inline-block;
-  width:100%;
-}
 </style>

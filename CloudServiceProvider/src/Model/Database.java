@@ -58,6 +58,8 @@ public class Database {
     }
 
     public boolean editUser(User user) throws IOException {
+        Organization org = organizationRepository.getOrganization(user.getOrganizationName());
+        user.setOrganization(org);
         return userRepository.editUser(user);
     }
 

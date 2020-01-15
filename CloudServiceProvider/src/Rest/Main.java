@@ -38,6 +38,7 @@ public class Main {
         get("/rest/users/getAll/", UserController.getAllUsers);
         post("/rest/users/add/", UserController.addUser);
         post("/rest/users/edit/", UserController.editUser);
+        post("/rest/users/update/", UserController.updateUserAccount);
         delete("/rest/users/delete/:email", UserController.deleteUser);
 
         //Virtuelne masine

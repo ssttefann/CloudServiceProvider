@@ -6,7 +6,7 @@ export default {
     namespaced: true,
     state: {
 
-        loggedUser: { firstName: "", lastName: "", role: "", email: "" },
+        loggedUser: { firstName: "", lastName: "", role: "", email: "", organizationName: ""},
         users: []
     },
 
@@ -119,7 +119,22 @@ export default {
                     })
                     .catch(err => reject(err));
             })
+        },
 
+        updateAccount({commit}, user){
+            commit;
+            return new Promise((resolve, reject) => {
+                axios.post('rest/users/update/', user)
+                    .then(res => {
+                        if (res.status == 200) {
+                            commit("SET_LOGGED_USER", res.data);
+                            resolve();
+                        } else {
+                            reject(res.data);
+                        }
+                    })
+                    .catch(err => reject(err));
+            });
         },
 
         delete({ commit }, tuple) {
@@ -143,7 +158,11 @@ export default {
 
     },
     getters: {
+        getUser: state => state.loggedUser,
+
         isLogged: state => state.loggedUser.firstName != "",
+
+        isUser: state => state.loggedUser.role == "User",
 
         isAdmin: state => state.loggedUser.role == "Admin",
 

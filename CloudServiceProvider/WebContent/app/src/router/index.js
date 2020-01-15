@@ -7,6 +7,7 @@ import Register from '../components/auth/Register'
 import NotFound from '../components/errors/NotFound'
 import Dashboard from '../components/Dashboard'
 import Account from '../components/global/Account'
+import Organization from "../components/global/Organization"
 import { store } from '../store/store.js'
 
 Vue.use(VueRouter)
@@ -67,6 +68,15 @@ const routes = [
     }
   },
   {
+    path: "/organization",
+    name: "organization",
+    component: Organization,
+    meta: {
+      requiresAuth: true,
+      is_admin: true
+    }
+  },
+  {
     path: '*',
     name: 'notfound',
     component: NotFound,
@@ -81,7 +91,7 @@ const routes = [
       guest: true
     },
     component: () => import(/* webpackChunkName: "about" */ '../components/global/About.vue')
-  }
+  },
 ]
 
 const router = new VueRouter({

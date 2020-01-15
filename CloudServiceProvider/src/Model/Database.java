@@ -195,14 +195,15 @@ public class Database {
         return organizationRepository.addOrganization(organization);
     }
 
-    public boolean removeOrganization(String organizationName) throws IOException {
-        return organizationRepository.removeOrganization(organizationName);
+    public boolean editOrganization(Organization newOrganization) throws IOException {
+        return organizationRepository.editOrganization(newOrganization);
     }
 
 
     public boolean editVirtualMachine(VirtualMachine editedVm) throws IOException {
         return virtualMachineRepository.editVirtualMachine(editedVm);
     }
+
 
 
 }

@@ -240,6 +240,7 @@ export default {
       } else {
         this.addVm();
       }
+      this.close();
     },
 
     validateForm() {
@@ -264,7 +265,6 @@ export default {
       this.editVmAction([this.editedIndex, this.editedItem])
         .then(() => {
           alert("Virtuelna masina uspesno izmenjena");
-          this.close();
         })
         .catch(error => alert(error));
     },
@@ -272,7 +272,6 @@ export default {
     addVm() {
       this.addVmAction(this.editedItem)
         .then(() => {
-          this.close();
           alert("Virtuelna masina uspesno dodata");
         })
         .catch(err => alert("Greska " + err));

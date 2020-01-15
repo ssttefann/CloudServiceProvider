@@ -1,17 +1,1 @@
-[
-  {
-    "name": "ORG1",
-    "description": "Neka Org",
-    "logo": ""
-  },
-  {
-    "name": "ORG2",
-    "description": "Neka Druga",
-    "logo": ""
-  },
-  {
-    "name": "ORG3",
-    "description": "Neka Treca",
-    "logo": ""
-  }
-]
+[{"name":"tests1","description":"tests1","logo":"C:\\fakepath\\WebProg.iml"},{"name":"test11","description":"test11","logo":"putnaja neka"},{"name":"ORG1","description":"Neka Org","logo":"adfdsf"},{"name":"ORG2","description":"Neka Druga","logo":"C:\\fakepath\\README.md"},{"name":"ORG3","description":"Neka Treca","logo":"C:\\fakepath\\README.md"}]

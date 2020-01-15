@@ -126,4 +126,17 @@ public class OrganizationRepository {
 
         return false;
     }
+
+    public boolean editOrganization(Organization newOrganization) throws IOException {
+        String organizationName = newOrganization.getName();
+        if (organizationsIndexedByName.containsKey(organizationName)) {
+            organizationsIndexedByName.put(organizationName, newOrganization);
+            organizationsList.remove(newOrganization);
+            organizationsList.add(newOrganization);
+            saveOrganizations();
+            return true;
+        }
+
+        return false;
+    }
 }

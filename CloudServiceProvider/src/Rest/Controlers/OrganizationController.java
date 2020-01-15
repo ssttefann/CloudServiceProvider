@@ -39,19 +39,36 @@ public class OrganizationController {
     };
 
     public static Route addOrganization = (request, response) -> {
-        response.type("text/plain");
-        Organization newOrganization = gson.fromJson(request.body(), Organization.class);
-
-        if(db.addOrganization(newOrganization)){
-            return "SUCCESS";
+        User user = request.session().attribute("user");
+        if(user == null || !user.isSuperAdmin()){
+            response.status(401);
+            return "Unauthorized";
         }
 
-        return "NAME_ERR";
+        Organization newOrganization = gson.fromJson(request.body(), Organization.class);
+        if(!db.addOrganization(newOrganization)){
+            response.status(400);
+            return "Name taken";
+        }
+
+        return "org added";
     };
 
 
     public static Route editOrganization = (request, response) -> {
-        return "editOrganization not yet impolemented";
+        User user = request.session().attribute("user");
+        if(user == null || !user.isSuperAdmin()){
+            response.status(401);
+            return "Unauthorized";
+        }
+
+        Organization newOrganization = gson.fromJson(request.body(), Organization.class);
+        if(!db.editOrganization(newOrganization)){
+            response.status(400);
+            return "Name doesn't exist.";
+        }
+
+        return "Org edited";
     };
 
 

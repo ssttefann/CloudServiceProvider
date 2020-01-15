@@ -3,12 +3,16 @@ import axios from 'axios';
 
 export default {
 
-    namespaced : true,
+    namespaced: true,
     state: {
-        organizations : [],
+        organizations: [],
     },
 
-    mutations : {
+    getters: {
+        orgGetter: state => state.organizations,
+    },
+
+    mutations: {
         SET_ORGANIZATIONS(state, data) {
             state.organizations = data;
         },
@@ -31,16 +35,45 @@ export default {
         }
     },
 
-    actions : {
+    actions: {
 
-        async load({commit}) {
+        async load({ commit }) {
             axios.get('/rest/organizations/getOrganizations/')
                 .then(res => {
                     commit('SET_ORGANIZATIONS', res.data)
                 })
                 .catch(err => alert(err));
         },
-    },
 
+        add({ commit }, org) {
+            return new Promise((resolve, reject) => {
+                axios.post('/rest/organizations/addOrganization', org)
+                    .then(res => {
+                        if (res.status == 200) {
+                            commit('ADD_ORGANIZATION', org);
+                            resolve();
+                        } else {
+                            reject(res.data);
+                        }
 
+                    })
+                    .catch(err => reject(err));
+            });
+        },
+
+        edit({ commit }, tuple) {
+            const org = tuple[1];
+            return new Promise((resolve, reject) => {
+                axios.post("/rest/organizations/edit", org)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            commit("EDIT_ORGANIZATION", tuple);
+                            resolve();
+                        }
+                    })
+                    .catch(error => reject(error));
+            })
+        },
+
+    }
 }

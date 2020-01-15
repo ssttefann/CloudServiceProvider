@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <v-container>
-    <h1 class="my-5 subheading grey--text">Admin Page</h1>
+    <h1  class="my-5 subheading grey--text">Admin Page</h1>
 
     <v-layout row wrap > 
         

@@ -2,11 +2,13 @@ package Model.Repositories;
 
 import Model.Entities.Category;
 import Model.Entities.VirtualMachine;
+import Model.Entities.VirtualMachineActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -102,6 +104,11 @@ public class VirtualMachineRepository {
     }
 
     public boolean addVirtualMachine(VirtualMachine virtualMachine) throws IOException {
+        //kreiramo inicijanu aktivnost
+        VirtualMachineActivity vac = new VirtualMachineActivity(LocalDateTime.now());
+        virtualMachine.setActivities(new ArrayList<VirtualMachineActivity>());
+        virtualMachine.getActivities().add(vac);
+
         String virtualMachineName = virtualMachine.getName();
         if (!virtualMachinesIndexedByName.containsKey(virtualMachineName)) {
             virtualMachinesIndexedByName.put(virtualMachineName, virtualMachine);
@@ -129,9 +136,23 @@ public class VirtualMachineRepository {
         String vmName = editedVm.getName();
         if(virtualMachinesIndexedByName.containsKey(vmName)){
             VirtualMachine vm = virtualMachinesIndexedByName.get(vmName);
-            String newCategoryName = editedVm.getCategory().getName();
+            String newCategoryName = editedVm.getCategoryName();
             vm.setCategoryName(newCategoryName);
             vm.setCategory(editedVm.getCategory());
+            vm.setActive(editedVm.isActive());
+
+            LocalDateTime now = LocalDateTime.now();
+            //ako je sad aktivna znaci da pravimo novi activity
+            if(vm.isActive()){
+                VirtualMachineActivity vac = new VirtualMachineActivity(now);
+            }
+            //ako nije znaci da zavrsavamo poslednji activity
+            else{
+                int lastElem = vm.getActivities().size() - 1;
+                VirtualMachineActivity vac = vm.getActivities().get(lastElem);
+                vac.setEndTime(now);
+            }
+
             saveVirtualMachines();
             return true;
         }

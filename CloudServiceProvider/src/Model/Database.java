@@ -122,6 +122,8 @@ public class Database {
                     .getVirtualMachine(virtualMachineName);
 
             virtualMachine.addDisc(disc);
+            Organization org = organizationRepository.getOrganization(disc.getOrganizationName());
+            org.getDiscs().add(disc);
             return true;
         }
 

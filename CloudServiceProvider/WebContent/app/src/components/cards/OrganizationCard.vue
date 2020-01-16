@@ -62,7 +62,7 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.name" label="Name" :disabled="nameDisabled"></v-text-field>
+                    <v-text-field v-model="editedItem.name" label="Name" :disabled="editDisabled"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.description" label="Description"></v-text-field>
@@ -132,7 +132,7 @@ export default {
       return this.editedIndex === -1 ? "New Organization" : "Edit Organization";
     },
 
-    nameDisabled() {
+    editDisabled() {
       return this.editedIndex != -1;
     },
 

@@ -7,6 +7,7 @@ public class VirtualMachine {
     private String name;
     private String categoryName;
     private String organizationName;
+    private boolean active;
     private List<VirtualMachineActivity> activities;
 
     private transient Category category;
@@ -18,6 +19,7 @@ public class VirtualMachine {
         this.organizationName = organizationName;
         this.activities = activities;
         this.category = category;
+        this.active = true;
     }
 
     @Override
@@ -64,6 +66,10 @@ public class VirtualMachine {
     public void setActivities(List<VirtualMachineActivity> activities) {
         this.activities = activities;
     }
+
+    public boolean isActive() { return this.active;}
+
+    public void setActive(boolean active) {this.active = active;}
 
     public Category getCategory() {
         return category;

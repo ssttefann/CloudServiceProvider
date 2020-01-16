@@ -35,6 +35,7 @@ public class OrganizationRepository {
         loadOrganizations();
         initializeUserAndVmLists();
         connectOrganizationsWithUsers();
+        connectOrganizationsWithDiscs();
         connectOrganizationsWithVirtualMachines();
     }
 
@@ -62,6 +63,7 @@ public class OrganizationRepository {
         organizationsList.forEach(organization -> {
             organization.setVirtualMachinesList(new ArrayList<>());
             organization.setUsersList(new ArrayList<>());
+            organization.setDiscs(new ArrayList<>());
         });
     }
 
@@ -72,6 +74,15 @@ public class OrganizationRepository {
             Organization organization = organizationsIndexedByName.get(organizationName);
             organization.addUser(user);
             user.setOrganization(organization);
+        });
+    }
+
+    private void connectOrganizationsWithDiscs() throws IOException {
+        DiscRepository disceRepository = DiscRepository.getInstance();
+        disceRepository.getDiscList().forEach(disc -> {
+            String organizationName = disc.getOrganizationName();
+            Organization organization = organizationsIndexedByName.get(organizationName);
+            organization.addDisc(disc);
         });
     }
 

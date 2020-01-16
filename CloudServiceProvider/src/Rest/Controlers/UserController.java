@@ -91,7 +91,7 @@ public class UserController {
             return "EMAIL_ERR";
         }
 
-        return editedUser;
+        return gson.toJson(editedUser);
     };
 
     public static Route editUser = (request, response) -> {

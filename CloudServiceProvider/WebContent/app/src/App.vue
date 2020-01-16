@@ -1,44 +1,53 @@
 <template>
   <v-app>
-    <Toolbar/>
+    <Toolbar />
     <v-content class="dob">
-      <router-view> </router-view>
+      <v-snackbar
+        v-model="getSnackBar"
+        :color="getSnackBarColor"
+        :timeout="3000"
+        :top="true"
+        :vertical="mode === 'vertical'"
+      >
+        {{ getSnackBarText }}
+        <v-btn dark text @click="hideSnackBarAction">Close</v-btn>
+      </v-snackbar>
+      <router-view></router-view>
     </v-content>
-    <Footer/>
+    <Footer />
   </v-app>
 </template>
 
 <script>
-import Toolbar from './components/global/Toolbar'
-import Footer from './components/global/Footer'
+import Toolbar from "./components/global/Toolbar";
+import Footer from "./components/global/Footer";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Toolbar, Footer
+    Toolbar,
+    Footer
   },
-  data: () => ({
-    //
-  }),
-
-  created() {
-    // ako se refreshuje stranica, ili ako se otvori u drugom tabu
-    // pogledaj da li postojao vec ulogovani korisnik
-    // this.$store.commit('logUser');
-
+  computed: {
+    ...mapGetters({
+      getSnackBar: "snackBar/getSnackBar",
+      getSnackBarColor: "snackBar/getSnackBarColor",
+      getSnackBarText: "snackBar/getSnackBarText"
+    })
   },
 
-  methods : {
-    
+  methods: {
+    ...mapActions({
+      hideSnackBarAction: "snackBar/hide"
+    })
   }
 };
 </script>
 
 
 <style  scoped>
-
-  .dob {
-    margin: 15px;
-  }
-
+.dob {
+  margin: 15px;
+}
 </style>

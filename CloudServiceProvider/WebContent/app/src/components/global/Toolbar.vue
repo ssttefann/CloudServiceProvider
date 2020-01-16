@@ -16,7 +16,7 @@
           width="40"
         />
 
-        <label class="naslov">BDSM Services</label>
+        <label class="naslov">Cloud Services</label>
       </v-btn>
 
       <v-spacer></v-spacer>
@@ -59,10 +59,24 @@
       <br />
       <br />
 
-      <!-- Ako je ulogovan admin -->
-      <div v-if="isAdmin">
+      <div v-if="isSuper">
         <v-list dense>
-          <v-list-item v-for="link in links_admin" :key="link.text" router :to="link.route">
+          <v-list-item @click="toggleDrawer" v-for="link in links_super" :key="link.text" router :to="link.route">
+            <v-list-item-icon>
+              <v-icon>{{ link.icon }}</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>{{ link.text }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </div>
+
+      <!-- Ako je ulogovan admin -->
+      <div v-else-if="isAdmin">
+        <v-list dense>
+          <v-list-item @click="toggleDrawer" v-for="link in links_admin" :key="link.text" router :to="link.route">
             <v-list-item-icon>
               <v-icon>{{ link.icon }}</v-icon>
             </v-list-item-icon>
@@ -77,7 +91,13 @@
       <!-- Ako je ulogovan obican user -->
       <div v-else-if="isLogged">
         <v-list dense>
-          <v-list-item @click="toggleDrawer" v-for="link in links_user" :key="link.text" router :to="link.route">
+          <v-list-item
+            @click="toggleDrawer"
+            v-for="link in links_user"
+            :key="link.text"
+            router
+            :to="link.route"
+          >
             <v-list-item-icon>
               <v-icon>{{ link.icon }}</v-icon>
             </v-list-item-icon>
@@ -99,97 +119,94 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
-
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-
-    components: {
-        
-    },
-    data() {
-        return{
-            dark : false,
-            drawerDisabled: true,
-            drawerVisible: false,
-            user : {
-              firstName : "meeyat", lastName : "meel"
-            },
-
-            // linkovi za prelaz na druge delove str
-            links_admin : [
-                {icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/admin'},
-                {icon: 'mdi-account', text: 'Account', route: '/account'},
-                {icon: 'mdi-steam', text: 'Organization', route: '/organization'},
-                {icon: 'mdi-credit-card', text: 'Billing', route: '/billing'}
-            ],
-
-            links_user : [
-                {icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/dashboard'},
-                {icon: 'mdi-account', text: 'Account', route: '/account'}
-            ]
-
-
-        }
-    },
-
-    methods : {
-        ...mapActions({
-          logoutAction: "users/logout",
-        }),
-
-        /** Otvara drawer ako postoji ulogovani korisnik */
-        toggleDrawer : function() {
-          this.drawerVisible = !this.drawerVisible;
-
-        },
-
-        logout : function () {
-          this.logoutAction()
-            .then(() => {
-              this.$router.push("/");
-              this.drawerVisible = false
-              this.drawerDisabled = true
-            }).catch(error => alert(error));
-        },
-
-        /** Kada korisnik pritisne na Home Dugme */
-        homeButon : function() {
-          if (this.isUser) {
-            this.$router.push('/dashboard');
-          }
-          else if(this.isAdmin || this.isSuper){
-            this.$router.push('/admin');
-          }else{
-            this.$router.push('/');
-          }
-        },
-
-        darkMode : function() {
-          if(this.dark){
-            this.$vuetify.theme.dark = true;
-          }
-          else{
-            this.$vuetify.theme.dark = false;
-          }
-        }
-    },
-
-    computed : {
-
-      ...mapGetters({
-        isLogged: "users/isLogged",
-        getLoggedUser: "users/getUser",
-        isUser: "users/isUser",
-        isAdmin: "users/isAdmin",
-        isSuper: "users/isSuper",
-      }),
-      /** Ako ne postoji ulogavan korisnik disable-uje dugme  */
-      isDisabled() {
-          return !this.isLogged;
+  components: {},
+  data() {
+    return {
+      dark: false,
+      drawerDisabled: true,
+      drawerVisible: false,
+      user: {
+        firstName: "meeyat",
+        lastName: "meel"
       },
+
+      // linkovi za prelaz na druge delove str
+      links_admin: [
+        { icon: "mdi-view-dashboard", text: "Dashboard", route: "/admin" },
+        { icon: "mdi-account", text: "Account", route: "/account" },
+        { icon: "mdi-steam", text: "Organization", route: "/organization" },
+        { icon: "mdi-credit-card", text: "Billing", route: "/billing" }
+      ],
+
+      links_super: [
+        { icon: "mdi-view-dashboard", text: "Dashboard", route: "/admin" },
+        { icon: "mdi-account", text: "Account", route: "/account" },
+      ],
+
+      links_user: [
+        { icon: "mdi-view-dashboard", text: "Dashboard", route: "/dashboard" },
+        { icon: "mdi-account", text: "Account", route: "/account" }
+      ]
+    };
+  },
+
+  methods: {
+    ...mapActions({
+      logoutAction: "users/logout"
+    }),
+
+    /** Otvara drawer ako postoji ulogovani korisnik */
+    toggleDrawer: function() {
+      this.drawerVisible = !this.drawerVisible;
+    },
+
+    logout: function() {
+      this.logoutAction()
+        .then(() => {
+          this.$router.push("/");
+          this.drawerVisible = false;
+          this.drawerDisabled = true;
+        })
+        .catch(error => alert(error));
+    },
+
+    /** Kada korisnik pritisne na Home Dugme */
+    homeButon: function() {
+      if (this.isUser) {
+        this.$router.push("/dashboard");
+      } else if (this.isAdmin || this.isSuper) {
+        this.$router.push("/admin");
+      } else {
+        this.$router.push("/");
+      }
+    },
+
+    darkMode: function() {
+      if (this.dark) {
+        this.$vuetify.theme.dark = true;
+      } else {
+        this.$vuetify.theme.dark = false;
+      }
     }
-}
+  },
+
+  computed: {
+    ...mapGetters({
+      isLogged: "users/isLogged",
+      getLoggedUser: "users/getUser",
+      isUser: "users/isUser",
+      isAdmin: "users/isAdmin",
+      isSuper: "users/isSuper"
+    }),
+    /** Ako ne postoji ulogavan korisnik disable-uje dugme  */
+    isDisabled() {
+      return !this.isLogged;
+    }
+  }
+};
 </script>
 
 <style  scoped>

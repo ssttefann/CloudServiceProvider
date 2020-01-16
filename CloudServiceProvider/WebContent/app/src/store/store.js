@@ -9,6 +9,7 @@ import vmModule from './modules/virtualMachines'
 import categoriesModule from './modules/vmCategories'
 import discsModule from './modules/discs'
 import orgsModule from './modules/organizations'
+import snackBarModule from "./modules/snackbar"
 
 Vue.use(Vuex)
 
@@ -27,7 +28,8 @@ export const store = new Vuex.Store({
         vms : vmModule,
         categories : categoriesModule,
         disc : discsModule,
-        orgs : orgsModule
+        orgs : orgsModule,
+        snackBar: snackBarModule
     },
 
     state : {

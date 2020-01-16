@@ -12,7 +12,11 @@ export default {
 
     mutations: {
         SET_LOGGED_USER(state, user) {
-            state.loggedUser = user;
+            state.loggedUser.firstName = user.firstName;
+            state.loggedUser.lastName = user.lastName;
+            state.loggedUser.role = user.role;
+            state.loggedUser.email = user.email;
+            state.loggedUser.organizationName = user.organizationName;
         },
 
         SET_USERS(state, users) {

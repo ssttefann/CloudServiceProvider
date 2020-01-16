@@ -11,13 +11,14 @@
               </v-toolbar>
 
               <v-card-text>
-                <v-form>
+                <v-form :lazy-validation="lazy" ref="form">
                   <v-text-field
                     label="First Name"
                     name="name"
                     v-model="firstName"
                     prepend-icon="mdi-account"
                     type="text"
+                    :rules="[rules.required]"
                   ></v-text-field>
 
                   <v-text-field
@@ -26,6 +27,7 @@
                     v-model="lastName"
                     prepend-icon="mdi-account"
                     type="text"
+                    :rules="[rules.required]"
                   ></v-text-field>
 
                   <v-text-field
@@ -50,9 +52,11 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="submit" color="blue-grey white--text">Save</v-btn>
+                <v-btn @click="validate" color="blue-grey white--text">Save</v-btn>
               </v-card-actions>
             </v-card>
+
+
           </v-flex>
         </v-layout>
       </v-container>
@@ -70,7 +74,10 @@ export default {
       firstName: "",
       lastName: "",
       password1: "",
-      password2: ""
+      password2: "",
+      rules: {
+        required: value => !!value || "Required."
+      },
     };
   },
 
@@ -80,15 +87,24 @@ export default {
     })
   },
 
-  created(){
+  created() {
     this.firstName = this.getUser.firstName;
     this.lastName = this.getUser.lastName;
   },
 
   methods: {
     ...mapActions({
-      changeUserAction: "users/updateAccount"
+      changeUserAction: "users/updateAccount",
+      showSnackBar: "snackBar/showSnackbar",
     }),
+
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.submit();
+      } else {
+        this.showSnackBar(["Morate popuniti sva polja", "error"]);
+      }
+    },
 
     submit() {
       let userInformationChanged = false;
@@ -106,13 +122,13 @@ export default {
         passwordChanged = true;
 
         if (this.password1 != this.password2) {
-          alert("Sifre se ne poklapaju");
+          this.showSnackBar(["Sifre se ne poklapaju.", "error"]);
           return;
         }
       }
 
       if (!userInformationChanged) {
-        alert("Nista niste promenUUUUli");
+        this.showSnackBar(["Nista niste promenUUUUli", "error"]);
         return;
       }
 
@@ -130,9 +146,9 @@ export default {
 
       this.changeUserAction(user)
         .then(() => {
-          alert("PromenUUUUli ste svoj nalog");
-          this.$router.go();
-          this.$router.push("/");
+          this.showSnackBar(["PromenUUUUUli ste nalog", "success"]);
+          this.password1 = "";
+          this.password2 = "";
         })
         .catch(error => alert(error));
     }

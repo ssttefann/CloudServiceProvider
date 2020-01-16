@@ -53,7 +53,6 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       :disabled="editDisabled"
@@ -80,7 +79,7 @@
                     ></v-combobox>
                   </v-col>
 
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col v-if="isSuper" cols="12" sm="6" md="4">
                     <v-select
                       :disabled="editDisabled"
                       :items="orgNames"
@@ -144,14 +143,14 @@ export default {
       editedItem: {
         name: "",
         capacity: 0,
-        organizationName : "",
+        organizationName: "",
         type: "",
         virtualMachineName: ""
       },
       defaultItem: {
         name: "",
         capacity: 0,
-        organizationName : "",
+        organizationName: "",
         type: "",
         virtualMachineName: ""
       }
@@ -163,6 +162,7 @@ export default {
       discsGetter: "disc/getDiscs",
       isAdmin: "users/isAdmin",
       isSuper: "users/isSuper",
+      getUser: "users/getUser"
     }),
 
     formTitle() {
@@ -174,9 +174,19 @@ export default {
     },
 
     vmNames() {
-      // samo VM od disc organizacije
-      var virt = this.$store.state.vms.virtualMachines.filter( x =>  x.organizationName == this.editedItem.organizationName);
-      return virt.map(i => i.name); 
+      // ako je ulogovan ne mora da bira org
+      var orgName;
+      if (this.isAdmin) {
+        orgName = this.getUser.organizationName;
+      } else {
+        orgName = this.editedItem.organizationName;
+      }
+
+      // samo VM od disk organizacije
+      var virt = this.$store.state.vms.virtualMachines.filter(
+        x => x.organizationName == orgName
+      );
+      return virt.map(i => i.name);
 
       // return this.$store.state.vms.virtualMachines.map(i => i.name);
     },
@@ -227,10 +237,10 @@ export default {
       }, 300);
     },
 
-    deleteDisc(disc) {
-      const discIndex = this.getIndexOfDisc(disc.name);
+    deleteDisc(disk) {
+      const discIndex = this.getIndexOfDisc(disk.name);
       if (confirm("Da li ste sigurni da zelite da obrisete ovaj disk")) {
-        this.deleteDiscAction([discIndex, disc.name])
+        this.deleteDiscAction([discIndex, disk.name])
           .then(() => {
             this.close();
             alert("Disk je uspesno obrisan");
@@ -240,6 +250,10 @@ export default {
     },
 
     save() {
+      if (this.isAdmin) {
+        this.editedItem.organizationName = this.getUser.organizationName;
+      }
+
       if (!this.validate()) {
         alert("Sva polja moraju da budu popunjena");
         return;
@@ -275,9 +289,10 @@ export default {
     },
 
     addDisc() {
-      //add vm org name to disc
+      //add vm org name to disk
       //let virt = this.$store.state.vms.virtualMachines.find( x => {return x.name === this.editedItem.virtualMachineName});
       //this.editedItem.organizationName = virt.organizationName;
+
       this.addDiscAction(this.editedItem)
         .then(() => {
           this.close();

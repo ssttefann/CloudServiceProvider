@@ -40,6 +40,7 @@ export default {
             axios.get('rest/discs/getDiscs/')
                 .then(res => {
                     commit('SET_DISCS', res.data)
+
                 })
                 .catch(err => alert(err));
         },

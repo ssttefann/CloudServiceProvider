@@ -66,7 +66,7 @@
                   <v-col cols="12" sm="6" md="4">
                     <v-select :items="catNames" v-model="editedItem.category.name" label="Category"></v-select>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col v-if="isSuper" cols="12" sm="6" md="4">
                     <v-select
                       :items="orgNames"
                       :disabled="editDisabled"
@@ -76,9 +76,10 @@
                   </v-col>
 
                   <v-col v-if="editDisabled" cols="12" sm="6" md="4">
-                    <v-switch v-model="editedItem.active" :label="`Upaljena: ${editedItem.active.toString()}`">
-          
-                    </v-switch>
+                    <v-switch
+                      v-model="editedItem.active"
+                      :label="`Upaljena: ${editedItem.active.toString()}`"
+                    ></v-switch>
                   </v-col>
 
                   <!-- <v-row cols="12" sm="6" md="4">
@@ -131,7 +132,7 @@ export default {
       editedItem: {
         name: "",
         organizationName: "",
-        active : true,
+        active: true,
         category: {
           name: "",
           cores: 0,
@@ -141,7 +142,7 @@ export default {
       },
       defaultItem: {
         name: "",
-        active : true,
+        active: true,
         organizationName: "",
         category: {
           name: "",
@@ -158,7 +159,8 @@ export default {
       categoriesGetter: "categories/getAll",
       vmsGetter: "vms/getAll",
       isSuper: "users/isSuper",
-      isAdmin: "users/isAdmin"
+      isAdmin: "users/isAdmin",
+      getUser: "users/getUser"
     }),
 
     formTitle() {
@@ -239,6 +241,10 @@ export default {
     },
 
     save() {
+      if (this.isAdmin) {
+        this.editedItem.organizationName = this.getUser.organizationName;
+      }
+
       if (!this.validateForm()) {
         alert("Sva polja moraju biti popunjena");
         return;
@@ -285,7 +291,6 @@ export default {
     },
 
     addVm() {
-      alert(this.editedItem.categoryName);
       this.addVmAction(this.editedItem)
         .then(() => {
           alert("Virtuelna masina uspesno dodata");

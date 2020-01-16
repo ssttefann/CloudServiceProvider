@@ -80,7 +80,7 @@ public class OrganizationRepository {
     private void connectOrganizationsWithDiscs() throws IOException {
         DiscRepository disceRepository = DiscRepository.getInstance();
         disceRepository.getDiscList().forEach(disc -> {
-            String organizationName = disc.getOrganisationName();
+            String organizationName = disc.getOrganizationName();
             Organization organization = organizationsIndexedByName.get(organizationName);
             organization.addDisc(disc);
         });

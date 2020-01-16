@@ -53,13 +53,15 @@
             <v-card-text>
               <v-container>
                 <v-row>
+                  
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      :disabled="nameDisabled"
+                      :disabled="editDisabled"
                       v-model="editedItem.name"
                       label="Disc name"
                     ></v-text-field>
                   </v-col>
+
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       v-model="editedItem.capacity"
@@ -68,6 +70,7 @@
                       label="Capacity"
                     ></v-text-field>
                   </v-col>
+
                   <v-col cols="12" sm="6" md="4">
                     <v-combobox
                       append-icon="mdi-minidisc"
@@ -76,6 +79,16 @@
                       label="Type"
                     ></v-combobox>
                   </v-col>
+
+                  <v-col cols="12" sm="6" md="4">
+                    <v-select
+                      :disabled="editDisabled"
+                      :items="orgNames"
+                      v-model="editedItem.organizationName"
+                      label="Organization"
+                    ></v-select>
+                  </v-col>
+
                   <v-col cols="12" sm="6" md="4">
                     <v-select
                       :items="vmNames"
@@ -119,6 +132,7 @@ export default {
         { text: "Capacity", value: "capacity" },
         { text: "Type", value: "type" },
         { text: "Virtual Machine", value: "virtualMachineName" },
+        { text: "Organization", value: "organizationName" },
         { text: "Actions", value: "action", sortable: false }
       ],
 
@@ -130,14 +144,14 @@ export default {
       editedItem: {
         name: "",
         capacity: 0,
-        organisationName : "",
+        organizationName : "",
         type: "",
         virtualMachineName: ""
       },
       defaultItem: {
         name: "",
         capacity: 0,
-        organisationName : "",
+        organizationName : "",
         type: "",
         virtualMachineName: ""
       }
@@ -155,12 +169,20 @@ export default {
       return this.editedIndex === -1 ? "New Disc" : "Edit Disc";
     },
 
-    nameDisabled() {
+    editDisabled() {
       return this.editedIndex != -1;
     },
 
     vmNames() {
-      return this.$store.state.vms.virtualMachines.map(i => i.name);
+      // samo VM od disc organizacije
+      var virt = this.$store.state.vms.virtualMachines.filter( x =>  x.organizationName == this.editedItem.organizationName);
+      return virt.map(i => i.name); 
+
+      // return this.$store.state.vms.virtualMachines.map(i => i.name);
+    },
+
+    orgNames() {
+      return this.$store.state.orgs.organizations.map(i => i.name);
     },
 
     isHidden() {
@@ -254,8 +276,8 @@ export default {
 
     addDisc() {
       //add vm org name to disc
-      let virt = this.$store.state.vms.virtualMachines.find( x => {return x.name === this.editedItem.virtualMachineName});
-      this.editedItem.organisationName = virt.organisationName;
+      //let virt = this.$store.state.vms.virtualMachines.find( x => {return x.name === this.editedItem.virtualMachineName});
+      //this.editedItem.organizationName = virt.organizationName;
       this.addDiscAction(this.editedItem)
         .then(() => {
           this.close();

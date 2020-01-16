@@ -58,7 +58,7 @@
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      :disabled="nameDisabled"
+                      :disabled="editDisabled"
                       v-model="editedItem.name"
                       label="VM name"
                     ></v-text-field>
@@ -69,13 +69,13 @@
                   <v-col cols="12" sm="6" md="4">
                     <v-select
                       :items="orgNames"
-                      :disabled="nameDisabled"
+                      :disabled="editDisabled"
                       v-model="editedItem.organizationName"
                       label="Organization"
                     ></v-select>
                   </v-col>
 
-                  <v-col v-if="nameDisabled" cols="12" sm="6" md="4">
+                  <v-col v-if="editDisabled" cols="12" sm="6" md="4">
                     <v-switch v-model="editedItem.active" :label="`Upaljena: ${editedItem.active.toString()}`">
           
                     </v-switch>
@@ -165,7 +165,7 @@ export default {
       return this.editedIndex === -1 ? "New VM" : "Edit VM";
     },
 
-    nameDisabled() {
+    editDisabled() {
       return this.editedIndex != -1;
     },
 

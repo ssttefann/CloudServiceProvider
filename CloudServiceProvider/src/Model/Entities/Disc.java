@@ -7,7 +7,7 @@ public class Disc {
     private String name;
     private DiscType type;
     private int capacity;
-    private String organisationName;
+    private String organizationName;
     private LocalDateTime timeCreated;
     private String virtualMachineName;
 
@@ -59,9 +59,9 @@ public class Disc {
         this.virtualMachineName = virtualMachineName;
     }
 
-    public String getOrganisationName() {return organisationName; }
+    public String getOrganizationName() {return organizationName; }
 
-    public void setOrganisationName(String organisationName) {this.organisationName = organisationName; }
+    public void setOrganizationName(String organizationName) {this.organizationName = organizationName; }
 
     public LocalDateTime getTimeCreated() {return timeCreated;}
 

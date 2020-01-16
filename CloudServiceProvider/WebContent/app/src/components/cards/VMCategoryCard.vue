@@ -60,7 +60,7 @@
                     <v-text-field
                       v-model="editedItem.name"
                       label="Category"
-                      :disabled="nameDisabled"
+                      :disabled="editDisabled"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
@@ -137,7 +137,7 @@ export default {
       return this.editedIndex === -1 ? "New Category" : "Edit Category";
     },
 
-    nameDisabled() {
+    editDisabled() {
       return this.editedIndex != -1;
     },
 

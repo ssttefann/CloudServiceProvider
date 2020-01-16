@@ -12,6 +12,7 @@ public class Organization {
     private String logo;
     private transient List<User> usersList;
     private transient List<VirtualMachine> virtualMachinesList;
+    private transient  List<Disc> discs;
 
     public Organization(String name, String description, String pathToLogo) {
         this.name = name;
@@ -19,12 +20,19 @@ public class Organization {
         this.logo = pathToLogo;
     }
 
-    public List<Disc> getDiscs() {
-        return virtualMachinesList
-                .stream()
-                .flatMap(virtualMachine -> virtualMachine.getDiscList().stream())
-                .collect(Collectors.toList());
-    }
+//    public List<Disc> getDiscs() {
+//        return virtualMachinesList
+//                .stream()
+//                .flatMap(virtualMachine -> virtualMachine.getDiscList().stream())
+//                .collect(Collectors.toList());
+//    }
+
+
+    public List<Disc> getDiscs() { return discs; }
+
+    public void setDiscs(List<Disc> discs) {this.discs = discs;}
+
+    public void addDisc(Disc disc) {this.discs.add(disc);}
 
     public String getName() {
         return name;

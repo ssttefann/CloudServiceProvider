@@ -1,1 +1,1 @@
-[{"name":"VM3","categoryName":"KAT2","organizationName":"ORG2","active":true,"activities":[]},{"name":"VM4","categoryName":"KAT2","organizationName":"ORG2","active":false,"activities":[]}]
+[{"name":"VM2","categoryName":"KAT3","organizationName":"ORG2","active":true,"activities":[{"startTime":{"date":{"year":2020,"month":1,"day":16},"time":{"hour":21,"minute":22,"second":23,"nano":139000000}}}]}]

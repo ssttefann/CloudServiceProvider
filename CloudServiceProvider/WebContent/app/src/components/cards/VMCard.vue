@@ -77,6 +77,7 @@
 
                   <v-col v-if="nameDisabled" cols="12" sm="6" md="4">
                     <v-switch v-model="editedItem.active" :label="`Upaljena: ${editedItem.active.toString()}`">
+          
                     </v-switch>
                   </v-col>
 

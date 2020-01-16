@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,8 +64,10 @@ public class DiscRepository {
     public boolean addDisc(Disc disc) throws IOException {
         String discName = disc.getName();
         if(!discsIndexedByName.containsKey(discName)){
+            disc.setTimeCreated(LocalDateTime.now());
             discsIndexedByName.put(discName, disc);
             discList.add(disc);
+
             saveDiscs();
             return true;
         }

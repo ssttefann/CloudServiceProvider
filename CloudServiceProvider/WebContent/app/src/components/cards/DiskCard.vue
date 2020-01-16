@@ -130,12 +130,14 @@ export default {
       editedItem: {
         name: "",
         capacity: 0,
+        organisationName : "",
         type: "",
         virtualMachineName: ""
       },
       defaultItem: {
         name: "",
         capacity: 0,
+        organisationName : "",
         type: "",
         virtualMachineName: ""
       }
@@ -251,6 +253,9 @@ export default {
     },
 
     addDisc() {
+      //add vm org name to disc
+      let virt = this.$store.state.vms.virtualMachines.find( x => {return x.name === this.editedItem.virtualMachineName});
+      this.editedItem.organisationName = virt.organisationName;
       this.addDiscAction(this.editedItem)
         .then(() => {
           this.close();

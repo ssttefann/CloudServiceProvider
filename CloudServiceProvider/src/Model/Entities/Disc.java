@@ -1,12 +1,16 @@
 package Model.Entities;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Disc {
     private String name;
     private DiscType type;
     private int capacity;
+    private String organisationName;
+    private LocalDateTime timeCreated;
     private String virtualMachineName;
+
 
     public Disc(String name, DiscType type, int capacity, String virtualMachineName) {
         this.name = name;
@@ -54,4 +58,12 @@ public class Disc {
     public void setVirtualMachineName(String virtualMachineName) {
         this.virtualMachineName = virtualMachineName;
     }
+
+    public String getOrganisationName() {return organisationName; }
+
+    public void setOrganisationName(String organisationName) {this.organisationName = organisationName; }
+
+    public LocalDateTime getTimeCreated() {return timeCreated;}
+
+    public void setTimeCreated(LocalDateTime timeCreated) {this.timeCreated = timeCreated;}
 }

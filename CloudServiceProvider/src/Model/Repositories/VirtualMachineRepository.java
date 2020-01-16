@@ -129,9 +129,10 @@ public class VirtualMachineRepository {
         String vmName = editedVm.getName();
         if(virtualMachinesIndexedByName.containsKey(vmName)){
             VirtualMachine vm = virtualMachinesIndexedByName.get(vmName);
-            String newCategoryName = editedVm.getCategory().getName();
+            String newCategoryName = editedVm.getCategoryName();
             vm.setCategoryName(newCategoryName);
             vm.setCategory(editedVm.getCategory());
+            vm.setActive(editedVm.isActive());
             saveVirtualMachines();
             return true;
         }

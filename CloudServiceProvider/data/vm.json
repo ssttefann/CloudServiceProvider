@@ -1,1 +1,1 @@
-[{"name":"VM3","categoryName":"KAT2","organizationName":"ORG2","activities":[]},{"name":"VM4","categoryName":"KAT2","organizationName":"ORG2","activities":[]}]
+[{"name":"VM3","categoryName":"KAT2","organizationName":"ORG2","active":true,"activities":[]},{"name":"VM4","categoryName":"KAT2","organizationName":"ORG2","active":false,"activities":[]}]

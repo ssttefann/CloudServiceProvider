@@ -74,6 +74,12 @@
                       label="Organization"
                     ></v-select>
                   </v-col>
+
+                  <v-col v-if="nameDisabled" cols="12" sm="6" md="4">
+                    <v-switch v-model="editedItem.active" :label="`Upaljena: ${editedItem.active.toString()}`">
+                    </v-switch>
+                  </v-col>
+
                   <!-- <v-row cols="12" sm="6" md="4">
                     <DiskCard/>
                   </v-row>-->
@@ -124,6 +130,7 @@ export default {
       editedItem: {
         name: "",
         organizationName: "",
+        active : true,
         category: {
           name: "",
           cores: 0,
@@ -133,6 +140,7 @@ export default {
       },
       defaultItem: {
         name: "",
+        active : true,
         organizationName: "",
         category: {
           name: "",

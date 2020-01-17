@@ -37,6 +37,7 @@
       :hidden="isHidden"
       class="ma-6"
       :search="search"
+      :items-per-page = 5
       :headers="headers"
       :items="this.orgGetter"
     >
@@ -61,14 +62,14 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col cols="12" sm="6" md="6">
                     <v-text-field v-model="editedItem.name" label="Name" :disabled="editDisabled"></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col cols="12" sm="6" md="6">
                     <v-text-field v-model="editedItem.description" label="Description"></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-file-input ref="iconUpload" prepend-icon="mdi-image" @change="fileSubmited" placeholder="Ikonica organizacije"></v-file-input>
+                  <v-col cols="12" sm="6" md="6">
+                    <v-file-input ref="iconUpload" prepend-icon="mdi-image" @change="fileSubmited" placeholder="Logo"></v-file-input>
                   </v-col>
                 </v-row>
               </v-container>

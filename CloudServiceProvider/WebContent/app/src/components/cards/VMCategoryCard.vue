@@ -37,6 +37,7 @@
       :hidden="isHidden"
       class="ma-6"
       :search="search"
+      :items-per-page = 5
       :headers="headers"
       :items="this.$store.state.categories.VMCategories"
     >

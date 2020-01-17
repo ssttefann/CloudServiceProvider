@@ -225,7 +225,7 @@ export default {
 
     save() {
       if (!this.validateForm()) {
-        this.showSnackbar(["All input fields must be filled out!", "error", "bottom"])
+        this.showSnackbar(["All input fields must be filled out!", "info", "bottom"])
         return;
       }
 

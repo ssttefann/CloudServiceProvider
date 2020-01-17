@@ -188,7 +188,7 @@ export default {
       const index = this.$store.state.users.users.indexOf(item);
 
       if(this.$store.state.users.loggedUser.email == item.email){
-        this.showSnackbar(["You can't delete yourself!", "error", "bottom"]);
+        this.showSnackbar(["You can't delete yourself!", "info", "bottom"]);
         return;
       }
 

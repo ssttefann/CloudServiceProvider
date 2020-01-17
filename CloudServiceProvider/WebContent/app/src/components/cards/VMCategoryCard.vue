@@ -190,7 +190,7 @@ export default {
 
     save() {
       if (!this.validateForm()) {
-        alert("Sva polja moraju biti popunjena");
+        this.showSnackbar(["All fields must be filled out!", "info", "bottom"])
         return;
       }
 

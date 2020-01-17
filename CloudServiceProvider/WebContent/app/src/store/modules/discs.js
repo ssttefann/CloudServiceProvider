@@ -8,7 +8,6 @@ export default {
     },
 
 
-
     mutations: {
         SET_DISCS(state, data) {
             state.discs = data;

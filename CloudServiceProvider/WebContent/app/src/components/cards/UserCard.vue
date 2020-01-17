@@ -67,7 +67,7 @@
                     <v-text-field :disabled=emailDisabled v-model="editedItem.email" label="Email" type="email"></v-text-field>
                   </v-col>
                   
-                 <v-col cols="12" sm="6" md="4">
+                 <v-col v-if="isSuper" cols="12" sm="6" md="4">
                     <v-select :items=orgNames :disabled=emailDisabled v-model="editedItem.organizationName" label="Organization" ></v-select>
                   </v-col>
 
@@ -107,7 +107,7 @@
 
 <script>
 
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -146,6 +146,12 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      isSuper: "users/isSuper",
+      isAdmin: "users/isAdmin",
+      getUser: "users/getUser",
+    }),
+
     formTitle() {
       return this.editedIndex === -1 ? "New User" : "Edit User";
     },
@@ -219,6 +225,10 @@ export default {
 
     // izmena/dodavanje novog usera
     save() {
+      if(this.isAdmin){
+        this.editedItem.organizationName = this.getUser.organizationName;
+      }
+
       if (this.editedIndex > -1) {
         this.$store.dispatch('users/edit', [this.editedIndex,this.editedItem])
           .then( () => {

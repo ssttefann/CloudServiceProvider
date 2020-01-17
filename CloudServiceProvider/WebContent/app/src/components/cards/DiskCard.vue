@@ -54,7 +54,6 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       :disabled="editDisabled"
@@ -81,7 +80,7 @@
                     ></v-combobox>
                   </v-col>
 
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col v-if="isSuper" cols="12" sm="6" md="4">
                     <v-select
                       :disabled="editDisabled"
                       :items="orgNames"
@@ -145,14 +144,14 @@ export default {
       editedItem: {
         name: "",
         capacity: 0,
-        organizationName : "",
+        organizationName: "",
         type: "",
         virtualMachineName: ""
       },
       defaultItem: {
         name: "",
         capacity: 0,
-        organizationName : "",
+        organizationName: "",
         type: "",
         virtualMachineName: ""
       }
@@ -164,6 +163,7 @@ export default {
       discsGetter: "disc/getDiscs",
       isAdmin: "users/isAdmin",
       isSuper: "users/isSuper",
+      getUser: "users/getUser"
     }),
 
     formTitle() {
@@ -175,11 +175,18 @@ export default {
     },
 
     vmNames() {
+      // ako je ulogovan ne mora da bira org
+      var orgName;
+      if (this.isAdmin) {
+        orgName = this.getUser.organizationName;
+      } else {
+        orgName = this.editedItem.organizationName;
+      }
       // samo VM od disc organizacije
-      var virt = this.$store.state.vms.virtualMachines.filter( x =>  x.organizationName == this.editedItem.organizationName);
-      return virt.map(i => i.name); 
-
-      // return this.$store.state.vms.virtualMachines.map(i => i.name);
+      var virt = this.$store.state.vms.virtualMachines.filter(
+        x => x.organizationName == orgName
+      );
+      return virt.map(i => i.name);
     },
 
     orgNames() {
@@ -208,7 +215,7 @@ export default {
       addDiscAction: "disc/add",
       editDiscAction: "disc/edit",
       deleteDiscAction: "disc/delete",
-      showSnackbar : "snackbar/showSnackbar",
+      showSnackbar: "snackbar/showSnackbar"
     }),
 
     editItem(item) {
@@ -230,8 +237,16 @@ export default {
     },
 
     save() {
+      if (this.isAdmin) {
+        this.editedItem.organizationName = this.getUser.organizationName;
+      }
+
       if (!this.validate()) {
-        this.showSnackbar(["All input fields must be filled out!", "info", "bottom"])
+        this.showSnackbar([
+          "All input fields must be filled out!",
+          "info",
+          "bottom"
+        ]);
         return;
       }
 
@@ -256,13 +271,10 @@ export default {
     },
 
     addDisc() {
-      //add vm org name to disc
-      //let virt = this.$store.state.vms.virtualMachines.find( x => {return x.name === this.editedItem.virtualMachineName});
-      //this.editedItem.organizationName = virt.organizationName;
       this.addDiscAction(this.editedItem)
         .then(() => {
           this.close();
-          this.showSnackbar(["Disc successfully added!", "success", "bottom"])
+          this.showSnackbar(["Disc successfully added!", "success", "bottom"]);
         })
         .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
     },
@@ -271,22 +283,28 @@ export default {
       this.editDiscAction([this.editedIndex, this.editedItem])
         .then(() => {
           this.close();
-          this.showSnackbar(["Disc successfully edited!", "success", "bottom"])
+          this.showSnackbar(["Disc successfully edited!", "success", "bottom"]);
         })
         .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
     },
 
     deleteDisc(disc) {
       const discIndex = this.getIndexOfDisc(disc.name);
-      if (confirm("Are you sure you want to delete this Disc? "))  {
+      if (confirm("Are you sure you want to delete this Disc? ")) {
         this.deleteDiscAction([discIndex, disc.name])
           .then(() => {
             this.close();
-            this.showSnackbar(["Disc successfully deleted!", "success", "bottom"])
+            this.showSnackbar([
+              "Disc successfully deleted!",
+              "success",
+              "bottom"
+            ]);
           })
-          .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+          .catch(err =>
+            this.showSnackbar(["Error: " + err, "error", "bottom"])
+          );
       }
-    },    
+    },
 
     hide() {
       this.hidden = !this.hidden;

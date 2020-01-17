@@ -141,9 +141,9 @@ public class OrganizationRepository {
     public boolean editOrganization(Organization newOrganization) throws IOException {
         String organizationName = newOrganization.getName();
         if (organizationsIndexedByName.containsKey(organizationName)) {
-            organizationsIndexedByName.put(organizationName, newOrganization);
-            organizationsList.remove(newOrganization);
-            organizationsList.add(newOrganization);
+            Organization oldOrganization = organizationsIndexedByName.get(organizationName);
+            oldOrganization.setDescription(newOrganization.getDescription());
+            oldOrganization.setLogo(newOrganization.getLogo());
             saveOrganizations();
             return true;
         }

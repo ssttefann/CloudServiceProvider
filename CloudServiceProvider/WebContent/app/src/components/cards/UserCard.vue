@@ -34,7 +34,12 @@
     </v-card-title>
 
     <!-- Tabela za prikaz svih elemenata -->
-    <v-data-table :hidden=isHidden class="ma-6" :search="search" :headers="headers" :items="this.$store.state.users.users">
+    <v-data-table 
+      :hidden=isHidden class="ma-6" 
+      :search="search" :headers="headers" 
+      :items="this.$store.state.users.users"
+      :items-per-page = 5
+    >
 
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>

@@ -35,6 +35,7 @@
     <!-- Tabela za prikaz svih elemenata -->
     <v-data-table
       :hidden="isHidden"
+      :items-per-page = 5
       class="ma-6"
       :search="search"
       :headers="headers"

@@ -9,7 +9,7 @@ import static spark.Spark.post;
 import static spark.Spark.delete;
 import static spark.Spark.staticFiles;
 
-import java.io.File;
+import java.io.*;
 
 import Model.Repositories.*;
 import Rest.Controlers.*;
@@ -28,6 +28,32 @@ public class Main {
         port(8080);
         staticFiles.externalLocation(new File("CloudServiceProvider/WebContent/app/dist").getCanonicalPath());
         System.out.println();
+
+        post("/rest/uploadIcon/:fileName", (request, response) -> {
+            String s = request.body();
+            String tupan = request.params("fileName");
+            byte[] b = request.bodyAsBytes();
+            InputStream is = new ByteArrayInputStream(b);
+            try (FileOutputStream fos = new FileOutputStream("CloudServiceProvider/data/images/" + tupan)) {
+                fos.write(b);
+            }
+            return "";
+        });
+
+        get("rest/getIcon/:fileName", (request, response) -> {
+            String fileName = request.params("fileName");
+            File file = new File("CloudServiceProvider/data/images/" + fileName);
+            try(FileInputStream ins = new FileInputStream(file)){
+                long kurac = file.length();
+                byte[] res = new byte[(int) kurac];
+                int size = ins.read(res);
+                response.type("image/image/jpeg");
+                return res;
+            } catch(Exception e){
+                response.status(400);
+                return "No file with that name";
+            }
+        });
 
         // Login
         post("/rest/login/", AuthenticationController.login);
@@ -70,8 +96,6 @@ public class Main {
             res.redirect("/#/" + req.splat()[0]);
             return "OK";
         });
-
-
 
 
     }

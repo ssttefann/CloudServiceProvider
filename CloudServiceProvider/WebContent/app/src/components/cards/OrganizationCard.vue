@@ -95,6 +95,7 @@
 
 
 <script>
+import axios from "axios";
 import { mapGetters, mapActions } from 'vuex';
 export default {
   data() {
@@ -115,6 +116,7 @@ export default {
           description: "",
           logo : "",
       },
+      file: null,
       defaultItem: {
           name: "",
           description: "",
@@ -175,6 +177,7 @@ export default {
     },
 
     fileSubmited(file){
+      this.file = file;
       this.editedItem.logo = file.name;
     },
 
@@ -198,6 +201,12 @@ export default {
         this.editOrg();
       } else {
         this.addOrg();
+      }
+
+      if(this.file){
+        axios.post("/rest/uploadIcon/" + this.file.name, this.file).then(() =>{
+          this.file = null;
+        });
       }
 
       this.$refs.iconUpload.value = undefined;

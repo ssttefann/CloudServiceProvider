@@ -20,7 +20,7 @@ public class Main {
     private static Gson gson = new Gson();
     private static CategoryRepository categoryRepository;
     private static UserRepository userRepository;
-    private static DiscRepository discRepository;
+    private static DiskRepository diskRepository;
     private static VirtualMachineRepository virtualMachineRepository;
     private static OrganizationRepository organizationRepository;
 
@@ -49,10 +49,10 @@ public class Main {
 
 
         //Diskovi
-        get("/rest/discs/getDiscs/", DiscController.getDiscs);
-        post("/rest/discs/add/", DiscController.addDisc);
-        post("/rest/discs/edit/", DiscController.editDisc);
-        delete("/rest/discs/delete/:discname", DiscController.deleteDisc);
+        get("/rest/discs/getDiscs/", DiskController.getDiscs);
+        post("/rest/discs/add/", DiskController.addDisc);
+        post("/rest/discs/edit/", DiskController.editDisc);
+        delete("/rest/discs/delete/:discname", DiskController.deleteDisc);
 
         //Kategorije
         get("/rest/categories/getCategories/", CategoryController.getAllCategories);

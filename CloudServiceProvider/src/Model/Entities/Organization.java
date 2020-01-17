@@ -1,10 +1,8 @@
 package Model.Entities;
 
 
-import java.beans.Transient;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Organization {
     private String name;
@@ -12,7 +10,7 @@ public class Organization {
     private String logo;
     private transient List<User> usersList;
     private transient List<VirtualMachine> virtualMachinesList;
-    private transient  List<Disc> discs;
+    private transient  List<Disk> disks;
 
     public Organization(String name, String description, String pathToLogo) {
         this.name = name;
@@ -20,19 +18,11 @@ public class Organization {
         this.logo = pathToLogo;
     }
 
-//    public List<Disc> getDiscs() {
-//        return virtualMachinesList
-//                .stream()
-//                .flatMap(virtualMachine -> virtualMachine.getDiscList().stream())
-//                .collect(Collectors.toList());
-//    }
+    public List<Disk> getDisks() { return disks; }
 
+    public void setDisks(List<Disk> disks) {this.disks = disks;}
 
-    public List<Disc> getDiscs() { return discs; }
-
-    public void setDiscs(List<Disc> discs) {this.discs = discs;}
-
-    public void addDisc(Disc disc) {this.discs.add(disc);}
+    public void addDisc(Disk disk) {this.disks.add(disk);}
 
     public String getName() {
         return name;

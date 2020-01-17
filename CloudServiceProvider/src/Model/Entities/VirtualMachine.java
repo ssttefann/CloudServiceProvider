@@ -11,9 +11,9 @@ public class VirtualMachine {
     private List<VirtualMachineActivity> activities;
 
     private transient Category category;
-    private transient List<Disc> discList;
+    private transient List<Disk> diskList;
 
-    public VirtualMachine(String name, String categoryName, String organizationName, List<VirtualMachineActivity> activities, Category category, List<Disc> discList) {
+    public VirtualMachine(String name, String categoryName, String organizationName, List<VirtualMachineActivity> activities, Category category, List<Disk> diskList) {
         this.name = name;
         this.categoryName = categoryName;
         this.organizationName = organizationName;
@@ -79,35 +79,35 @@ public class VirtualMachine {
         this.category = category;
     }
 
-    public List<Disc> getDiscList() {
-        return discList;
+    public List<Disk> getDiskList() {
+        return diskList;
     }
 
-    public void setDiscList(List<Disc> discList) {
-        this.discList = discList;
+    public void setDiskList(List<Disk> diskList) {
+        this.diskList = diskList;
     }
 
-    public boolean addDiscIfNotInVirtualMachine(Disc disc) {
-        if (!discList.contains(disc)) {
-            discList.add(disc);
+    public boolean addDiscIfNotInVirtualMachine(Disk disk) {
+        if (!diskList.contains(disk)) {
+            diskList.add(disk);
             return true;
         }
 
         return false;
     }
 
-    public boolean addDisc(Disc disc) {
-        if(!discList.contains(disc)){
-            discList.add(disc);
+    public boolean addDisc(Disk disk) {
+        if(!diskList.contains(disk)){
+            diskList.add(disk);
             return true;
         }
 
         return false;
     }
 
-    public void removeDisc(Disc disc) {
-        if(discList.contains(disc)){
-            discList.remove(disc);
+    public void removeDisc(Disk disk) {
+        if(diskList.contains(disk)){
+            diskList.remove(disk);
         }
     }
 }

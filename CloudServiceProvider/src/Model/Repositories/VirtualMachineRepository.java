@@ -1,6 +1,7 @@
 package Model.Repositories;
 
 import Model.Entities.Category;
+import Model.Entities.Disk;
 import Model.Entities.VirtualMachine;
 import Model.Entities.VirtualMachineActivity;
 import com.google.gson.Gson;
@@ -9,10 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class VirtualMachineRepository {
@@ -66,14 +64,14 @@ public class VirtualMachineRepository {
      */
     private void initializeDiscList() {
         virtualMachineList.forEach(virtualMachine -> {
-            virtualMachine.setDiscList(new ArrayList<>());
+            virtualMachine.setDiskList(new ArrayList<>());
         });
     }
 
 
     private void connectVirtualMachinesAndDiscs() throws IOException {
-        DiscRepository discRepository = DiscRepository.getInstance();
-        discRepository.getDiscList().forEach(disc -> {
+        DiskRepository diskRepository = DiskRepository.getInstance();
+        diskRepository.getDiskList().forEach(disc -> {
             String virtualMachineName = disc.getVirtualMachineName();
             if(!virtualMachineName.equals("")){
                 VirtualMachine virtualMachine = virtualMachinesIndexedByName.get(virtualMachineName);
@@ -158,5 +156,16 @@ public class VirtualMachineRepository {
         }
 
         return false;
+    }
+
+    public VirtualMachine getVirtualMachineByDiskName(String diskName) {
+        Optional<VirtualMachine> result = virtualMachineList
+                .stream()
+                .filter(vm -> vm.getDiskList()
+                        .stream()
+                        .anyMatch(disk -> disk.getName().equals(diskName)))
+                .findAny();
+
+        return result.orElse(null);
     }
 }

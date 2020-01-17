@@ -63,7 +63,7 @@ public class OrganizationRepository {
         organizationsList.forEach(organization -> {
             organization.setVirtualMachinesList(new ArrayList<>());
             organization.setUsersList(new ArrayList<>());
-            organization.setDiscs(new ArrayList<>());
+            organization.setDisks(new ArrayList<>());
         });
     }
 
@@ -78,8 +78,8 @@ public class OrganizationRepository {
     }
 
     private void connectOrganizationsWithDiscs() throws IOException {
-        DiscRepository disceRepository = DiscRepository.getInstance();
-        disceRepository.getDiscList().forEach(disc -> {
+        DiskRepository disceRepository = DiskRepository.getInstance();
+        disceRepository.getDiskList().forEach(disc -> {
             String organizationName = disc.getOrganizationName();
             Organization organization = organizationsIndexedByName.get(organizationName);
             organization.addDisc(disc);

@@ -3,7 +3,7 @@ package Model.Entities;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Disc {
+public class Disk {
     private String name;
     private DiscType type;
     private int capacity;
@@ -12,7 +12,7 @@ public class Disc {
     private String virtualMachineName;
 
 
-    public Disc(String name, DiscType type, int capacity, String virtualMachineName) {
+    public Disk(String name, DiscType type, int capacity, String virtualMachineName) {
         this.name = name;
         this.type = type;
         this.capacity = capacity;
@@ -23,8 +23,8 @@ public class Disc {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Disc disc = (Disc) o;
-        return Objects.equals(name, disc.name);
+        Disk disk = (Disk) o;
+        return Objects.equals(name, disk.name);
     }
 
     public String getName() {

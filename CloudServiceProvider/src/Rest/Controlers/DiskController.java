@@ -1,17 +1,15 @@
 package Rest.Controlers;
 
 import Model.Database;
-import Model.Entities.Disc;
+import Model.Entities.Disk;
 import Model.Entities.User;
-import Model.Entities.UserRole;
-import Model.Repositories.DiscRepository;
 import com.google.gson.Gson;
 import spark.Route;
 
 import java.io.IOException;
 import java.util.List;
 
-public class DiscController {
+public class DiskController {
     private static Gson gson = new Gson();
     private static Database db;
 
@@ -29,14 +27,14 @@ public class DiscController {
             return null;
         }
 
-        List<Disc> discs;
+        List<Disk> disks;
         if (user.isSuperAdmin()) {
-            discs = db.getAllDiscs();
+            disks = db.getAllDiscs();
         } else {
-            discs = db.getDiscsOfOrganization(user.getOrganizationName());
+            disks = db.getDiscsOfOrganization(user.getOrganizationName());
         }
 
-        return gson.toJson(discs);
+        return gson.toJson(disks);
     };
 
     public static Route addDisc = (request, response) -> {
@@ -47,13 +45,13 @@ public class DiscController {
         }
 
         String discJson = request.body();
-        Disc newDisc = gson.fromJson(discJson, Disc.class);
-        if (!db.addDisc(newDisc)){
+        Disk newDisk = gson.fromJson(discJson, Disk.class);
+        if (!db.addDisc(newDisk)){
             response.status(400);
             return "Disc name already exists";
         }
 
-        return gson.toJson(newDisc);
+        return gson.toJson(newDisk);
     };
 
     public static Route editDisc = (request, response) -> {
@@ -64,13 +62,13 @@ public class DiscController {
         }
 
         String discJson = request.body();
-        Disc editedDisc = gson.fromJson(discJson, Disc.class);
-        if(!db.editDisc(editedDisc)){
+        Disk editedDisk = gson.fromJson(discJson, Disk.class);
+        if(!db.editDisk(editedDisk)){
             response.status(400);
             return "Disc name doesn't exist";
         }
 
-        return gson.toJson(editedDisc);
+        return gson.toJson(editedDisk);
     };
 
     public static Route deleteDisc = (request, response) -> {

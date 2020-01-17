@@ -35,7 +35,7 @@
     <!-- Tabela za prikaz svih elemenata -->
     <v-data-table
       :hidden="isHidden"
-      :items-per-page = 5
+      :items-per-page="5"
       class="ma-6"
       :search="search"
       :headers="headers"
@@ -43,7 +43,7 @@
     >
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
-        <v-divider class="mx-4" inset vertical></v-divider>
+        <v-divider class="mx-4" inset vertical width="70%"></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-if="isAdmin || isSuper" v-slot:activator="{ on }">
@@ -83,9 +83,33 @@
                     ></v-switch>
                   </v-col>
 
-                  <!-- <v-row cols="12" sm="6" md="4">
-                    <DiskCard/>
-                  </v-row>-->
+                  <v-card>
+                    <v-card-title class="grey white--text">
+                      Select disks
+                      <v-spacer></v-spacer>
+                      <v-text-field
+                        v-model="searchDiscs"
+                        dark
+                        append-icon="mdi-search-web"
+                        :disabled="isHidden"
+                        label="Search"
+                        single-line
+                        hide-details
+                      ></v-text-field>
+                    </v-card-title>
+
+                    <v-data-table
+                      v-model="selectedDiscs"
+                      :items-per-page="5"
+                      class="ma-6"
+                      :search="searchDiscs"
+                      item-key="name"
+                      dense
+                      show-select
+                      :headers="diskHeaders"
+                      :items="disksForVms"
+                    ></v-data-table>
+                  </v-card>
                 </v-row>
               </v-container>
             </v-card-text>
@@ -117,6 +141,7 @@ export default {
 
   data() {
     return {
+      selectedDiscs: [],
       hidden: false,
       headers: [
         { text: "Name", align: "left", value: "name" },
@@ -127,6 +152,12 @@ export default {
         { text: "Actions", value: "action", sortable: false }
       ],
 
+      diskHeaders: [
+        { text: "Name", align: "left", value: "name" },
+        { text: "Capacity", value: "capacity" },
+        { text: "Type", value: "type" }
+      ],
+      searchDiscs: "",
       search: "",
       dialog: false,
       editedIndex: -1,
@@ -158,11 +189,29 @@ export default {
   computed: {
     ...mapGetters({
       categoriesGetter: "categories/getAll",
+      diskGetter: "disc/getDiscs",
       vmsGetter: "vms/getAll",
       isSuper: "users/isSuper",
       isAdmin: "users/isAdmin",
       getUser: "users/getUser"
     }),
+
+    /**
+     * Za biranje diskova pri dodavanju/editovanju vmova
+     */
+    disksForVms() {
+      let orgName;
+
+      if (this.isAdmin) {
+        orgName = this.getUser.organizationName;
+      } else {
+        orgName = this.editedItem.organizationName;
+      }
+      return this.diskGetter.filter(
+        disk =>
+          disk.virtualMachineName === "" && disk.organizationName === orgName
+      );
+    },
 
     formTitle() {
       return this.editedIndex === -1 ? "New VM" : "Edit VM";
@@ -201,7 +250,8 @@ export default {
       editVmAction: "vms/edit",
       deleteVmAction: "vms/delete",
       loadDiscs: "disc/load",
-      showSnackbar: "snackbar/showSnackbar"
+      showSnackbar: "snackbar/showSnackbar",
+      editDiscAction: "disc/edit"
     }),
 
     initialize() {},
@@ -229,7 +279,7 @@ export default {
       if (this.isAdmin) {
         this.editedItem.organizationName = this.getUser.organizationName;
       }
-      
+
       if (!this.validateForm()) {
         this.showSnackbar([
           "All input fields must be filled out!",
@@ -239,10 +289,11 @@ export default {
         return;
       }
 
+      // kad izabere kategoriju iz dropdown-a postavi se samo ime
+      // kategorije, pa ovde dodeljujem celu kategoriju vm-u
       this.editedItem.category = this.getCategoryByName(
         this.editedItem.category.name
       );
-
       this.editedItem.categoryName = this.editedItem.category.name;
 
       if (this.editedIndex > -1) {
@@ -250,7 +301,18 @@ export default {
       } else {
         this.addVm();
       }
+
       this.close();
+    },
+
+    addSelectedDiscsToVm() {
+      this.selectedDiscs.forEach(disc => {
+        let discIndex = this.diskGetter.findIndex(d => d.name === disc.name);
+        disc.virtualMachineName = this.editedItem.name;
+        this.editDiscAction([discIndex, disc]);
+      });
+
+      this.selectedDiscs = [];
     },
 
     validateForm() {
@@ -274,6 +336,7 @@ export default {
     addVm() {
       this.addVmAction(this.editedItem)
         .then(() => {
+          this.addSelectedDiscsToVm();
           this.showSnackbar([
             "Virtual Machine successfully added!",
             "success",
@@ -286,6 +349,7 @@ export default {
     editVm() {
       this.editVmAction([this.editedIndex, this.editedItem])
         .then(() => {
+          this.addSelectedDiscsToVm();
           this.showSnackbar([
             "Virtual Machine successfully edited!",
             "success",

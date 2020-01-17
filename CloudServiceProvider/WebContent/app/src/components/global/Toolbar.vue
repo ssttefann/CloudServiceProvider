@@ -166,7 +166,7 @@ export default {
     logout: function() {
       this.logoutAction()
         .then(() => {
-          this.$router.push("/");
+          this.$router.push("/login");
           this.drawerVisible = false;
           this.drawerDisabled = true;
         })

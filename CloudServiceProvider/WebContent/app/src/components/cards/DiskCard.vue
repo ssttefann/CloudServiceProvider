@@ -33,7 +33,7 @@
     <v-data-table
       :hidden="isHidden"
       class="ma-6"
-      :items-per-page = 5
+      :items-per-page="5"
       :search="search"
       :headers="headers"
       :items="discsGetter"
@@ -186,7 +186,9 @@ export default {
       var virt = this.$store.state.vms.virtualMachines.filter(
         x => x.organizationName == orgName
       );
-      return virt.map(i => i.name);
+
+      let vms = virt.map(i => i.name);
+      return ["No virtual machine", ...vms]; 
     },
 
     orgNames() {
@@ -239,6 +241,10 @@ export default {
     save() {
       if (this.isAdmin) {
         this.editedItem.organizationName = this.getUser.organizationName;
+      }
+
+      if (this.editedItem.virtualMachineName === "No virtual machine"){
+        this.editedItem.virtualMachineName = "";
       }
 
       if (!this.validate()) {

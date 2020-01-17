@@ -122,7 +122,7 @@ public class Database {
                     .getVirtualMachine(virtualMachineName);
 
             // ne mora da izabere vm
-            if(virtualMachine != null){
+            if (virtualMachine != null) {
                 virtualMachine.addDisc(disk);
             }
             Organization org = organizationRepository.getOrganization(disk.getOrganizationName());
@@ -147,21 +147,31 @@ public class Database {
         return false;
     }
 
+
     public boolean editDisk(Disk disk) throws IOException {
-        // ako se u toj vm ne nalazi taj disk, znaci da je menjeo vm
+        // ako je ime prazno znaci da je izbacio disk iz vma
+        if (disk.getVirtualMachineName().isEmpty()) {
+            VirtualMachine oldVm = virtualMachineRepository.getVirtualMachineByDiskName(disk.getName());
+            oldVm.removeDisc(disk);
+        }else{
+            changeVmIfVmWasChanged(disk);
+        }
+
+        return diskRepository.editDisc(disk);
+    }
+
+    private void changeVmIfVmWasChanged(Disk disk){
         VirtualMachine vm = virtualMachineRepository.getVirtualMachine(disk.getVirtualMachineName());
+        // ako disk ni je u vm to znaci da je promenio vm disku
         boolean diskInVm = vm.getDiskList()
                 .stream()
                 .anyMatch(d -> d.getName().equals(disk.getName()));
 
-        // znaci da je promenUUUUoo vm i da treba da se
-        // prebaci iz jedne vm u drugu
-        if (!diskInVm) {
+        if (diskInVm) {
             vm.addDisc(disk);
             VirtualMachine oldVm = virtualMachineRepository.getVirtualMachineByDiskName(disk.getName());
             oldVm.removeDisc(disk);
         }
-        return diskRepository.editDisc(disk);
     }
 
     public List<VirtualMachine> getAllVirtualMachines() {

@@ -206,7 +206,8 @@ export default {
     ...mapActions({
       addDiscAction: "disc/add",
       editDiscAction: "disc/edit",
-      deleteDiscAction: "disc/delete"
+      deleteDiscAction: "disc/delete",
+      showSnackbar : "snackbar/showSnackbar",
     }),
 
     editItem(item) {
@@ -227,18 +228,6 @@ export default {
       }, 300);
     },
 
-    deleteDisc(disc) {
-      const discIndex = this.getIndexOfDisc(disc.name);
-      if (confirm("Da li ste sigurni da zelite da obrisete ovaj disk")) {
-        this.deleteDiscAction([discIndex, disc.name])
-          .then(() => {
-            this.close();
-            alert("Disk je uspesno obrisan");
-          })
-          .catch(error => alert(error));
-      }
-    },
-
     save() {
       if (!this.validate()) {
         alert("Sva polja moraju da budu popunjena");
@@ -250,6 +239,8 @@ export default {
       } else {
         this.addDisc();
       }
+
+      this.close();
     },
 
     validate() {
@@ -263,17 +254,6 @@ export default {
       return true;
     },
 
-    editDisc() {
-      this.editDiscAction([this.editedIndex, this.editedItem])
-        .then(() => {
-          this.close();
-          alert("Disk uspesno izmenjen");
-        })
-        .catch(error => {
-          alert(error);
-        });
-    },
-
     addDisc() {
       //add vm org name to disc
       //let virt = this.$store.state.vms.virtualMachines.find( x => {return x.name === this.editedItem.virtualMachineName});
@@ -281,12 +261,31 @@ export default {
       this.addDiscAction(this.editedItem)
         .then(() => {
           this.close();
-          alert("Disk uspesno dodat");
+          this.showSnackbar(["Disc successfully added!", "success", "bottom"])
         })
-        .catch(error => {
-          alert(error);
-        });
+        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
     },
+
+    editDisc() {
+      this.editDiscAction([this.editedIndex, this.editedItem])
+        .then(() => {
+          this.close();
+          this.showSnackbar(["Disc successfully edited!", "success", "bottom"])
+        })
+        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+    },
+
+    deleteDisc(disc) {
+      const discIndex = this.getIndexOfDisc(disc.name);
+      if (confirm("Are you sure you want to delete this Disc? "))  {
+        this.deleteDiscAction([discIndex, disc.name])
+          .then(() => {
+            this.close();
+            this.showSnackbar(["Disc successfully deleted!", "success", "bottom"])
+          })
+          .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+      }
+    },    
 
     hide() {
       this.hidden = !this.hidden;

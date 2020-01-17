@@ -101,6 +101,9 @@
 
 
 <script>
+
+import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -167,9 +170,11 @@ export default {
   },
 
   methods: {
-    
-    // za sada nista ne radi
     initialize() {},
+
+    ...mapActions({
+      showSnackbar : "snackbar/showSnackbar"
+    }),
 
     // korisnik menja nekog usera
     editItem(item) {
@@ -183,18 +188,18 @@ export default {
       const index = this.$store.state.users.users.indexOf(item);
 
       if(this.$store.state.users.loggedUser.email == item.email){
-        alert("You can't delete yourself");
+        this.showSnackbar(["You can't delete yourself!", "error", "bottom"]);
         return;
       }
 
       if( confirm("Are you sure you want to delete this item?")){
         this.$store.dispatch('users/delete', [index, item.email])
           .then( () => {
-            alert("Korisnik uspesno obrisan")
+            this.showSnackbar(["User successfully deleted!", "success", "bottom"]);
             this.$router.go();
             this.close();
           })
-          .catch( err => alert("Greska " +err))        
+          .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
       }
     },
 
@@ -212,18 +217,18 @@ export default {
       if (this.editedIndex > -1) {
         this.$store.dispatch('users/edit', [this.editedIndex,this.editedItem])
           .then( () => {
-            alert("Korisnik uspesno promenjen")
             this.close();
+            this.showSnackbar(["User successfully edited!", "success", "bottom"]);
           })
-          .catch( err => alert("Greska " +err))
+          .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
 
       } else {
           this.$store.dispatch('users/add', this.editedItem)
             .then( () => {
-              alert("Korisnik uspesno dodat");
               this.close();
+              this.showSnackbar(["User successfully added!", "success", "bottom"])
             })
-            .catch( err => alert("Greska " +err))
+            .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
       }
     },
 

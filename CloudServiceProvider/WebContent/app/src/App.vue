@@ -6,7 +6,8 @@
         v-model="getSnackBar"
         :color="getSnackBarColor"
         :timeout="3000"
-        :top="true"
+        :bottom="getSnackBarOrientation == 'bottom'"
+        :top="getSnackBarOrientation == 'top'"
         :vertical="mode === 'vertical'"
       >
         {{ getSnackBarText }}
@@ -31,15 +32,16 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getSnackBar: "snackBar/getSnackBar",
-      getSnackBarColor: "snackBar/getSnackBarColor",
-      getSnackBarText: "snackBar/getSnackBarText"
+      getSnackBar: "snackbar/getSnackBar",
+      getSnackBarColor: "snackbar/getSnackBarColor",
+      getSnackBarText: "snackbar/getSnackBarText",
+      getSnackBarOrientation : "snackbar/getSnackBarOrientation"
     })
   },
 
   methods: {
     ...mapActions({
-      hideSnackBarAction: "snackBar/hide"
+      hideSnackBarAction: "snackbar/hide"
     })
   }
 };

@@ -114,7 +114,7 @@ export default {
             return new Promise((resolve, reject) => {
                 axios.post('rest/users/edit/', JSON.stringify(user))
                     .then(res => {
-                        if (res.data == "SUCCESS") {
+                        if (res.status == 200) {
                             commit('EDIT_USER', tuple);
                             resolve();
                         } else {

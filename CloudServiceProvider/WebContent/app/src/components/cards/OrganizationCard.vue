@@ -156,6 +156,7 @@ export default {
     ...mapActions({
       addOrgAction: "orgs/add",
       editOrgAction: "orgs/edit",
+      showSnackbar : "snackar/showSnackbar",
     }),
 
     // za sada nista ne radi
@@ -188,7 +189,7 @@ export default {
     // izmenjena/dodata nova VM
     save() {
       if (!this.validateForm()) {
-        alert("Sva polja moraju biti popunjena");
+        this.showSnackbar(["All input fields must be filled out!", "error", "bottom"])
         return;
       }
 
@@ -212,22 +213,20 @@ export default {
       return true;
     },
 
-    editOrg() {
-      this.editOrgAction([this.editedIndex, this.editedItem])
-        .then(() => {
-          alert("Organizacija uspesno izmenjena");
-          this.close();
-        })
-        .catch(error => alert(error));
-    },
-
     addOrg() {
       this.addOrgAction(this.editedItem)
         .then(() => {
-          this.close();
-          alert("Organizacija uspesno dodata");
+          this.showSnackbar(["Organization successfully added!", "success", "bottom"])
         })
-        .catch(err => alert("Greska " + err));
+        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+    },
+
+    editOrg() {
+      this.editOrgAction([this.editedIndex, this.editedItem])
+        .then(() => {
+          this.showSnackbar(["Organization successfully edited!", "success", "bottom"])
+        })
+        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
     },
 
     hide() {

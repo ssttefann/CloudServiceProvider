@@ -108,6 +108,7 @@
 
 
 <script>
+
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -197,7 +198,8 @@ export default {
       addVmAction: "vms/add",
       editVmAction: "vms/edit",
       deleteVmAction: "vms/delete",
-      loadDiscs: "disc/load"
+      loadDiscs: "disc/load",
+      showSnackbar : "snackbar/showSnackbar"
     }),
 
     initialize() {},
@@ -212,23 +214,6 @@ export default {
       return this.vmsGetter.findIndex(x => x.name === vmName);
     },
 
-    deleteItem(vm) {
-      const vmIndex = this.getIndexOfVm(vm.name);
-      if (
-        confirm(
-          "Da li ste sigurni da zelite da obrisete ovu virtuelnu masinu ? "
-        )
-      ) {
-        this.deleteVmAction([vmIndex, vm.name])
-          .then(() => {
-            this.loadDiscs();
-            this.close();
-            alert("Virtuelna masina je uspesno obrisana");
-          })
-          .catch(error => alert(error));
-      }
-    },
-
     // korisnik odustao od izmene
     close() {
       this.dialog = false;
@@ -240,7 +225,7 @@ export default {
 
     save() {
       if (!this.validateForm()) {
-        alert("Sva polja moraju biti popunjena");
+        this.showSnackbar(["All input fields must be filled out!", "error", "bottom"])
         return;
       }
 
@@ -276,21 +261,35 @@ export default {
       );
     },
 
+    addVm() {
+      this.addVmAction(this.editedItem)
+        .then(() => {
+          this.showSnackbar(["Virtual Machine successfully added!", "success", "bottom"])
+        })
+        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+    },
+
     editVm() {
       this.editVmAction([this.editedIndex, this.editedItem])
         .then(() => {
-          alert("Virtuelna masina uspesno izmenjena");
+          this.showSnackbar(["Virtual Machine successfully edited!", "success", "bottom"]);
         })
-        .catch(error => alert(error));
+        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
     },
 
-    addVm() {
-      alert(this.editedItem.categoryName);
-      this.addVmAction(this.editedItem)
-        .then(() => {
-          alert("Virtuelna masina uspesno dodata");
-        })
-        .catch(err => alert("Greska " + err));
+
+    deleteItem(vm) {
+      const vmIndex = this.getIndexOfVm(vm.name);
+      if (confirm("Are you sure you want to delete this Virtual Machine? ")) 
+      {
+        this.deleteVmAction([vmIndex, vm.name])
+          .then(() => {
+            this.loadDiscs();
+            this.showSnackbar(["Virtual Machine successfully deleted!", "success", "bottom"]);
+            this.close();
+          })
+        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+      }
     },
 
     hide() {

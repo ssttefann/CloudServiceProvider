@@ -162,6 +162,7 @@ export default {
       addCategoryAction: "categories/add",
       editCategoryAction: "categories/edit",
       deleteCategoryAction: "categories/delete",
+      showSnackbar : "snackbar/showSnackbar",
     }),
 
     // za sada nista ne radi
@@ -176,18 +177,6 @@ export default {
 
     getIndexOfCategory(categoryName) {
       return this.categoriesGetter.findIndex(x => x.name === categoryName);
-    },
-
-    deleteItem(category) {
-      const categoryIndex = this.getIndexOfCategory(category.name);
-      if(confirm("Da li ste sigurni da zelite da obrisete ovu kategoriju ? ")){
-        this.deleteCategoryAction([categoryIndex, category.name])
-          .then(() => {
-            this.close();
-            alert("Kategorija je uspesno obrisana");
-          }).catch(error => alert(error));
-      }
-
     },
 
     // korisnik odustao od izmene
@@ -210,6 +199,7 @@ export default {
       } else {
         this.addCategory();
       }
+      this.close();
     },
 
     validateForm() {
@@ -219,22 +209,33 @@ export default {
       return true;
     },
 
-    editCategory() {
-      this.editCategoryAction([this.editedIndex, this.editedItem])
-        .then(() => {
-          alert("Kategorija uspesno izmenjena");
-          this.close();
-        })
-        .catch(error => alert(error));
-    },
-
     addCategory() {
       this.addCategoryAction(this.editedItem)
         .then(() => {
-          this.close();
-          alert("Kategorija je uspesno dodata");
+          this.showSnackbar(["Category successfully added!", "success", "bottom"])
         })
-        .catch(err => alert("Greska " + err));
+        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+    },
+
+    editCategory() {
+      this.editCategoryAction([this.editedIndex, this.editedItem])
+        .then(() => {
+          this.showSnackbar(["Category successfully edited!", "success", "bottom"]);
+        })
+        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+    },    
+
+    deleteItem(category) {
+      const categoryIndex = this.getIndexOfCategory(category.name);
+      if(confirm("Are you sure you wnat to delete this Category ? ")){
+        this.deleteCategoryAction([categoryIndex, category.name])
+          .then(() => {
+            this.close();
+            this.showSnackbar(["Category successfully deleted!", "success", "bottom"]);
+          })
+        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+      }
+
     },
 
     hide() {

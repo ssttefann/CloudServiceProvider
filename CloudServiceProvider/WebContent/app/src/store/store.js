@@ -29,7 +29,7 @@ export const store = new Vuex.Store({
         categories : categoriesModule,
         disc : discsModule,
         orgs : orgsModule,
-        snackBar: snackBarModule
+        snackbar: snackBarModule
     },
 
     state : {

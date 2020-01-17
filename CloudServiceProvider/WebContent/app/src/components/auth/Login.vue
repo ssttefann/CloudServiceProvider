@@ -74,8 +74,10 @@ export default {
 
   methods: {
     ...mapActions({
-      logUser: "users/logUser"
+      logUser: "users/logUser",
+      showSnackbar : "snackbar/showSnackbar",
     }),
+    
     /**
      * Proverava da li je svako polje forme popunjeno
      * @returns {String} "OK" ako su uslovi zadovoljeni, ako nisu onda imena labela koje ne zadovoljavaju uslov
@@ -111,14 +113,14 @@ export default {
             } else if (this.isLogged) {
               this.$router.push("/dashboard");
             } else {
-              alert("Pogresna kombinacija user/pass");
+              this.showSnackbar(["Pogresna kombinacija user/pass", "error", "top"]);
             }
           })
           .catch(error => {
-            alert(error);
+            this.showSnackbar([error, "error", "top"]);
           });
       } else {
-        alert("Labele " + resp + " moraju biti popunjene pre prijavljivanja");
+        this.showSnackbar(["Labele " + resp + " moraju biti popunjene pre prijavljivanja", "error", "top"]);
       }
     },
 

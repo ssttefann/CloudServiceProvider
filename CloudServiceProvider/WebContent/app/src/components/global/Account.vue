@@ -95,14 +95,14 @@ export default {
   methods: {
     ...mapActions({
       changeUserAction: "users/updateAccount",
-      showSnackBar: "snackBar/showSnackbar",
+      showSnackbar: "snackbar/showSnackbar",
     }),
 
     validate() {
       if (this.$refs.form.validate()) {
         this.submit();
       } else {
-        this.showSnackBar(["Morate popuniti sva polja", "error"]);
+        this.showSnackbar(["Morate popuniti sva polja", "error"]);
       }
     },
 

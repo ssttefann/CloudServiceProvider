@@ -47,7 +47,7 @@ public class Main {
                 long kurac = file.length();
                 byte[] res = new byte[(int) kurac];
                 int size = ins.read(res);
-                response.type("image/image/jpeg");
+                response.type("image/jpeg");
                 return res;
             } catch(Exception e){
                 response.status(400);

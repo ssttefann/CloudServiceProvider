@@ -1,1 +1,94 @@
-[{"name":"VM1","categoryName":"KAT2","organizationName":"ORG2","active":true,"activities":[{"startTime":{"date":{"year":2020,"month":1,"day":16},"time":{"hour":21,"minute":28,"second":29,"nano":672000000}}}]},{"name":"VM3232","categoryName":"KAT2","organizationName":"ORG2","active":true,"activities":[{"startTime":{"date":{"year":2020,"month":1,"day":16},"time":{"hour":23,"minute":17,"second":58,"nano":511000000}}}]},{"name":"test1","categoryName":"KAT1","organizationName":"ORG1","active":true,"activities":[{"startTime":{"date":{"year":2020,"month":1,"day":17},"time":{"hour":14,"minute":57,"second":53,"nano":63000000}}}]},{"name":"test","categoryName":"KAT1","organizationName":"ORG1","active":true,"activities":[{"startTime":{"date":{"year":2020,"month":1,"day":17},"time":{"hour":15,"minute":42,"second":14,"nano":774000000}}}]}]
+[
+  {
+    "name": "VM1",
+    "categoryName": "KAT2",
+    "organizationName": "ORG2",
+    "active": true,
+    "activities": [
+      {
+        "startTime": {
+          "date": {
+            "year": 2020,
+            "month": 1,
+            "day": 16
+          },
+          "time": {
+            "hour": 21,
+            "minute": 28,
+            "second": 29,
+            "nano": 672000000
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "VM3232",
+    "categoryName": "KAT2",
+    "organizationName": "ORG2",
+    "active": true,
+    "activities": [
+      {
+        "startTime": {
+          "date": {
+            "year": 2020,
+            "month": 1,
+            "day": 16
+          },
+          "time": {
+            "hour": 23,
+            "minute": 17,
+            "second": 58,
+            "nano": 511000000
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "test1",
+    "categoryName": "KAT1",
+    "organizationName": "ORG1",
+    "active": true,
+    "activities": [
+      {
+        "startTime": {
+          "date": {
+            "year": 2020,
+            "month": 1,
+            "day": 17
+          },
+          "time": {
+            "hour": 14,
+            "minute": 57,
+            "second": 53,
+            "nano": 63000000
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "test",
+    "categoryName": "KAT1",
+    "organizationName": "ORG1",
+    "active": true,
+    "activities": [
+      {
+        "startTime": {
+          "date": {
+            "year": 2020,
+            "month": 1,
+            "day": 17
+          },
+          "time": {
+            "hour": 15,
+            "minute": 42,
+            "second": 14,
+            "nano": 774000000
+          }
+        }
+      }
+    ]
+  }
+]

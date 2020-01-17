@@ -18,7 +18,7 @@
     "type": "SSD",
     "capacity": 256,
     "organizationName": "ORG2",
-    "virtualMachineName": "VM2"
+    "virtualMachineName": ""
   },
   {
     "name": "pcie",
@@ -38,7 +38,7 @@
         "nano": 532000000
       }
     },
-    "virtualMachineName": "VM2"
+    "virtualMachineName": ""
   },
   {
     "name": "tes",

@@ -203,12 +203,14 @@ public class Database {
         return virtualMachineRepository.removeVirtualMachine(vmName);
     }
 
-    private void deleteVMNameFormDiscs(String vmName) {
+    private void deleteVMNameFormDiscs(String vmName) throws IOException {
         diskRepository.getDiskList().forEach(disc -> {
             if (disc.getVirtualMachineName().equals(vmName)) {
                 disc.setVirtualMachineName("");
             }
         });
+
+        diskRepository.saveDisks();
     }
 
     public List<Organization> getAllOrganizations() {

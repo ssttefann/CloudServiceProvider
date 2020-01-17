@@ -42,7 +42,7 @@ public class DiskRepository {
                 .collect(Collectors.toMap(Disk::getName, disc -> disc, (oldValue, newValue) -> newValue));
     }
 
-    private void saveDisks() throws IOException {
+    public void saveDisks() throws IOException {
         Writer writer = new FileWriter(PATH_TO_FILE);
         gson.toJson(diskList, writer);
         writer.flush();

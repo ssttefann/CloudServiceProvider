@@ -88,14 +88,14 @@ public class UserRepository {
         return false;
     }
 
-    public boolean editUser(User user) throws IOException {
-        String email = user.getEmail();
+    public boolean editUser(User editedUser) throws IOException {
+        String email = editedUser.getEmail();
         if(usersIndexedByEmail.containsKey(email)){
-            usersIndexedByEmail.put(email, user);
-            // izbrisi usera sa starim podacima
-            usersList.remove(user);
-            // dodaj sa novim
-            usersList.add(user);
+            User oldUser = usersIndexedByEmail.get(email);
+            oldUser.setPassword(editedUser.getPassword());
+            oldUser.setFirstName(editedUser.getFirstName());
+            oldUser.setLastName(editedUser.getLastName());
+            oldUser.setRole(editedUser.getRole());
             saveUsers();
             return true;
         }

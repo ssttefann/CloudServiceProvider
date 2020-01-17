@@ -95,14 +95,14 @@ export default {
   methods: {
     ...mapActions({
       changeUserAction: "users/updateAccount",
-      showSnackbar: "snackbar/showSnackbar",
+      showSnackbar: "snackbar/showSnackbar"
     }),
 
     validate() {
       if (this.$refs.form.validate()) {
         this.submit();
       } else {
-        this.showSnackbar(["Morate popuniti sva polja", "error"]);
+        this.showSnackbar(["Morate popuniti sva polja", "error", "bottom"]);
       }
     },
 
@@ -122,13 +122,13 @@ export default {
         passwordChanged = true;
 
         if (this.password1 != this.password2) {
-          this.showSnackBar(["Sifre se ne poklapaju.", "error"]);
+          this.showSnackbar(["Sifre se ne poklapaju.", "error", "bottom"]);
           return;
         }
       }
 
       if (!userInformationChanged) {
-        this.showSnackBar(["Nista niste promenUUUUli", "error"]);
+        this.showSnackbar(["Nista niste promenUUUUli", "error", "bottom"]);
         return;
       }
 
@@ -146,7 +146,7 @@ export default {
 
       this.changeUserAction(user)
         .then(() => {
-          this.showSnackBar(["PromenUUUUUli ste nalog", "success"]);
+          this.showSnackbar(["PromenUUUUUli ste nalog", "success", "bottom"]);
           this.password1 = "";
           this.password2 = "";
         })

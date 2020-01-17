@@ -11,36 +11,38 @@
               </v-toolbar>
 
               <v-card-text>
-                <v-form>
+                <v-form :lazy-validation="lazy" ref="form">
                   <v-text-field
                     label="Ime organizacije"
                     name="orgName"
-                    v-model="firstName"
+                    :disabled="true"
+                    v-model="organizationName"
                     prepend-icon="mdi-account"
                     type="text"
+                    :rules="[rules.required]"
                   ></v-text-field>
 
                   <v-text-field
                     label="Desciption"
                     name="description"
-                    v-model="lastName"
+                    v-model="description"
                     prepend-icon="mdi-account"
                     type="text"
+                    :rules="[rules.required]"
                   ></v-text-field>
 
-                  <v-text-field
-                    label="Logo"
-                    name="logo"
-                    v-model="logo"
+                  <v-file-input
+                    ref="iconUpload"
                     prepend-icon="mdi-image"
-                    type="text"
-                  ></v-text-field>
+                    @change="fileSubmited"
+                    placeholder="Ikonica organizacije"
+                  ></v-file-input>
                 </v-form>
               </v-card-text>
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="submit" color="blue-grey white--text">Save</v-btn>
+                <v-btn @click="validate" color="blue-grey white--text">Save</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -51,29 +53,94 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 export default {
-    data(){
-        return {
-            orgName: "",
-            description: "",
-            logo: "",
-        }
+  data() {
+    return {
+      organizationName: "",
+      description: "",
+      organization: null,
+      logo: "",
+      rules: {
+        required: value => !!value || "Required."
+      }
+    };
+  },
+
+  computed: {
+    ...mapGetters({
+      getUser: "users/getUser",
+      getOrgs: "orgs/orgGetter"
+    })
+  },
+
+  created() {
+    this.organizationIndex = this.getOrgs.findIndex(
+      o => o.name === this.getUser.organizationName
+    );
+    this.organization = this.getOrgs[this.organizationIndex];
+    this.organizationName = this.organization.name;
+    this.description = this.organization.description;
+  },
+
+  methods: {
+    ...mapActions({
+      editOrgAction: "orgs/edit",
+      showSnackbar: "snackbar/showSnackbar"
+    }),
+
+    fileSubmited(file) {
+      this.logo = file.name;
     },
 
-    methods: {
-        ...mapActions({
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.submit();
+      } else {
+        this.showSnackbar(["Morate popuniti sva polja", "error", "bottom"]);
+      }
+    },
 
-        }),
+    submit() {
+      let changed = false;
+      let logoChanged = false;
 
-        submit(){
-            
-        },
+      if (this.organizationName != this.organization.name) {
+        changed = true;
+      }
 
-        validate(){
+      if (this.description != this.organization.description) {
+        changed = true;
+      }
 
-        },
+      if (this.logo.trim() !== "") {
+        logoChanged = true;
+        changed = true;
+      }
+
+      if (!changed) {
+        this.showSnackbar(["Nista niste promenuuuuuli", "error", "bottom"]);
+        return;
+      }
+
+      let org = {
+        name: this.organizationName,
+        description: this.description
+      };
+
+      if (logoChanged) {
+        org.logo = this.logo;
+      } else {
+        org.logo = this.organization.logo;
+      }
+
+      this.editOrgAction([this.organizationIndex, org])
+        .then(() => {
+          this.showSnackbar(["PromenUUUUli ste organizaciju", "success", "bottom"]);
+        })
+        .catch(error => alert(error));
     }
+  }
 };
 </script>
 

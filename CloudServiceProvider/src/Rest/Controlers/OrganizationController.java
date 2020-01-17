@@ -57,7 +57,7 @@ public class OrganizationController {
 
     public static Route editOrganization = (request, response) -> {
         User user = request.session().attribute("user");
-        if(user == null || !user.isSuperAdmin()){
+        if(user == null || user.isUser()){
             response.status(401);
             return "Unauthorized";
         }

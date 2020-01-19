@@ -6,7 +6,8 @@ export default {
     namespaced: true,
     state: {
 
-        loggedUser: { firstName: "", lastName: "", role: "", email: "", organizationName: ""},
+        loggedUser: { firstName: "", lastName: "", role: "", email: "", 
+                    organizationName: "", likesDark : false, image : ""},
         users: []
     },
 
@@ -17,6 +18,8 @@ export default {
             state.loggedUser.role = user.role;
             state.loggedUser.email = user.email;
             state.loggedUser.organizationName = user.organizationName;
+            state.loggedUser.likesDark = user.likesDark;
+
         },
 
         SET_USERS(state, users) {

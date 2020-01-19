@@ -9,10 +9,12 @@ public class User {
     private String lastName;
     private String organizationName;
     private UserRole role;
+    private String image;
+    private boolean likesDark;
 
     private transient Organization organization;
 
-    public User(String email, String password, String firstName, String lastName, String organizationName, UserRole role, Organization organization) {
+    public User(String email, String password, String firstName, String lastName, String organizationName, UserRole role, Organization organization, boolean dark) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -20,12 +22,14 @@ public class User {
         this.organizationName = organizationName;
         this.role = role;
         this.organization = organization;
+        this.likesDark = dark;
     }
 
     public User() {
         this.email = "";
         this.password = "";
         this.firstName = "";
+        this.likesDark = false;
     }
 
     @Override
@@ -102,5 +106,21 @@ public class User {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
+    }
+
+    public boolean getLikesDark() {
+        return likesDark;
+    }
+
+    public void setLikesDark(boolean likesDark) {
+        this.likesDark = likesDark;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

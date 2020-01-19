@@ -34,9 +34,8 @@
         <v-switch
           dark
           color="secondary"
-          value="secondary"
           :label="`Dark Mode`"
-          v-model="dark"
+          v-model="getLoggedUser.likesDark"
           @change="darkMode"
         ></v-switch>
       </span>
@@ -47,7 +46,9 @@
       <br />
       <v-list-item>
         <v-list-item-avatar>
-          <v-img src="https://avatars0.githubusercontent.com/u/28116193?s=460&v=4"></v-img>
+          <img :src="`/rest/profilePic/${reRender}`"/>
+          <!-- <img :src="`/images/users/${ this.getLoggedUser.image }`"/> -->
+          <!-- <v-img src="https://avatars0.githubusercontent.com/u/28116193?s=460&v=4"></v-img> -->
         </v-list-item-avatar>
 
         <v-list-item-title
@@ -123,6 +124,10 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {},
+  mounted() {
+    this.$vuetify.theme.dark = this.getLoggedUser.likesDark;
+  },
+
   data() {
     return {
       dark: false,
@@ -155,7 +160,8 @@ export default {
 
   methods: {
     ...mapActions({
-      logoutAction: "users/logout"
+      logoutAction: "users/logout",
+      updateAcccount : "users/updateAccount",
     }),
 
     /** Otvara drawer ako postoji ulogovani korisnik */
@@ -164,11 +170,14 @@ export default {
     },
 
     logout: function() {
+      //stara vrednost
+
       this.logoutAction()
         .then(() => {
-          this.$router.push("/login");
+          this.$vuetify.theme.dark = false;
           this.drawerVisible = false;
           this.drawerDisabled = true;
+          this.$router.push("/login");
         })
         .catch(error => alert(error));
     },
@@ -185,7 +194,12 @@ export default {
     },
 
     darkMode: function() {
-      if (this.dark) {
+      
+      // this.getLoggedUser.likesDark = !this.getLoggedUser.likesDark;
+      if (this.isLogged)
+        this.updateAcccount(this.getLoggedUser);
+
+      if (this.getLoggedUser.likesDark) {
         this.$vuetify.theme.dark = true;
       } else {
         this.$vuetify.theme.dark = false;
@@ -204,8 +218,13 @@ export default {
     /** Ako ne postoji ulogavan korisnik disable-uje dugme  */
     isDisabled() {
       return !this.isLogged;
+    },
+
+    reRender(){
+      return this.getLoggedUser.firstName;
     }
-  }
+
+  },
 };
 </script>
 

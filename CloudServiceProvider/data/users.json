@@ -1,1 +1,72 @@
-[{"email":"stefan@kandic.com","password":"1","firstName":"Stefan","lastName":"Kandic","organizationName":"ORG1","role":"User"},{"email":"Neki","password":"asdf","firstName":"Novice","lastName":"Admin","organizationName":"ORG3","role":"Admin"},{"email":"test","password":"test","firstName":"testt","lastName":"testets","organizationName":"ORG3","role":"Admin"},{"email":"1","password":"1","firstName":"Mijat","lastName":"Miletic","organizationName":"ORG1","role":"Admin"},{"email":"c","password":"c","firstName":"Mijat","lastName":"Miletic","organizationName":"ORG1","role":"User"},{"email":"s","password":"s","firstName":"Mijat","lastName":"Miletic","organizationName":"ORG3","role":"SuperAdmin"},{"email":"123","password":"123","firstName":"Nikola","lastName":"Nikolic","organizationName":"ORG2","role":"Admin"},{"email":"promenuli@prom","password":"asdf","firstName":"Zex","lastName":"Ivkovic","organizationName":"ORG2","role":"User"}]
+[
+  {
+    "email":"stumc",
+    "password":"1",
+    "firstName":"Stuart ",
+    "lastName":"McCormick",
+    "organizationName":"Apple",
+    "role":"User",
+    "likesDark":true,
+    "image":"stumc.png"
+  },
+  {
+    "email":"tweeek",
+    "password":"asdf",
+    "firstName":"Tweek ",
+    "lastName":"Tweak",
+    "organizationName":"Google",
+    "role":"Admin",
+    "likesDark":true,
+    "image":"tweeek.png"
+  },
+  {
+    "email":"tokenizer",
+    "password":"1",
+    "firstName":"Token ",
+    "lastName":"Black",
+    "organizationName":"Apple",
+    "role":"Admin",
+    "likesDark":true,
+    "image":"tokenizer.jpg"
+  },
+  {
+    "email":"keeeeny",
+    "password":"c",
+    "firstName":"Kenny ",
+    "lastName":"McCormick",
+    "organizationName":"Apple",
+    "role":"User",
+    "likesDark":true,
+    "image":"keeeeny.png"
+  },
+  {
+    "email":"s",
+    "password":"s",
+    "firstName":"Mijat",
+    "lastName":"Miletic",
+    "organizationName":"Google",
+    "role":"SuperAdmin",
+    "likesDark":false,
+    "image":""
+  },
+  {
+    "email":"123",
+    "password":"123",
+    "firstName":"Butters ",
+    "lastName":"Stotch",
+    "organizationName":"Facebook",
+    "role":"Admin",
+    "likesDark":true,
+    "image":"123.jpg"
+  },
+  {
+    "email":"sheesh",
+    "password":"asdf",
+    "firstName":"Sheila",
+    "lastName":" Broflovski",
+    "organizationName":"Facebook",
+    "role":"User",
+    "likesDark":true,
+    "image":"sheesh.png"
+  }
+]

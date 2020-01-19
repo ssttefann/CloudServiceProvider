@@ -1,5 +1,6 @@
 package Rest.Controlers;
 
+import Model.Entities.User;
 import com.google.gson.Gson;
 import spark.Route;
 
@@ -15,7 +16,7 @@ public class ImageController {
 
     private static Gson gson = new Gson();
 
-    public static Route uploadImage =  (request, response) -> {
+    public static Route uploadOrgImage =  (request, response) -> {
 
         String tupan = request.params("fileName");
         String ext = tupan.split("\\.")[1];
@@ -26,22 +27,27 @@ public class ImageController {
         ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/dist/images/" + tupan));
         ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/public/images/" + tupan));
 
-//        try (FileOutputStream fos = new FileOutputStream("CloudServiceProvider/WebContent/app/dist/images/" + tupan)) {
-//            fos.write(data);
-//        }
-//
-//        try (FileOutputStream fos = new FileOutputStream("CloudServiceProvider/WebContent/app/public/images/" + tupan)) {
-//            fos.write(data);
-//        }
-
-//        ByteArrayInputStream bis = new ByteArrayInputStream(data);
-//        BufferedImage originalImage = ImageIO.read(bis);
-//        int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-//        BufferedImage resizedImage = resizeImage(originalImage, type, 35, 35);
-//
-//        ImageIO.write(resizedImage, "jpg", new File("CloudServiceProvider/WebContent/app/dist/images/" + tupan));
-
         return "";
+    };
+
+    public static Route getProfilePic = (request, response) -> {
+
+        User user = request.session().attribute("user");
+
+        if(user == null){
+            response.redirect("/images/users/stock.png", 302 );
+            return "";
+        }
+
+        File f = new File("CloudServiceProvider/WebContent/app/public/images/users/" + user.getImage());
+        if (f.isFile()){
+            response.redirect("/images/users/" + user.getImage(), 302 );
+            return "";
+        }else{
+            response.redirect("/images/users/stock.png", 302 );
+            return "";
+        }
+
     };
 
     private static BufferedImage resizeImage(BufferedImage originalImage, int type, int IMG_WIDTH, int IMG_HEIGHT) {

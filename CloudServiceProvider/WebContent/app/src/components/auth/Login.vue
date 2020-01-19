@@ -34,9 +34,7 @@
               </v-card-text>
 
               <v-card-actions>
-                <router-link to="/register">
                   <v-btn color="blue-grey white--text">Don't have an account?</v-btn>
-                </router-link>
 
                 <v-spacer></v-spacer>
                 <v-btn @click="submit" color="blue-grey white--text">Login</v-btn>
@@ -68,7 +66,8 @@ export default {
     ...mapGetters({
       isLogged: "users/isLogged",
       isAdmin: "users/isAdmin",
-      isSuper: "users/isSuper"
+      isSuper: "users/isSuper",
+      getLoggedUser: "users/getUser",
     })
   },
 
@@ -108,6 +107,7 @@ export default {
         };
         this.logUser(credentials)
           .then(() => {
+            this.$vuetify.theme.dark = this.getLoggedUser.likesDark;
             if (this.isAdmin || this.isSuper) {
               this.$router.push("/admin");
             } else if (this.isLogged) {

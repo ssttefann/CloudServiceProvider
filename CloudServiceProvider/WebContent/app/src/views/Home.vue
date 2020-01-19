@@ -26,9 +26,7 @@
               </v-col>
 
               <v-col>
-                <router-link to="/register">
-                  <v-btn class="white darken-1 blue-grey--text">Register</v-btn>
-                </router-link>
+                  <v-btn disabled="true" class="white darken-1 blue-grey--text">Register</v-btn>
               </v-col>
             </v-row>
           </v-flex>

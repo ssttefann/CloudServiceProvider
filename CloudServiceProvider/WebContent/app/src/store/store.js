@@ -44,11 +44,11 @@ export const store = new Vuex.Store({
 
         async loadAllData({dispatch}) {
             if(this.getters['users/isLogged']){
-                await dispatch('categories/load');
-                await dispatch('vms/load');
-                await dispatch('users/load');
-                await dispatch('disc/load');
-                await dispatch('orgs/load');
+                dispatch('categories/load');
+                dispatch('vms/load');
+                dispatch('users/load');
+                dispatch('disc/load');
+                dispatch('orgs/load');
             }
         },
     }

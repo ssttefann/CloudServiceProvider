@@ -96,6 +96,7 @@ public class UserRepository {
             oldUser.setFirstName(editedUser.getFirstName());
             oldUser.setLastName(editedUser.getLastName());
             oldUser.setRole(editedUser.getRole());
+            oldUser.setLikesDark(editedUser.getLikesDark());
             saveUsers();
             return true;
         }

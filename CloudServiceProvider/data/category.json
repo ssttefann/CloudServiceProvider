@@ -1,1 +1,1 @@
-[{"name":"KAT3","cores":1,"RAM":128,"GPU":9},{"name":"KAT1","cores":10,"RAM":16,"GPU":1},{"name":"KAT2","cores":1,"RAM":641,"GPU":3}]
+[{"name":"Tortoise","cores":1,"RAM":4,"GPU":1},{"name":"Rabbit","cores":6,"RAM":16,"GPU":2},{"name":"Cheetah","cores":64,"RAM":128,"GPU":6}]

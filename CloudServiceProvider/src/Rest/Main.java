@@ -40,7 +40,8 @@ public class Main {
         post("/rest/logout/", AuthenticationController.logOut);
 
         // Slike
-        post("/rest/uploadIcon/:fileName", ImageController.uploadImage);
+        post("/rest/uploadIcon/:fileName", ImageController.uploadOrgImage);
+        get("/rest/profilePic/:fileName", ImageController.getProfilePic);
 
         //Korisnici
         get("/rest/users/getAll/", UserController.getAllUsers);

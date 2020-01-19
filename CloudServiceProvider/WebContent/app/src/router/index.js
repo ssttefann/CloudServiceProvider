@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Admin from '../components/Admin'
 import Login from '../components/auth/Login'
-import Register from '../components/auth/Register'
 import NotFound from '../components/errors/NotFound'
 import Dashboard from '../components/Dashboard'
 import Account from '../components/global/Account'
@@ -52,11 +51,6 @@ const routes = [
       guest: true,
       redirectIfLogged: true
     }
-  },
-  {
-    path: '/register',
-    name: 'register',
-    component: Register
   },
   {
     path: '/account',

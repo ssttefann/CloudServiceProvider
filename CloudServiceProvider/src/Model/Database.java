@@ -137,9 +137,14 @@ public class Database {
         Disk disk = diskRepository.getDisk(discName);
         if (disk != null) {
             String virtualMachineName = disk.getVirtualMachineName();
-            VirtualMachine virtualMachine = virtualMachineRepository
-                    .getVirtualMachine(virtualMachineName);
-            virtualMachine.removeDisc(disk);
+
+            //ako postoji ta vm
+            if(virtualMachineRepository.getVirtualMachineByDiskName(virtualMachineName) != null){
+                VirtualMachine virtualMachine = virtualMachineRepository
+                        .getVirtualMachine(virtualMachineName);
+                virtualMachine.removeDisc(disk);
+            }
+
             diskRepository.removeDisk(discName);
             return true;
         }
@@ -152,7 +157,12 @@ public class Database {
         // ako je ime prazno znaci da je izbacio disk iz vma
         if (disk.getVirtualMachineName().isEmpty()) {
             VirtualMachine oldVm = virtualMachineRepository.getVirtualMachineByDiskName(disk.getName());
-            oldVm.removeDisc(disk);
+
+            //samo ako disk ima vm
+            if(oldVm != null) {
+                oldVm.removeDisc(disk);
+            }
+
         }else{
             changeVmIfVmWasChanged(disk);
         }

@@ -90,7 +90,7 @@
       </template>
 
       <template v-slot:item.logo="{ item }">
-        <img width="35px" height="35px" :src="`/images/${ item.logo }`" alt />
+        <img width="35px" height="35px" :src="`/images/orgs/${ item.logo }`" alt />
       </template>
 
       <!-- Template za brisanje -->

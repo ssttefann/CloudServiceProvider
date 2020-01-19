@@ -25,8 +25,8 @@ public class ImageController {
 
         ByteArrayInputStream bis = new ByteArrayInputStream(data);
         BufferedImage image = ImageIO.read(bis);
-        ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/dist/images/" + naziv));
-        ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/public/images/" + naziv));
+        ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/dist/images/orgs/" + naziv));
+        ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/public/images/orgs/" + naziv));
 
         return "";
     };

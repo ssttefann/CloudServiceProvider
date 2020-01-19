@@ -6,14 +6,14 @@
           <v-flex s12 sm8 md4>
             <v-card class="elevation-12">
               <v-toolbar color="blue-grey" dark flat>
-                <v-toolbar-title>Inormacije o organizaciji</v-toolbar-title>
+                <v-toolbar-title>Organization details</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
 
               <v-card-text>
                 <v-form :lazy-validation="lazy" ref="form">
                   <v-text-field
-                    label="Ime organizacije"
+                    label="Organization name"
                     name="orgName"
                     :disabled="true"
                     v-model="organizationName"

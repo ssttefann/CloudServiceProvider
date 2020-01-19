@@ -6,7 +6,7 @@
           <v-flex s12 sm8 md4>
             <v-card class="elevation-12">
               <v-toolbar color="blue-grey" dark flat>
-                <v-toolbar-title>Account info</v-toolbar-title>
+                <v-toolbar-title>Account details</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
 

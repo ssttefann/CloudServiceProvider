@@ -1,2 +1,2 @@
-# WebProg
-Project in course Web Programming
+# Cloud Service Provider
+Cloud Computing Platform made in Vuejs

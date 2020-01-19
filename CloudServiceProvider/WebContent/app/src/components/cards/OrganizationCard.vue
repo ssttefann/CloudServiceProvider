@@ -90,7 +90,7 @@
       </template>
 
       <template v-slot:item.logo="{ item }">
-        <img width="35px" height="35px" :src="`/images/orgs/${ item.logo }`" alt />
+        <v-img :key="reRender" width="35px" height="35px" :src="`/images/orgs/${ item.logo }`" alt />
       </template>
 
       <!-- Template za brisanje -->
@@ -110,6 +110,7 @@ export default {
   data() {
     return {
       hidden: false,
+      reRender : false,
       headers: [
         { text: "Name", value: "name" },
         { text: "Description", value: "description" },
@@ -240,6 +241,7 @@ export default {
             "success",
             "bottom"
           ]);
+          this.reRender = !this.reRender;
         })
         .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
     },
@@ -252,6 +254,7 @@ export default {
             "success",
             "bottom"
           ]);
+          this.reRender = !this.reRender;
         })
         .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
     },

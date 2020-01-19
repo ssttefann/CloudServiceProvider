@@ -18,14 +18,33 @@ public class ImageController {
 
     public static Route uploadOrgImage =  (request, response) -> {
 
-        String tupan = request.params("fileName");
-        String ext = tupan.split("\\.")[1];
+        // TODO naziv da bude ime org
+        String naziv = request.params("fileName");
+        String ext = naziv.split("\\.")[1];
         byte[] data = request.bodyAsBytes();
 
         ByteArrayInputStream bis = new ByteArrayInputStream(data);
         BufferedImage image = ImageIO.read(bis);
-        ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/dist/images/" + tupan));
-        ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/public/images/" + tupan));
+        ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/dist/images/" + naziv));
+        ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/public/images/" + naziv));
+
+        return "";
+    };
+
+    // TODO dodati funkc na frontu za poziv ove metode
+    public static Route uploadProfilPicture =  (request, response) -> {
+
+        User user = request.session().attribute("user");
+        String naziv = request.params("fileName");
+        String tokens[] = naziv.split("\\.");
+        String ext = tokens[1];
+        naziv = user.getEmail();
+        byte[] data = request.bodyAsBytes();
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(data);
+        BufferedImage image = ImageIO.read(bis);
+        ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/dist/images/" + naziv));
+        ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/public/images/" + naziv));
 
         return "";
     };

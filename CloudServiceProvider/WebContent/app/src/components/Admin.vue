@@ -1,11 +1,13 @@
 <template>
-  <div class="about">
-    <v-container>
+  <div class="cont">
+
     <h1 v-if="isAdmin" class="my-5 subheading grey--text">Admin Page</h1>
     <h1 v-if="isSuper" class="my-5 subheading grey--text">Super Admin Page</h1>
+    
+    <!-- <v-container class="my-5"> -->
 
-    <v-layout row wrap > 
-        
+    <v-layout row > 
+
         <v-flex xs12 sm12 md6 lg6>
           <VMCard/> 
         </v-flex>
@@ -22,13 +24,13 @@
           <UserCard/> 
         </v-flex>
 
-        <v-flex v-if="this.isSuper" xs12 sm6 md6 lg6>
+        <v-flex v-if="this.isSuper" xs12 sm12 md6 lg6>
           <OrganizationCard/> 
         </v-flex>
 
       </v-layout>
 
-    </v-container> 
+    <!-- </v-container>  -->
   </div> 
 </template>
 
@@ -63,4 +65,7 @@ export default {
 </script>
 
 <style scoped>
+  .cont {
+    padding: 15px;
+  }
 </style>

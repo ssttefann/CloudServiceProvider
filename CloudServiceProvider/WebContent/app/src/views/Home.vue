@@ -64,21 +64,22 @@ export default {
   //   }
   // }
 };
+
 </script>
 
 
 <style scoped>
-.naslov {
-  font-size: 3em;
-}
+  .naslov {
+    font-size: 3em;
+  }
 
-.podnaslov {
-  font-size: 1em;
-  font-weight: light;
-}
+  .podnaslov {
+    font-size: 1em;
+    font-weight: light;
+  }
 
-a {
-  text-decoration: none;
-}
+  a {
+    text-decoration: none;
+  }
 </style>
 

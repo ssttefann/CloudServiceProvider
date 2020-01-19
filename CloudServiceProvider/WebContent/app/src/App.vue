@@ -22,7 +22,7 @@
 <script>
 import Toolbar from "./components/global/Toolbar";
 import Footer from "./components/global/Footer";
-import axios from "axios";
+// import axios from "axios";
 import { mapGetters, mapActions } from "vuex";
 
 export default {

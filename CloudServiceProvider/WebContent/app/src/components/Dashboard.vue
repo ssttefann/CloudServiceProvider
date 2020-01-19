@@ -1,6 +1,5 @@
 <template>
   <div class="about">
-    <v-container class="my-5">
       <h1 class="subheading grey--text">Dashboard</h1>
 
       <v-layout row wrap>
@@ -14,7 +13,6 @@
           <DiskCard />
         </v-flex>
       </v-layout>
-    </v-container>
   </div>
 </template>
 
@@ -47,3 +45,8 @@ export default {
 };
 </script>
 
+<style scoped>
+  .about {
+    padding: 15px;
+  }
+</style>

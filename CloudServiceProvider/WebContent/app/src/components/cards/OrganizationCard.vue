@@ -37,7 +37,7 @@
       :hidden="isHidden"
       class="ma-6"
       :search="search"
-      :items-per-page = 5
+      :items-per-page="5"
       :headers="headers"
       :items="this.orgGetter"
     >
@@ -69,7 +69,12 @@
                     <v-text-field v-model="editedItem.description" label="Description"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="6">
-                    <v-file-input ref="iconUpload" prepend-icon="mdi-image" @change="fileSubmited" placeholder="Logo"></v-file-input>
+                    <v-file-input
+                      ref="iconUpload"
+                      prepend-icon="mdi-image"
+                      @change="fileSubmited"
+                      placeholder="Logo"
+                    ></v-file-input>
                   </v-col>
                 </v-row>
               </v-container>
@@ -84,6 +89,10 @@
         </v-dialog>
       </template>
 
+      <template v-slot:item.logo="{ item }">
+        <img width="35px" height="35px" :src="`/images/${ item.logo }`" alt />
+      </template>
+
       <!-- Template za brisanje -->
       <template v-slot:item.action="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)">mdi-lead-pencil</v-icon>
@@ -96,39 +105,38 @@
 
 <script>
 import axios from "axios";
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
-      hidden : false,
+      hidden: false,
       headers: [
         { text: "Name", value: "name" },
         { text: "Description", value: "description" },
-        { text: "Logo", value: "logo" },
+        { text: "Logo", value: "logo", sortable: false },
         { text: "Actions", value: "action", sortable: false }
       ],
-      
-      search : '',
+
+      search: "",
       dialog: false,
       editedIndex: -1,
       editedItem: {
-          name: "",
-          description: "",
-          logo : "",
+        name: "",
+        description: "",
+        logo: ""
       },
       file: null,
       defaultItem: {
-          name: "",
-          description: "",
-          logo : "",
+        name: "",
+        description: "",
+        logo: ""
       }
     };
   },
 
   computed: {
-
     ...mapGetters({
-      orgGetter: "orgs/orgGetter",
+      orgGetter: "orgs/orgGetter"
     }),
 
     formTitle() {
@@ -140,7 +148,7 @@ export default {
     },
 
     isHidden() {
-       return this.hidden;
+      return this.hidden;
     }
   },
 
@@ -155,11 +163,10 @@ export default {
   },
 
   methods: {
-    
     ...mapActions({
       addOrgAction: "orgs/add",
       editOrgAction: "orgs/edit",
-      showSnackbar : "snackar/showSnackbar",
+      showSnackbar: "snackar/showSnackbar"
     }),
 
     // za sada nista ne radi
@@ -176,7 +183,7 @@ export default {
       return this.orgGetter.findIndex(x => x.name === orgName);
     },
 
-    fileSubmited(file){
+    fileSubmited(file) {
       this.file = file;
       this.editedItem.logo = file.name;
     },
@@ -193,7 +200,11 @@ export default {
     // izmenjena/dodata nova VM
     save() {
       if (!this.validateForm()) {
-        this.showSnackbar(["All input fields must be filled out!", "info", "bottom"])
+        this.showSnackbar([
+          "All input fields must be filled out!",
+          "info",
+          "bottom"
+        ]);
         return;
       }
 
@@ -203,8 +214,8 @@ export default {
         this.addOrg();
       }
 
-      if(this.file){
-        axios.post("/rest/uploadIcon/" + this.file.name, this.file).then(() =>{
+      if (this.file) {
+        axios.post("/rest/uploadIcon/" + this.file.name, this.file).then(() => {
           this.file = null;
         });
       }
@@ -213,10 +224,8 @@ export default {
       this.close();
     },
 
-    validateForm(){
-      if (
-        this.editedItem.name.trim() === ""
-      ) {
+    validateForm() {
+      if (this.editedItem.name.trim() === "") {
         return false;
       }
 
@@ -226,7 +235,11 @@ export default {
     addOrg() {
       this.addOrgAction(this.editedItem)
         .then(() => {
-          this.showSnackbar(["Organization successfully added!", "success", "bottom"])
+          this.showSnackbar([
+            "Organization successfully added!",
+            "success",
+            "bottom"
+          ]);
         })
         .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
     },
@@ -234,7 +247,11 @@ export default {
     editOrg() {
       this.editOrgAction([this.editedIndex, this.editedItem])
         .then(() => {
-          this.showSnackbar(["Organization successfully edited!", "success", "bottom"])
+          this.showSnackbar([
+            "Organization successfully edited!",
+            "success",
+            "bottom"
+          ]);
         })
         .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
     },
@@ -245,3 +262,10 @@ export default {
   }
 };
 </script>
+
+
+<style scoped>
+img {
+  border-radius: 50%;
+}
+</style>

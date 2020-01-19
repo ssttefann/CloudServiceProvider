@@ -9,11 +9,15 @@ import static spark.Spark.post;
 import static spark.Spark.delete;
 import static spark.Spark.staticFiles;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 import Model.Repositories.*;
 import Rest.Controlers.*;
 import com.google.gson.Gson;
+
+import javax.imageio.ImageIO;
 
 public class Main {
 
@@ -24,41 +28,19 @@ public class Main {
     private static VirtualMachineRepository virtualMachineRepository;
     private static OrganizationRepository organizationRepository;
 
+
     public static void main(String[] args) throws Exception {
         port(8080);
         staticFiles.externalLocation(new File("CloudServiceProvider/WebContent/app/dist").getCanonicalPath());
         System.out.println();
 
-        post("/rest/uploadIcon/:fileName", (request, response) -> {
-            String s = request.body();
-            String tupan = request.params("fileName");
-            byte[] b = request.bodyAsBytes();
-            InputStream is = new ByteArrayInputStream(b);
-            try (FileOutputStream fos = new FileOutputStream("CloudServiceProvider/data/images/" + tupan)) {
-                fos.write(b);
-            }
-            return "";
-        });
-
-        get("rest/getIcon/:fileName", (request, response) -> {
-            String fileName = request.params("fileName");
-            File file = new File("CloudServiceProvider/data/images/" + fileName);
-            try(FileInputStream ins = new FileInputStream(file)){
-                long kurac = file.length();
-                byte[] res = new byte[(int) kurac];
-                int size = ins.read(res);
-                response.type("image/jpeg");
-                return res;
-            } catch(Exception e){
-                response.status(400);
-                return "No file with that name";
-            }
-        });
-
         // Login
         post("/rest/login/", AuthenticationController.login);
         get("/rest/loggedUser/", AuthenticationController.getLoggedUser);
         post("/rest/logout/", AuthenticationController.logOut);
+
+        // Slike
+        post("/rest/uploadIcon/:fileName", ImageController.uploadImage);
 
         //Korisnici
         get("/rest/users/getAll/", UserController.getAllUsers);
@@ -99,4 +81,5 @@ public class Main {
 
 
     }
+
 }

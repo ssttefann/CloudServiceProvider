@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import spark.Route;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 public class DiskController {
@@ -18,7 +19,7 @@ public class DiskController {
             return null;
         }
 
-        List<Disk> disks;
+        Collection<Disk> disks;
         if (user.isSuperAdmin()) {
             disks = db.getAllDiscs();
         } else {

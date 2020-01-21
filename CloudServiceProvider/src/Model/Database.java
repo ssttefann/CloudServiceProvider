@@ -3,11 +3,9 @@ package Model;
 import Model.Entities.*;
 import Model.Repositories.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Database {
     private UserRepository userRepository;
@@ -34,7 +32,7 @@ public class Database {
         organizationRepository = OrganizationRepository.getInstance();
     }
 
-    public List<User> getAllUsers() {
+    public Collection<User> getAllUsers() {
         return userRepository.getUsersList();
     }
 
@@ -67,7 +65,7 @@ public class Database {
     }
 
 
-    public List<Category> getAllCategories() {
+    public Collection<Category> getAllCategories() {
         return categoryRepository.getCategoryList();
     }
 
@@ -98,7 +96,7 @@ public class Database {
     }
 
 
-    public List<Disk> getAllDiscs() {
+    public Collection<Disk> getAllDiscs() {
         return diskRepository.getDiskList();
     }
 
@@ -176,7 +174,7 @@ public class Database {
         }
     }
 
-    public List<VirtualMachine> getAllVirtualMachines() {
+    public Collection<VirtualMachine> getAllVirtualMachines() {
         return virtualMachineRepository.getVirtualMachineList();
     }
 
@@ -214,7 +212,7 @@ public class Database {
         diskRepository.saveDisks();
     }
 
-    public List<Organization> getAllOrganizations() {
+    public Collection<Organization> getAllOrganizations() {
         return organizationRepository.getOrganizationsList();
     }
 

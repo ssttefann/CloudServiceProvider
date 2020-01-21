@@ -6,21 +6,17 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class UserRepository {
 
     private static final String PATH_TO_FILE = "CloudServiceProvider/data/users.json";
     private Map<String, User> usersIndexedByEmail;
-    private List<User> usersList;
     private static Gson gson = new Gson();
     private static UserRepository instance = null;
 
-    public static UserRepository getInstance(){
+    public static UserRepository getInstance() {
         if (instance == null) {
             instance = new UserRepository();
         }
@@ -28,28 +24,28 @@ public class UserRepository {
     }
 
     private UserRepository() {
-        usersIndexedByEmail = new HashMap<>();
-        usersList = new ArrayList<>();
+        usersIndexedByEmail = new LinkedHashMap<>();
+        loadUsers();
+    }
+
+    private void loadUsers() {
         try {
-            loadUsers();
+            FileReader reader = new FileReader(PATH_TO_FILE);
+            Type listType = new TypeToken<ArrayList<User>>() {
+            }.getType();
+            List<User> usersList = gson.fromJson(reader, listType);
+            usersIndexedByEmail = usersList
+                    .stream()
+                    .collect(Collectors.toMap(User::getEmail, user -> user, (oldVal, newVal) -> newVal));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    private void loadUsers() throws FileNotFoundException {
-        FileReader reader = new FileReader(PATH_TO_FILE);
-        Type listType = new TypeToken<ArrayList<User>>() {}.getType();
-        usersList = gson.fromJson(reader, listType);
-        usersIndexedByEmail = usersList
-                .stream()
-                .collect(Collectors.toMap(User::getEmail, user -> user, (oldVal, newVal) -> newVal));
-    }
-
     public void saveUsers() {
         try {
             Writer writer = new FileWriter(PATH_TO_FILE);
-            gson.toJson(usersList, writer);
+            gson.toJson(getUsersList(), writer);
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -65,8 +61,8 @@ public class UserRepository {
         return usersIndexedByEmail;
     }
 
-    public List<User> getUsersList() {
-        return usersList;
+    public Collection<User> getUsersList() {
+        return usersIndexedByEmail.values();
     }
 
     public boolean addUser(User user) {
@@ -76,7 +72,6 @@ public class UserRepository {
         }
 
         usersIndexedByEmail.put(email, user);
-        usersList.add(user);
         saveUsers();
         return true;
     }
@@ -85,7 +80,6 @@ public class UserRepository {
         if (usersIndexedByEmail.containsKey(email)) {
             User user = usersIndexedByEmail.get(email);
             user.getOrganization().getUsersList().remove(user);
-            usersList.remove(usersIndexedByEmail.get(email));
             usersIndexedByEmail.remove(email);
 
             saveUsers();

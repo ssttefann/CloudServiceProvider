@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import spark.Route;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 public class VirtualMachineController {
@@ -23,7 +24,7 @@ public class VirtualMachineController {
             return "Unauthorized";
         }
 
-        List<VirtualMachine> virtualMachines;
+        Collection<VirtualMachine> virtualMachines;
         if(user.isSuperAdmin()){
             virtualMachines = db.getAllVirtualMachines();
         } else {

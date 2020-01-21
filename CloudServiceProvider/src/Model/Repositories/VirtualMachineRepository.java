@@ -18,11 +18,6 @@ public class VirtualMachineRepository {
     private static final String PATH_TO_FILE = "CloudServiceProvider/data/vm.json";
 
     private Map<String, VirtualMachine> virtualMachinesIndexedByName;
-    private List<VirtualMachine> virtualMachineList;
-
-    /**
-     * Singleton
-     */
     private static VirtualMachineRepository instance;
 
     public static VirtualMachineRepository getInstance() {
@@ -33,13 +28,11 @@ public class VirtualMachineRepository {
     }
 
     private VirtualMachineRepository(){
-        virtualMachineList = new ArrayList<>();
-        virtualMachinesIndexedByName = new HashMap<>();
+        virtualMachinesIndexedByName = new LinkedHashMap<>();
         loadVirtualMachines();
         initializeDiscList();
         connectVirtualMachinesAndDiscs();
         connectVirtualMachinesAndCategory();
-        System.out.println();
     }
 
     private void loadVirtualMachines(){
@@ -47,7 +40,7 @@ public class VirtualMachineRepository {
             Reader reader = new FileReader(PATH_TO_FILE);
             Type listType = new TypeToken<ArrayList<VirtualMachine>>() {
             }.getType();
-            virtualMachineList = gson.fromJson(reader, listType);
+            List<VirtualMachine> virtualMachineList = gson.fromJson(reader, listType);
             virtualMachinesIndexedByName = virtualMachineList.stream()
                     .collect(Collectors.toMap(VirtualMachine::getName, virtualMachine -> virtualMachine, (oldValue, newValue) -> newValue));
         } catch (FileNotFoundException e) {
@@ -58,7 +51,7 @@ public class VirtualMachineRepository {
     private void saveVirtualMachines(){
         try {
             Writer writer = new FileWriter(PATH_TO_FILE);
-            gson.toJson(virtualMachineList, writer);
+            gson.toJson(getVirtualMachineList(), writer);
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -71,7 +64,7 @@ public class VirtualMachineRepository {
      * a ne u konstruktoru jer je gson postavi na null
      */
     private void initializeDiscList() {
-        virtualMachineList.forEach(virtualMachine -> {
+        getVirtualMachineList().forEach(virtualMachine -> {
             virtualMachine.setDiskList(new ArrayList<>());
         });
     }
@@ -90,7 +83,8 @@ public class VirtualMachineRepository {
 
     private void connectVirtualMachinesAndCategory() {
         CategoryRepository categoryRepository = CategoryRepository.getInstance();
-        virtualMachineList.forEach(virtualMachine -> {
+
+        getVirtualMachineList().forEach(virtualMachine -> {
             Category category = categoryRepository
                     .getCategory(virtualMachine.getCategoryName());
             virtualMachine.setCategory(category);
@@ -101,8 +95,8 @@ public class VirtualMachineRepository {
         return virtualMachinesIndexedByName;
     }
 
-    public List<VirtualMachine> getVirtualMachineList() {
-        return virtualMachineList;
+    public  Collection<VirtualMachine> getVirtualMachineList() {
+        return virtualMachinesIndexedByName.values();
     }
 
     public VirtualMachine getVirtualMachine(String virtualMachineName) {
@@ -118,7 +112,6 @@ public class VirtualMachineRepository {
         String virtualMachineName = virtualMachine.getName();
         if (!virtualMachinesIndexedByName.containsKey(virtualMachineName)) {
             virtualMachinesIndexedByName.put(virtualMachineName, virtualMachine);
-            virtualMachineList.add(virtualMachine);
             saveVirtualMachines();
             return true;
         }
@@ -129,7 +122,6 @@ public class VirtualMachineRepository {
     public boolean removeVirtualMachine(String virtualMachineName){
         if (virtualMachinesIndexedByName.containsKey(virtualMachineName)) {
             VirtualMachine vm = virtualMachinesIndexedByName.get(virtualMachineName);
-            virtualMachineList.remove(vm);
             virtualMachinesIndexedByName.remove(virtualMachineName);
             saveVirtualMachines();
             return true;
@@ -167,7 +159,7 @@ public class VirtualMachineRepository {
     }
 
     public VirtualMachine getVirtualMachineByDiskName(String diskName) {
-        Optional<VirtualMachine> result = virtualMachineList
+        Optional<VirtualMachine> result = getVirtualMachineList()
                 .stream()
                 .filter(vm -> vm.getDiskList()
                         .stream()

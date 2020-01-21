@@ -7,10 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DiskRepository {
@@ -18,7 +15,6 @@ public class DiskRepository {
     private static final String PATH_TO_FILE = "CloudServiceProvider/data/disc.json";
 
     private Map<String, Disk> disksIndexedByName;
-    private List<Disk> diskList;
 
     private static DiskRepository instance;
     public static DiskRepository getInstance(){
@@ -29,16 +25,15 @@ public class DiskRepository {
     }
 
     private DiskRepository(){
-        diskList = new ArrayList<>();
-        disksIndexedByName = new HashMap<>();
-        loadDisck();
+        disksIndexedByName = new LinkedHashMap<>();
+        loadDisk();
     }
 
-    private void loadDisck(){
+    private void loadDisk(){
         try {
             FileReader reader = new FileReader(PATH_TO_FILE);
             Type listType = new TypeToken<ArrayList<Disk>>() {}.getType();
-            diskList = gson.fromJson(reader, listType);
+            List<Disk> diskList = gson.fromJson(reader, listType);
             disksIndexedByName = diskList.stream()
                     .collect(Collectors.toMap(Disk::getName, disc -> disc, (oldValue, newValue) -> newValue));
         } catch (FileNotFoundException e) {
@@ -49,7 +44,7 @@ public class DiskRepository {
     public void saveDisks() {
         try {
             Writer writer = new FileWriter(PATH_TO_FILE);
-            gson.toJson(diskList, writer);
+            gson.toJson(getDiskList(), writer);
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -65,8 +60,8 @@ public class DiskRepository {
         return disksIndexedByName;
     }
 
-    public List<Disk> getDiskList() {
-        return diskList;
+    public Collection<Disk> getDiskList() {
+        return disksIndexedByName.values();
     }
 
     public boolean addDisc(Disk disk){
@@ -74,8 +69,6 @@ public class DiskRepository {
         if(!disksIndexedByName.containsKey(discName)){
             disk.setTimeCreated(LocalDateTime.now());
             disksIndexedByName.put(discName, disk);
-            diskList.add(disk);
-
             saveDisks();
             return true;
         }
@@ -85,7 +78,6 @@ public class DiskRepository {
 
     public boolean removeDisk(String diskName) {
         if (disksIndexedByName.containsKey(diskName)) {
-            diskList.remove(disksIndexedByName.get(diskName));
             disksIndexedByName.remove(diskName);
             saveDisks();
             return true;

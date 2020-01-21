@@ -6,10 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
@@ -22,8 +19,6 @@ public class CategoryRepository {
     private static final String PATH_TO_FILE = "CloudServiceProvider/data/category.json";
 
     private Map<String, Category> categoriesIndexedByName;
-    private List<Category> categoryList;
-
     private static CategoryRepository instance;
 
     public static CategoryRepository getInstance(){
@@ -34,9 +29,7 @@ public class CategoryRepository {
     }
 
     private CategoryRepository(){
-        categoriesIndexedByName = new HashMap<>();
-        categoryList = new ArrayList<>();
-
+        categoriesIndexedByName = new LinkedHashMap<>();
         loadCategories();
     }
 
@@ -45,7 +38,7 @@ public class CategoryRepository {
             FileReader reader = new FileReader(PATH_TO_FILE);
             Type listType = new TypeToken<ArrayList<Category>>() {
             }.getType();
-            categoryList = gson.fromJson(reader, listType);
+            List<Category> categoryList = gson.fromJson(reader, listType);
             categoriesIndexedByName = categoryList.stream()
                     .collect(Collectors.toMap(Category::getName, category -> category, (oldValue, newValue) -> newValue));
 
@@ -58,7 +51,7 @@ public class CategoryRepository {
     private void saveCategories(){
         try {
             Writer writer = new FileWriter(PATH_TO_FILE);
-            gson.toJson(categoryList, writer);
+            gson.toJson(getCategoryList(), writer);
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -70,14 +63,13 @@ public class CategoryRepository {
         return categoriesIndexedByName.get(categoryName);
     }
 
-    public List<Category> getCategoryList() {
-        return categoryList;
+    public Collection<Category> getCategoryList() {
+        return categoriesIndexedByName.values();
     }
 
     public boolean addCategory(Category category){
         String categoryName = category.getName();
         if (!categoriesIndexedByName.containsKey(categoryName)) {
-            categoryList.add(category);
             categoriesIndexedByName.put(categoryName, category);
             saveCategories();
             return true;
@@ -89,7 +81,6 @@ public class CategoryRepository {
 
     public boolean removeIfExists(String categoryName){
         if (categoriesIndexedByName.containsKey(categoryName)) {
-            categoryList.remove(categoriesIndexedByName.get(categoryName));
             categoriesIndexedByName.remove(categoryName);
             saveCategories();
             return true;
@@ -101,9 +92,10 @@ public class CategoryRepository {
     public boolean editCategory(Category editedCategory){
         String categoryName = editedCategory.getName();
         if(categoriesIndexedByName.containsKey(categoryName)){
-            categoryList.remove(editedCategory);
-            categoryList.add(editedCategory);
-            categoriesIndexedByName.put(categoryName, editedCategory);
+            Category oldCategory = categoriesIndexedByName.get(categoryName);
+            oldCategory.setCores(editedCategory.getCores());
+            oldCategory.setGPU(editedCategory.getGPU());
+            oldCategory.setRAM(editedCategory.getRAM());
             saveCategories();
             return true;
         }

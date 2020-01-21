@@ -13,7 +13,6 @@ public class OrganizationRepository {
     private static final String PATH_TO_FILE = "CloudServiceProvider/data/organizations.json";
     private static Gson gson = new Gson();
 
-    private List<Organization> organizationsList;
     private Map<String, Organization> organizationsIndexedByName;
 
     /**
@@ -30,8 +29,7 @@ public class OrganizationRepository {
     }
 
     private OrganizationRepository() {
-        organizationsIndexedByName = new HashMap<>();
-        organizationsList = new ArrayList<>();
+        organizationsIndexedByName = new LinkedHashMap<>();
         loadOrganizations();
         initializeUserAndVmLists();
         connectOrganizationsWithUsers();
@@ -44,7 +42,7 @@ public class OrganizationRepository {
             FileReader reader = new FileReader(PATH_TO_FILE);
             Type listType = new TypeToken<ArrayList<Organization>>() {
             }.getType();
-            organizationsList = gson.fromJson(reader, listType);
+            List<Organization> organizationsList = gson.fromJson(reader, listType);
             organizationsIndexedByName = organizationsList.stream()
                     .collect(Collectors.toMap(Organization::getName, org -> org, (oldValue, newValue) -> newValue));
         } catch (FileNotFoundException e) {
@@ -55,7 +53,7 @@ public class OrganizationRepository {
     private void saveOrganizations(){
         try {
             Writer writer = new FileWriter(PATH_TO_FILE);
-            gson.toJson(organizationsList, writer);
+            gson.toJson(getOrganizationsList(), writer);
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -68,7 +66,7 @@ public class OrganizationRepository {
      * a ne u konstruktoru jer ih gson postavi na null
      */
     private void initializeUserAndVmLists() {
-        organizationsList.forEach(organization -> {
+        getOrganizationsList().forEach(organization -> {
             organization.setVirtualMachinesList(new ArrayList<>());
             organization.setUsersList(new ArrayList<>());
             organization.setDisks(new ArrayList<>());
@@ -78,6 +76,8 @@ public class OrganizationRepository {
     private void connectOrganizationsWithUsers() {
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.getUsersList().forEach(user -> {
+            // preskace samo jednu iteraciju, ne izlazi iz fje
+            if (user.isSuperAdmin()) return;
             String organizationName = user.getOrganizationName();
             Organization organization = organizationsIndexedByName.get(organizationName);
             organization.addUser(user);
@@ -107,16 +107,8 @@ public class OrganizationRepository {
         return organizationsIndexedByName.get(organizationName);
     }
 
-    public List<Organization> getOrganizationsList() {
-        return organizationsList;
-    }
-
-    public void setOrganizationsList(List<Organization> organizationsList) {
-        this.organizationsList = organizationsList;
-    }
-
-    public Map<String, Organization> getOrganizationsIndexedByName() {
-        return organizationsIndexedByName;
+    public Collection<Organization> getOrganizationsList() {
+        return organizationsIndexedByName.values();
     }
 
     public void setOrganizationsIndexedByName(Map<String, Organization> organizationsIndexedByName) {
@@ -127,7 +119,6 @@ public class OrganizationRepository {
         String organizationName = organization.getName();
         if (!organizationsIndexedByName.containsKey(organizationName)) {
             organizationsIndexedByName.put(organizationName, organization);
-            organizationsList.add(organization);
             saveOrganizations();
             return true;
         }
@@ -137,7 +128,6 @@ public class OrganizationRepository {
 
     public boolean removeOrganization(String organizationName) {
         if (organizationsIndexedByName.containsKey(organizationName)) {
-            organizationsList.remove(organizationsIndexedByName.get(organizationName));
             organizationsIndexedByName.remove(organizationName);
             saveOrganizations();
             return true;

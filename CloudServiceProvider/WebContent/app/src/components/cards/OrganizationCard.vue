@@ -208,13 +208,12 @@ export default {
 
     // izmenjena/dodata nova VM
     save() {
-      if (!this.validateForm()) {
+      if (!this.validate()) {
         this.showSnackbar([
           "All input fields must be filled out!",
           "info",
           "bottom"
         ]);
-        return;
       }
 
       if (this.file) {
@@ -231,7 +230,7 @@ export default {
       this.close();
     },
 
-    validateForm() {
+    validate() {
       if (this.editedItem.name.trim() === "") {
         return false;
       }

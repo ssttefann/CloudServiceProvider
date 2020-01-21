@@ -1,1 +1,22 @@
-[{"name":"Facebook","description":"Steal Fast and Break Things","logo":"Facebook.png"},{"name":"Google","description":"We don\u0027t spy on our users","logo":"Google.png"},{"name":"Apple","description":"Create a Problem, Sell a Solution","logo":"Apple.jpg"},{"name":"Amazon","description":"It was Human Error","logo":"Amazon.png"},{"name":"asdf","description":"asdf","logo":"face.jpg"}]
+[
+  {
+    "name": "Facebook",
+    "description": "Steal Fast and Break Things",
+    "logo": "Facebook.png"
+  },
+  {
+    "name": "Google",
+    "description": "We don\u0027t spy on our users",
+    "logo": "Google.png"
+  },
+  {
+    "name": "Apple",
+    "description": "Create a Problem, Sell a Solution",
+    "logo": "Apple.png"
+  },
+  {
+    "name": "Amazon",
+    "description": "It was Human Error",
+    "logo": "Amazon.png"
+  }
+]

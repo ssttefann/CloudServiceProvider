@@ -18,15 +18,14 @@ public class ImageController {
 
     public static Route uploadOrgImage =  (request, response) -> {
 
-        // TODO naziv da bude ime org
-        String naziv = request.params("fileName");
-        String ext = naziv.split("\\.")[1];
-        byte[] data = request.bodyAsBytes();
+        String fileName = request.params("fileName");
+        String ext = fileName.split("\\.")[1];
 
+        byte[] data = request.bodyAsBytes();
         ByteArrayInputStream bis = new ByteArrayInputStream(data);
         BufferedImage image = ImageIO.read(bis);
-        ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/dist/images/orgs/" + naziv));
-        ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/public/images/orgs/" + naziv));
+        ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/dist/images/orgs/" + fileName));
+        ImageIO.write(image, ext, new File("CloudServiceProvider/WebContent/app/public/images/orgs/" + fileName));
 
         return "";
     };

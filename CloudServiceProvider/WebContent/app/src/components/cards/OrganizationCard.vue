@@ -90,7 +90,14 @@
       </template>
 
       <template v-slot:item.logo="{ item }">
-        <v-img :key="reRender" width="35px" height="35px" :src="`/images/orgs/${ item.logo }`" alt />
+        <v-img
+          class="icon"
+          :key="reRender"
+          width="35px"
+          height="35px"
+          :src="`/images/orgs/${ item.logo }`"
+          alt
+        />
       </template>
 
       <!-- Template za brisanje -->
@@ -110,7 +117,7 @@ export default {
   data() {
     return {
       hidden: false,
-      reRender : false,
+      reRender: false,
       headers: [
         { text: "Name", value: "name" },
         { text: "Description", value: "description" },
@@ -137,7 +144,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      orgGetter: "orgs/orgGetter"
+      orgGetter: "orgs/orgGetter",
+      getUser: "users/getUser"
     }),
 
     formTitle() {
@@ -167,7 +175,7 @@ export default {
     ...mapActions({
       addOrgAction: "orgs/add",
       editOrgAction: "orgs/edit",
-      showSnackbar: "snackar/showSnackbar"
+      showSnackbar: "snackbar/showSnackbar"
     }),
 
     // za sada nista ne radi
@@ -209,16 +217,14 @@ export default {
         return;
       }
 
+      if (this.file) {
+        this.uploadIcon();
+      }
+
       if (this.editedIndex > -1) {
         this.editOrg();
       } else {
         this.addOrg();
-      }
-
-      if (this.file) {
-        axios.post("/rest/uploadIcon/" + this.file.name, this.file).then(() => {
-          this.file = null;
-        });
       }
 
       this.$refs.iconUpload.value = undefined;
@@ -231,6 +237,20 @@ export default {
       }
 
       return true;
+    },
+
+    uploadIcon() {
+      // ime slike treba da bude isto kao ime org
+      let extension = this.editedItem.logo.split(".")[1];
+      this.editedItem.logo = this.editedItem.name + "." + extension;
+      axios
+        .post("/rest/uploadIcon/" + this.editedItem.logo, this.file)
+        .then(() => {
+          this.file = null;
+          // ne znam kako da resim ovo bez router.go
+          // this.reRender = !this.reRender nije radilo
+          this.$router.go();
+        });
     },
 
     addOrg() {
@@ -268,7 +288,7 @@ export default {
 
 
 <style scoped>
-img {
+.icon {
   border-radius: 50%;
 }
 </style>

@@ -32,7 +32,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
         port(8080);
         staticFiles.externalLocation(new File("CloudServiceProvider/WebContent/app/dist").getCanonicalPath());
-        System.out.println();
 
         // Login
         post("/rest/login/", AuthenticationController.login);

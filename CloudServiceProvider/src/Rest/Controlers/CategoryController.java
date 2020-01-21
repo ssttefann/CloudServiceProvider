@@ -18,15 +18,7 @@ import java.util.List;
 
 public class CategoryController {
     private static Gson gson = new Gson();
-    private static Database db;
-
-    static {
-        try {
-            db = Database.getInstance();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private static Database db = Database.getInstance();
 
     public static Route getAllCategories = (request, response) -> {
         User user = request.session().attribute("user");
@@ -69,6 +61,7 @@ public class CategoryController {
 
         return "Category eddited";
     };
+
     public static Route deleteCategory = (request, response) -> {
         User user = request.session().attribute("user");
         if (user == null || !user.isSuperAdmin()) {
@@ -77,7 +70,7 @@ public class CategoryController {
         }
 
         String categoryName = request.params("categoryName");
-        if(db.vmHasCategory(categoryName)){
+        if (db.vmHasCategory(categoryName)) {
             response.status(403);
             return "Can't delete that category";
         }

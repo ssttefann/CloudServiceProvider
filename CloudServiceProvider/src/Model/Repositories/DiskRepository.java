@@ -21,32 +21,40 @@ public class DiskRepository {
     private List<Disk> diskList;
 
     private static DiskRepository instance;
-    public static DiskRepository getInstance() throws IOException {
+    public static DiskRepository getInstance(){
         if(instance == null){
             instance = new DiskRepository();
         }
         return instance;
     }
 
-    private DiskRepository() throws IOException {
+    private DiskRepository(){
         diskList = new ArrayList<>();
         disksIndexedByName = new HashMap<>();
         loadDisck();
     }
 
-    private void loadDisck() throws FileNotFoundException {
-        FileReader reader = new FileReader(PATH_TO_FILE);
-        Type listType = new TypeToken<ArrayList<Disk>>() {}.getType();
-        diskList = gson.fromJson(reader, listType);
-        disksIndexedByName = diskList.stream()
-                .collect(Collectors.toMap(Disk::getName, disc -> disc, (oldValue, newValue) -> newValue));
+    private void loadDisck(){
+        try {
+            FileReader reader = new FileReader(PATH_TO_FILE);
+            Type listType = new TypeToken<ArrayList<Disk>>() {}.getType();
+            diskList = gson.fromJson(reader, listType);
+            disksIndexedByName = diskList.stream()
+                    .collect(Collectors.toMap(Disk::getName, disc -> disc, (oldValue, newValue) -> newValue));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void saveDisks() throws IOException {
-        Writer writer = new FileWriter(PATH_TO_FILE);
-        gson.toJson(diskList, writer);
-        writer.flush();
-        writer.close();
+    public void saveDisks() {
+        try {
+            Writer writer = new FileWriter(PATH_TO_FILE);
+            gson.toJson(diskList, writer);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Disk getDisk(String discName) {
@@ -61,7 +69,7 @@ public class DiskRepository {
         return diskList;
     }
 
-    public boolean addDisc(Disk disk) throws IOException {
+    public boolean addDisc(Disk disk){
         String discName = disk.getName();
         if(!disksIndexedByName.containsKey(discName)){
             disk.setTimeCreated(LocalDateTime.now());
@@ -75,7 +83,7 @@ public class DiskRepository {
         return false;
     }
 
-    public boolean removeDisk(String diskName) throws IOException {
+    public boolean removeDisk(String diskName) {
         if (disksIndexedByName.containsKey(diskName)) {
             diskList.remove(disksIndexedByName.get(diskName));
             disksIndexedByName.remove(diskName);
@@ -86,7 +94,7 @@ public class DiskRepository {
         return false;
     }
 
-    public boolean editDisc(Disk editedDisk) throws IOException {
+    public boolean editDisc(Disk editedDisk){
         String diskName = editedDisk.getName();
         if(disksIndexedByName.containsKey(diskName)){
             Disk oldDisk = disksIndexedByName.get(diskName);

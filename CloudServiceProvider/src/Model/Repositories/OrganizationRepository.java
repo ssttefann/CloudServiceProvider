@@ -21,7 +21,7 @@ public class OrganizationRepository {
      */
     private static OrganizationRepository instance;
 
-    public static OrganizationRepository getInstance() throws IOException {
+    public static OrganizationRepository getInstance(){
         if (instance == null) {
             instance = new OrganizationRepository();
         }
@@ -29,7 +29,7 @@ public class OrganizationRepository {
         return instance;
     }
 
-    private OrganizationRepository() throws IOException {
+    private OrganizationRepository() {
         organizationsIndexedByName = new HashMap<>();
         organizationsList = new ArrayList<>();
         loadOrganizations();
@@ -39,20 +39,28 @@ public class OrganizationRepository {
         connectOrganizationsWithVirtualMachines();
     }
 
-    private void loadOrganizations() throws FileNotFoundException {
-        FileReader reader = new FileReader(PATH_TO_FILE);
-        Type listType = new TypeToken<ArrayList<Organization>>() {
-        }.getType();
-        organizationsList = gson.fromJson(reader, listType);
-        organizationsIndexedByName = organizationsList.stream()
-                .collect(Collectors.toMap(Organization::getName, org -> org, (oldValue, newValue) -> newValue));
+    private void loadOrganizations(){
+        try {
+            FileReader reader = new FileReader(PATH_TO_FILE);
+            Type listType = new TypeToken<ArrayList<Organization>>() {
+            }.getType();
+            organizationsList = gson.fromJson(reader, listType);
+            organizationsIndexedByName = organizationsList.stream()
+                    .collect(Collectors.toMap(Organization::getName, org -> org, (oldValue, newValue) -> newValue));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void saveOrganizations() throws IOException {
-        Writer writer = new FileWriter(PATH_TO_FILE);
-        gson.toJson(organizationsList, writer);
-        writer.flush();
-        writer.close();
+    private void saveOrganizations(){
+        try {
+            Writer writer = new FileWriter(PATH_TO_FILE);
+            gson.toJson(organizationsList, writer);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -67,7 +75,7 @@ public class OrganizationRepository {
         });
     }
 
-    private void connectOrganizationsWithUsers() throws IOException {
+    private void connectOrganizationsWithUsers() {
         UserRepository userRepository = UserRepository.getInstance();
         userRepository.getUsersList().forEach(user -> {
             String organizationName = user.getOrganizationName();
@@ -77,7 +85,7 @@ public class OrganizationRepository {
         });
     }
 
-    private void connectOrganizationsWithDiscs() throws IOException {
+    private void connectOrganizationsWithDiscs() {
         DiskRepository disceRepository = DiskRepository.getInstance();
         disceRepository.getDiskList().forEach(disc -> {
             String organizationName = disc.getOrganizationName();
@@ -86,7 +94,7 @@ public class OrganizationRepository {
         });
     }
 
-    private void connectOrganizationsWithVirtualMachines() throws IOException {
+    private void connectOrganizationsWithVirtualMachines(){
         VirtualMachineRepository virtualMachineRepository = VirtualMachineRepository.getInstance();
         virtualMachineRepository.getVirtualMachineList().forEach(virtualMachine -> {
             String organizationName = virtualMachine.getOrganizationName();
@@ -115,7 +123,7 @@ public class OrganizationRepository {
         this.organizationsIndexedByName = organizationsIndexedByName;
     }
 
-    public boolean addOrganization(Organization organization) throws IOException {
+    public boolean addOrganization(Organization organization) {
         String organizationName = organization.getName();
         if (!organizationsIndexedByName.containsKey(organizationName)) {
             organizationsIndexedByName.put(organizationName, organization);
@@ -127,7 +135,7 @@ public class OrganizationRepository {
         return false;
     }
 
-    public boolean removeOrganization(String organizationName) throws IOException {
+    public boolean removeOrganization(String organizationName) {
         if (organizationsIndexedByName.containsKey(organizationName)) {
             organizationsList.remove(organizationsIndexedByName.get(organizationName));
             organizationsIndexedByName.remove(organizationName);
@@ -138,7 +146,7 @@ public class OrganizationRepository {
         return false;
     }
 
-    public boolean editOrganization(Organization newOrganization) throws IOException {
+    public boolean editOrganization(Organization newOrganization) {
         String organizationName = newOrganization.getName();
         if (organizationsIndexedByName.containsKey(organizationName)) {
             Organization oldOrganization = organizationsIndexedByName.get(organizationName);

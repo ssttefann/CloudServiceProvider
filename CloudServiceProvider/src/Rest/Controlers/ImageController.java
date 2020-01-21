@@ -17,7 +17,6 @@ public class ImageController {
     private static Gson gson = new Gson();
 
     public static Route uploadOrgImage =  (request, response) -> {
-
         String fileName = request.params("fileName");
         String ext = fileName.split("\\.")[1];
 

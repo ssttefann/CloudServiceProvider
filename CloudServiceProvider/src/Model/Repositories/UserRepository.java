@@ -18,20 +18,23 @@ public class UserRepository {
     private Map<String, User> usersIndexedByEmail;
     private List<User> usersList;
     private static Gson gson = new Gson();
-
-    /** singleton */
     private static UserRepository instance = null;
-    public static UserRepository getInstance() throws IOException {
-        if(instance == null){
+
+    public static UserRepository getInstance(){
+        if (instance == null) {
             instance = new UserRepository();
         }
         return instance;
     }
 
-    private UserRepository() throws IOException {
+    private UserRepository() {
         usersIndexedByEmail = new HashMap<>();
         usersList = new ArrayList<>();
-        loadUsers();
+        try {
+            loadUsers();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadUsers() throws FileNotFoundException {
@@ -43,14 +46,18 @@ public class UserRepository {
                 .collect(Collectors.toMap(User::getEmail, user -> user, (oldVal, newVal) -> newVal));
     }
 
-    public void saveUsers() throws IOException {
-        Writer writer = new FileWriter(PATH_TO_FILE);
-        gson.toJson(usersList, writer);
-        writer.flush();
-        writer.close();
+    public void saveUsers() {
+        try {
+            Writer writer = new FileWriter(PATH_TO_FILE);
+            gson.toJson(usersList, writer);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public User getUser(String email){
+    public User getUser(String email) {
         return usersIndexedByEmail.get(email);
     }
 
@@ -62,9 +69,9 @@ public class UserRepository {
         return usersList;
     }
 
-    public boolean addUser(User user) throws IOException {
+    public boolean addUser(User user) {
         String email = user.getEmail();
-        if(usersIndexedByEmail.containsKey(email)){
+        if (usersIndexedByEmail.containsKey(email)) {
             return false;
         }
 
@@ -74,8 +81,8 @@ public class UserRepository {
         return true;
     }
 
-    public boolean removeUser(String email) throws IOException {
-        if(usersIndexedByEmail.containsKey(email)){
+    public boolean removeUser(String email) {
+        if (usersIndexedByEmail.containsKey(email)) {
             User user = usersIndexedByEmail.get(email);
             user.getOrganization().getUsersList().remove(user);
             usersList.remove(usersIndexedByEmail.get(email));
@@ -88,9 +95,9 @@ public class UserRepository {
         return false;
     }
 
-    public boolean editUser(User editedUser) throws IOException {
+    public boolean editUser(User editedUser) {
         String email = editedUser.getEmail();
-        if(usersIndexedByEmail.containsKey(email)){
+        if (usersIndexedByEmail.containsKey(email)) {
             User oldUser = usersIndexedByEmail.get(email);
             oldUser.setPassword(editedUser.getPassword());
             oldUser.setFirstName(editedUser.getFirstName());

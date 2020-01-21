@@ -14,15 +14,7 @@ import java.util.List;
 public class VirtualMachineController {
     private static Gson gson = new Gson();
 
-    private static Database db;
-
-    static {
-        try {
-            db = Database.getInstance();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private static Database db = Database.getInstance();
 
     public static Route getVirtualMachines = (request, response) -> {
         User user = request.session().attribute("user");
@@ -33,8 +25,7 @@ public class VirtualMachineController {
 
         List<VirtualMachine> virtualMachines;
         if(user.isSuperAdmin()){
-            VirtualMachineRepository virtualMachineRepository = VirtualMachineRepository.getInstance();
-            virtualMachines = virtualMachineRepository.getVirtualMachineList();
+            virtualMachines = db.getAllVirtualMachines();
         } else {
             virtualMachines = user.getOrganization().getVirtualMachinesList();
         }

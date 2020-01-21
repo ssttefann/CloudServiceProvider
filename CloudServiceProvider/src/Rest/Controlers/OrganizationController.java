@@ -11,15 +11,7 @@ import java.io.IOException;
 
 public class OrganizationController {
     private static Gson gson = new Gson();
-    private static Database db;
-
-    static {
-        try {
-            db = Database.getInstance();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private static Database db = Database.getInstance();
 
     public static Route getAllOrganizations = (request, response) -> {
         User user = request.session().attribute("user");

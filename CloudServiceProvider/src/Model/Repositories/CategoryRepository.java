@@ -26,35 +26,44 @@ public class CategoryRepository {
 
     private static CategoryRepository instance;
 
-    public static CategoryRepository getInstance() throws IOException {
+    public static CategoryRepository getInstance(){
         if (instance == null) {
             instance = new CategoryRepository();
         }
         return instance;
     }
 
-    private CategoryRepository() throws IOException {
+    private CategoryRepository(){
         categoriesIndexedByName = new HashMap<>();
         categoryList = new ArrayList<>();
 
         loadCategories();
     }
 
-    private void loadCategories() throws FileNotFoundException {
-        FileReader reader = new FileReader(PATH_TO_FILE);
-        Type listType = new TypeToken<ArrayList<Category>>() {
-        }.getType();
-        categoryList = gson.fromJson(reader, listType);
-        categoriesIndexedByName = categoryList.stream()
-                .collect(Collectors.toMap(Category::getName, category -> category, (oldValue, newValue) -> newValue));
+    private void loadCategories(){
+        try {
+            FileReader reader = new FileReader(PATH_TO_FILE);
+            Type listType = new TypeToken<ArrayList<Category>>() {
+            }.getType();
+            categoryList = gson.fromJson(reader, listType);
+            categoriesIndexedByName = categoryList.stream()
+                    .collect(Collectors.toMap(Category::getName, category -> category, (oldValue, newValue) -> newValue));
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    private void saveCategories() throws IOException {
-        Writer writer = new FileWriter(PATH_TO_FILE);
-        gson.toJson(categoryList, writer);
-        writer.flush();
-        writer.close();
+    private void saveCategories(){
+        try {
+            Writer writer = new FileWriter(PATH_TO_FILE);
+            gson.toJson(categoryList, writer);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Category getCategory(String categoryName) {
@@ -65,7 +74,7 @@ public class CategoryRepository {
         return categoryList;
     }
 
-    public boolean addCategory(Category category) throws IOException {
+    public boolean addCategory(Category category){
         String categoryName = category.getName();
         if (!categoriesIndexedByName.containsKey(categoryName)) {
             categoryList.add(category);
@@ -78,7 +87,7 @@ public class CategoryRepository {
         return false;
     }
 
-    public boolean removeIfExists(String categoryName) throws IOException {
+    public boolean removeIfExists(String categoryName){
         if (categoriesIndexedByName.containsKey(categoryName)) {
             categoryList.remove(categoriesIndexedByName.get(categoryName));
             categoriesIndexedByName.remove(categoryName);
@@ -89,7 +98,7 @@ public class CategoryRepository {
         return false;
     }
 
-    public boolean editCategory(Category editedCategory) throws IOException {
+    public boolean editCategory(Category editedCategory){
         String categoryName = editedCategory.getName();
         if(categoriesIndexedByName.containsKey(categoryName)){
             categoryList.remove(editedCategory);

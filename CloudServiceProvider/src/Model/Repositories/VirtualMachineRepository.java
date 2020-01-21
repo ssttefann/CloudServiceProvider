@@ -25,14 +25,14 @@ public class VirtualMachineRepository {
      */
     private static VirtualMachineRepository instance;
 
-    public static VirtualMachineRepository getInstance() throws IOException {
+    public static VirtualMachineRepository getInstance() {
         if (instance == null) {
             instance = new VirtualMachineRepository();
         }
         return instance;
     }
 
-    private VirtualMachineRepository() throws IOException {
+    private VirtualMachineRepository(){
         virtualMachineList = new ArrayList<>();
         virtualMachinesIndexedByName = new HashMap<>();
         loadVirtualMachines();
@@ -42,20 +42,28 @@ public class VirtualMachineRepository {
         System.out.println();
     }
 
-    private void loadVirtualMachines() throws FileNotFoundException {
-        Reader reader = new FileReader(PATH_TO_FILE);
-        Type listType = new TypeToken<ArrayList<VirtualMachine>>() {
-        }.getType();
-        virtualMachineList = gson.fromJson(reader, listType);
-        virtualMachinesIndexedByName = virtualMachineList.stream()
-                .collect(Collectors.toMap(VirtualMachine::getName, virtualMachine -> virtualMachine, (oldValue, newValue) -> newValue));
+    private void loadVirtualMachines(){
+        try {
+            Reader reader = new FileReader(PATH_TO_FILE);
+            Type listType = new TypeToken<ArrayList<VirtualMachine>>() {
+            }.getType();
+            virtualMachineList = gson.fromJson(reader, listType);
+            virtualMachinesIndexedByName = virtualMachineList.stream()
+                    .collect(Collectors.toMap(VirtualMachine::getName, virtualMachine -> virtualMachine, (oldValue, newValue) -> newValue));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void saveVirtualMachines() throws IOException {
-        Writer writer = new FileWriter(PATH_TO_FILE);
-        gson.toJson(virtualMachineList, writer);
-        writer.flush();
-        writer.close();
+    private void saveVirtualMachines(){
+        try {
+            Writer writer = new FileWriter(PATH_TO_FILE);
+            gson.toJson(virtualMachineList, writer);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -69,7 +77,7 @@ public class VirtualMachineRepository {
     }
 
 
-    private void connectVirtualMachinesAndDiscs() throws IOException {
+    private void connectVirtualMachinesAndDiscs() {
         DiskRepository diskRepository = DiskRepository.getInstance();
         diskRepository.getDiskList().forEach(disc -> {
             String virtualMachineName = disc.getVirtualMachineName();
@@ -80,7 +88,7 @@ public class VirtualMachineRepository {
         });
     }
 
-    private void connectVirtualMachinesAndCategory() throws IOException {
+    private void connectVirtualMachinesAndCategory() {
         CategoryRepository categoryRepository = CategoryRepository.getInstance();
         virtualMachineList.forEach(virtualMachine -> {
             Category category = categoryRepository
@@ -101,7 +109,7 @@ public class VirtualMachineRepository {
         return virtualMachinesIndexedByName.get(virtualMachineName);
     }
 
-    public boolean addVirtualMachine(VirtualMachine virtualMachine) throws IOException {
+    public boolean addVirtualMachine(VirtualMachine virtualMachine) {
         //kreiramo inicijanu aktivnost
         VirtualMachineActivity vac = new VirtualMachineActivity(LocalDateTime.now());
         virtualMachine.setActivities(new ArrayList<VirtualMachineActivity>());
@@ -118,7 +126,7 @@ public class VirtualMachineRepository {
         return false;
     }
 
-    public boolean removeVirtualMachine(String virtualMachineName) throws IOException {
+    public boolean removeVirtualMachine(String virtualMachineName){
         if (virtualMachinesIndexedByName.containsKey(virtualMachineName)) {
             VirtualMachine vm = virtualMachinesIndexedByName.get(virtualMachineName);
             virtualMachineList.remove(vm);
@@ -130,7 +138,7 @@ public class VirtualMachineRepository {
         return false;
     }
 
-    public boolean editVirtualMachine(VirtualMachine editedVm) throws IOException {
+    public boolean editVirtualMachine(VirtualMachine editedVm) {
         String vmName = editedVm.getName();
         if(virtualMachinesIndexedByName.containsKey(vmName)){
             VirtualMachine vm = virtualMachinesIndexedByName.get(vmName);

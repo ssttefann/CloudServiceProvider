@@ -18,7 +18,7 @@ public class Database {
 
     private static Database instance;
 
-    public static Database getInstance() throws IOException {
+    public static Database getInstance(){
         if (instance == null) {
             instance = new Database();
         }
@@ -26,7 +26,7 @@ public class Database {
         return instance;
     }
 
-    private Database() throws IOException {
+    private Database() {
         userRepository = UserRepository.getInstance();
         categoryRepository = CategoryRepository.getInstance();
         diskRepository = DiskRepository.getInstance();
@@ -46,7 +46,7 @@ public class Database {
         return userRepository.getUser(email);
     }
 
-    public boolean addUser(User user) throws IOException {
+    public boolean addUser(User user){
         Organization organization = organizationRepository.getOrganization(user.getOrganizationName());
         user.setOrganization(organization);
         if (userRepository.addUser(user)) {
@@ -56,13 +56,13 @@ public class Database {
         return false;
     }
 
-    public boolean editUser(User user) throws IOException {
+    public boolean editUser(User user){
         Organization org = organizationRepository.getOrganization(user.getOrganizationName());
         user.setOrganization(org);
         return userRepository.editUser(user);
     }
 
-    public boolean removeUser(String email) throws IOException {
+    public boolean removeUser(String email){
         return userRepository.removeUser(email);
     }
 
@@ -71,27 +71,19 @@ public class Database {
         return categoryRepository.getCategoryList();
     }
 
-    public List<Category> getCategoriesForVms(List<String> categoryNameList) {
-        Set<Category> result = categoryNameList
-                .stream()
-                .map(cat -> categoryRepository.getCategory(cat))
-                .collect(Collectors.toSet());
-
-        return new ArrayList<>(result);
-    }
-
-    public boolean addCategory(Category category) throws IOException {
+    public boolean addCategory(Category category){
         return categoryRepository.addCategory(category);
     }
 
-    public boolean editCategory(Category editedCategory) throws IOException {
+    public boolean editCategory(Category editedCategory){
         return categoryRepository.editCategory(editedCategory);
     }
 
 
     /**
      * Proverava da li neka vm ima trazenu kategoriju.
-     *
+     * Poziva se pri brisanju kategorije, ako neka vm ima tu kategoriju
+     * onda nemere da se brise ta kategorija
      * @param categoryName
      * @return
      */
@@ -101,7 +93,7 @@ public class Database {
                 .anyMatch(vm -> vm.getCategoryName().equals(categoryName));
     }
 
-    public boolean removeCategory(String categoryName) throws IOException {
+    public boolean removeCategory(String categoryName){
         return categoryRepository.removeIfExists(categoryName);
     }
 
@@ -115,7 +107,7 @@ public class Database {
         return organization.getDisks();
     }
 
-    public boolean addDisc(Disk disk) throws IOException {
+    public boolean addDisc(Disk disk){
         if (diskRepository.addDisc(disk)) {
             String virtualMachineName = disk.getVirtualMachineName();
             VirtualMachine virtualMachine = virtualMachineRepository
@@ -133,7 +125,25 @@ public class Database {
         return false;
     }
 
-    public boolean removeDisc(String discName) throws IOException {
+
+    public boolean editDisk(Disk disk) {
+        // ako je ime prazno znaci da je izbacio disk iz vma
+        if (disk.getVirtualMachineName().isEmpty()) {
+            VirtualMachine oldVm = virtualMachineRepository.getVirtualMachineByDiskName(disk.getName());
+
+            //samo ako disk ima vm
+            if(oldVm != null) {
+                oldVm.removeDisc(disk);
+            }
+
+        }else{
+            changeVmIfVmWasChanged(disk);
+        }
+
+        return diskRepository.editDisc(disk);
+    }
+
+    public boolean removeDisc(String discName) {
         Disk disk = diskRepository.getDisk(discName);
         if (disk != null) {
             String virtualMachineName = disk.getVirtualMachineName();
@@ -150,24 +160,6 @@ public class Database {
         }
 
         return false;
-    }
-
-
-    public boolean editDisk(Disk disk) throws IOException {
-        // ako je ime prazno znaci da je izbacio disk iz vma
-        if (disk.getVirtualMachineName().isEmpty()) {
-            VirtualMachine oldVm = virtualMachineRepository.getVirtualMachineByDiskName(disk.getName());
-
-            //samo ako disk ima vm
-            if(oldVm != null) {
-                oldVm.removeDisc(disk);
-            }
-
-        }else{
-            changeVmIfVmWasChanged(disk);
-        }
-
-        return diskRepository.editDisc(disk);
     }
 
     private void changeVmIfVmWasChanged(Disk disk){
@@ -188,12 +180,7 @@ public class Database {
         return virtualMachineRepository.getVirtualMachineList();
     }
 
-    public List<VirtualMachine> getAllVirtualMachinesOfOrganization(String organizationName) {
-        Organization organization = organizationRepository.getOrganization(organizationName);
-        return organization.getVirtualMachinesList();
-    }
-
-    public boolean addVirtualMachine(VirtualMachine vm) throws IOException {
+    public boolean addVirtualMachine(VirtualMachine vm){
         String categoryName = vm.getCategoryName();
         Category category = categoryRepository.getCategory(categoryName);
         vm.setCategory(category);
@@ -205,7 +192,11 @@ public class Database {
         return virtualMachineRepository.addVirtualMachine(vm);
     }
 
-    public boolean removeVirtualMachine(String vmName) throws IOException {
+    public boolean editVirtualMachine(VirtualMachine editedVm) {
+        return virtualMachineRepository.editVirtualMachine(editedVm);
+    }
+
+    public boolean removeVirtualMachine(String vmName) {
         VirtualMachine vm = virtualMachineRepository.getVirtualMachine(vmName);
         Organization organization = organizationRepository.getOrganization(vm.getOrganizationName());
         deleteVMNameFormDiscs(vmName);
@@ -213,7 +204,7 @@ public class Database {
         return virtualMachineRepository.removeVirtualMachine(vmName);
     }
 
-    private void deleteVMNameFormDiscs(String vmName) throws IOException {
+    private void deleteVMNameFormDiscs(String vmName){
         diskRepository.getDiskList().forEach(disc -> {
             if (disc.getVirtualMachineName().equals(vmName)) {
                 disc.setVirtualMachineName("");
@@ -233,18 +224,14 @@ public class Database {
         return list;
     }
 
-    public boolean addOrganization(Organization organization) throws IOException {
+    public boolean addOrganization(Organization organization) {
         return organizationRepository.addOrganization(organization);
     }
 
-    public boolean editOrganization(Organization newOrganization) throws IOException {
+    public boolean editOrganization(Organization newOrganization) {
         return organizationRepository.editOrganization(newOrganization);
     }
 
-
-    public boolean editVirtualMachine(VirtualMachine editedVm) throws IOException {
-        return virtualMachineRepository.editVirtualMachine(editedVm);
-    }
 
 
 }

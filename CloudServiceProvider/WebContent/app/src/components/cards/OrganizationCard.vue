@@ -175,7 +175,7 @@ export default {
     ...mapActions({
       addOrgAction: "orgs/add",
       editOrgAction: "orgs/edit",
-      showSnackbar: "snackbar/showSnackbar"
+      showSnackbar: "snackbar/showSnackbar",
     }),
 
     // za sada nista ne radi

@@ -9,15 +9,11 @@ import static spark.Spark.post;
 import static spark.Spark.delete;
 import static spark.Spark.staticFiles;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 
 import Model.Repositories.*;
 import Rest.Controlers.*;
 import com.google.gson.Gson;
-
-import javax.imageio.ImageIO;
 
 public class Main {
 
@@ -53,8 +49,10 @@ public class Main {
         get("/rest/VMs/getAll/", VirtualMachineController.getVirtualMachines);
         post("/rest/VMs/add/", VirtualMachineController.addVirtualMachine);
         post("/rest/VMs/edit/", VirtualMachineController.editVirtualMachines);
-        delete("/rest/VMs/delete/:vmName", VirtualMachineController.deleteVirtualMachines);
-
+        delete("/rest/VMs/delete/:vmName", VirtualMachineController.deleteVirtualMachine);
+        get("/rest/VMs/getActivities/:vmName", VirtualMachineController.getActivitiesForVm);
+        post("/rest/VMs/turnOn/:vmName", VirtualMachineController.turnOnVirtualMachine);
+        post("/rest/VMs/turnOff/:vmName", VirtualMachineController.turnOffVirtualMachines);
 
         //Diskovi
         get("/rest/discs/getDiscs/", DiskController.getDiscs);

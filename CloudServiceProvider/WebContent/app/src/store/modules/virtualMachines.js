@@ -95,9 +95,45 @@ export default {
                         }
                     }).catch(error => reject(error));
             })
+        },
+
+        getActivitiesForVm({ commit }, vmName) {
+            commit;
+            return new Promise((resolve, reject) => {
+                axios.get("/rest/VMs/getActivities/" + vmName)
+                    .then(response => {
+                        resolve(response.data);
+
+                    }).catch(error => reject(error))
+            })
+        },
+
+        turnOnVirtualMachine({ commit }, tuple) {
+            let index = tuple[0];
+            let vmName = tuple[1];
+            return new Promise((resolve, reject) => {
+                axios.post("/rest/VMs/turnOn/" + vmName)
+                    .then((response) => {
+                        commit("EDIT_VIRTUAL_MACHINE", [index, response.data]);
+                        resolve();
+                    })
+                    .catch(error => reject(error))
+            })
+
+        },
+
+        turnOffVirtualMachine({commit}, tuple){
+            let index = tuple[0];
+            let vmName = tuple[1];
+            return new Promise((resolve, reject) => {
+                axios.post("/rest/VMs/turnOff/" + vmName)
+                    .then((response) => {
+                        commit("EDIT_VIRTUAL_MACHINE", [index, response.data]);
+                        resolve();
+                    })
+                    .catch(error => reject(error))
+            })
         }
-
-
 
     },
 

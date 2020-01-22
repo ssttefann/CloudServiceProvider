@@ -43,12 +43,17 @@
     >
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
-        <v-divider class="mx-4" inset vertical width="70%"></v-divider>
-        <v-spacer></v-spacer>
-        <v-dialog v-model="dialog" max-width="500px">
-          <template v-if="isAdmin || isSuper" v-slot:activator="{ on }">
-            <v-btn color="blue-grey darken-1 white--text" dark class="mb-2" v-on="on">New VM</v-btn>
-          </template>
+        <v-btn
+          v-if="isAdmin || isSuper"
+          color="blue-grey darken-1 white--text"
+          dark
+          class="mb-2"
+          @click="show"
+        >New VM</v-btn>
+
+        <v-dialog v-model="dialog" width="50%">
+          <!-- <template  v-slot:activator="{ on }"></template> -->
+
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
@@ -76,14 +81,8 @@
                     ></v-select>
                   </v-col>
 
-                  <v-col v-if="editDisabled" cols="12" sm="6" md="4">
-                    <v-switch
-                      v-model="editedItem.active"
-                      :label="`Upaljena: ${editedItem.active.toString()}`"
-                    ></v-switch>
-                  </v-col>
 
-                  <v-card>
+                  <v-card v-if="disksForVms.length > 0">
                     <v-card-title class="grey white--text">
                       Select disks
                       <v-spacer></v-spacer>
@@ -110,6 +109,8 @@
                       :items="disksForVms"
                     ></v-data-table>
                   </v-card>
+
+                  <h2 v-else>No disks available.</h2>
                 </v-row>
               </v-container>
             </v-card-text>
@@ -121,12 +122,22 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+
+        <v-dialog v-model="activitiesDialog" width="50%">
+          <Activities
+            v-on:close="closeActivitiesDialog"
+            :vm="vmToShowActivitiesFor"
+            :activities="activities"
+            :vmIndex="vmToShowActivitiesForIndex"
+          />
+        </v-dialog>
       </template>
 
-      <!-- Template za brisanje -->
+      <!-- Template za brisanje i editovanje -->
       <template v-if="isSuper || isAdmin" v-slot:item.action="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)">mdi-lead-pencil</v-icon>
-        <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+        <v-icon small class="mr-2" @click="showActivities(item)">mdi-clock</v-icon>
+        <v-icon small class="mr-2" @click="deleteItem(item)">mdi-delete</v-icon>
       </template>
     </v-data-table>
   </v-card>
@@ -135,13 +146,17 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import Activities from "./Activities";
 
 export default {
-  components: {},
+  components: {
+    Activities
+  },
 
   data() {
     return {
       selectedDiscs: [],
+      activities: [],
       hidden: false,
       headers: [
         { text: "Name", align: "left", value: "name" },
@@ -157,9 +172,12 @@ export default {
         { text: "Capacity", value: "capacity" },
         { text: "Type", value: "type" }
       ],
+      vmToShowActivitiesFor: null,
+      vmToShowActivitiesForIndex: null,
       searchDiscs: "",
       search: "",
       dialog: false,
+      activitiesDialog: false,
       editedIndex: -1,
       editedItem: {
         name: "",
@@ -251,10 +269,66 @@ export default {
       deleteVmAction: "vms/delete",
       loadDiscs: "disc/load",
       showSnackbar: "snackbar/showSnackbar",
+      getActivitiesForVm: "vms/getActivitiesForVm",
       editDiscAction: "disc/edit"
     }),
 
     initialize() {},
+
+    show() {
+      this.dialog = true;
+    },
+
+    showActivities(item) {
+      this.getActivitiesForVm(item.name)
+        .then(activities => {
+          this.activities = this.trt(activities);
+          this.vmToShowActivitiesFor = item;
+          this.vmToShowActivitiesForIndex = this.getIndexOfVm(item.name);
+          this.activitiesDialog = true;
+        })
+        .catch(error => {
+          this.showSnackbar(["Error occured: " + error, "error", "bottom"]);
+        });
+    },
+
+    trt(newActivities) {
+      let res = [];
+      newActivities.forEach(a => {
+        let start =
+          a.startTime.date.day +
+          "/" +
+          a.startTime.date.month +
+          "/" +
+          a.startTime.date.year +
+          " " +
+          a.startTime.time.hour +
+          ":" +
+          a.startTime.time.minute;
+
+        let end = "";
+        if (a.endTime) {
+          end =
+            a.endTime.date.day +
+            "/" +
+            a.endTime.date.month +
+            "/" +
+            a.endTime.date.year +
+            " " +
+            a.endTime.time.hour +
+            ":" +
+            a.endTime.time.minute;
+        }
+        res.push({ id: a.id, start, end });
+      });
+
+      return res;
+    },
+
+    closeActivitiesDialog() {
+      this.activitiesDialog = false;
+      Object.assign(this.activities, []);
+    },
 
     editItem(item) {
       this.editedIndex = this.getIndexOfVm(item.name);

@@ -48,7 +48,7 @@ public class VirtualMachineRepository {
         }
     }
 
-    private void saveVirtualMachines(){
+    public void saveVirtualMachines(){
         try {
             Writer writer = new FileWriter(PATH_TO_FILE);
             gson.toJson(getVirtualMachineList(), writer);
@@ -104,11 +104,6 @@ public class VirtualMachineRepository {
     }
 
     public boolean addVirtualMachine(VirtualMachine virtualMachine) {
-        //kreiramo inicijanu aktivnost
-        VirtualMachineActivity vac = new VirtualMachineActivity(LocalDateTime.now());
-        virtualMachine.setActivities(new ArrayList<VirtualMachineActivity>());
-        virtualMachine.getActivities().add(vac);
-
         String virtualMachineName = virtualMachine.getName();
         if (!virtualMachinesIndexedByName.containsKey(virtualMachineName)) {
             virtualMachinesIndexedByName.put(virtualMachineName, virtualMachine);
@@ -139,17 +134,17 @@ public class VirtualMachineRepository {
             vm.setCategory(editedVm.getCategory());
             vm.setActive(editedVm.isActive());
 
-            LocalDateTime now = LocalDateTime.now();
-            //ako je sad aktivna znaci da pravimo novi activity
-            if(vm.isActive()){
-                VirtualMachineActivity vac = new VirtualMachineActivity(now);
-            }
-            //ako nije znaci da zavrsavamo poslednji activity
-            else{
-                int lastElem = vm.getActivities().size() - 1;
-                VirtualMachineActivity vac = vm.getActivities().get(lastElem);
-                vac.setEndTime(now);
-            }
+//            LocalDateTime now = LocalDateTime.now();
+//            //ako je sad aktivna znaci da pravimo novi activity
+//            if(vm.isActive()){
+//                VirtualMachineActivity vac = new VirtualMachineActivity(now);
+//            }
+//            //ako nije znaci da zavrsavamo poslednji activity
+//            else{
+//                int lastElem = vm.getActivities().size() - 1;
+//                VirtualMachineActivity vac = vm.getActivities().get(lastElem);
+//                vac.setEndTime(now);
+//            }
 
             saveVirtualMachines();
             return true;

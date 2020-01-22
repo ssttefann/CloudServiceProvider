@@ -110,4 +110,8 @@ public class VirtualMachine {
             diskList.remove(disk);
         }
     }
+
+    public void addActivity(VirtualMachineActivity vac) {
+        activities.add(vac);
+    }
 }

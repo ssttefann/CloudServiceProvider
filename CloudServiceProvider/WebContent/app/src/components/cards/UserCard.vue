@@ -222,6 +222,7 @@ export default {
               "success",
               "bottom"
             ]);
+            this.$router.go();
             this.close();
           })
           .catch(err =>
@@ -244,7 +245,7 @@ export default {
       if (this.isAdmin) {
         this.editedItem.organizationName = this.getUser.organizationName;
       }
-
+      
       if (!this.validate()) {
         this.showSnackbar([
           "All input fields must be filled out!",
@@ -292,7 +293,8 @@ export default {
         this.editedItem.email.trim() === "" ||
         this.editedItem.password.trim() === "" ||
         this.editedItem.role.trim() === "" ||
-        this.editedItem.organizationName.trim() === ""
+        this.editedItem.organizationName.trim() === "" ||
+        (this.editedItem.role != "Admin" || this.editedItem.role != "User")
       ) {
         return false;
       }

@@ -3,6 +3,8 @@ package Model;
 import Model.Entities.*;
 import Model.Repositories.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,7 +18,7 @@ public class Database {
 
     private static Database instance;
 
-    public static Database getInstance(){
+    public static Database getInstance() {
         if (instance == null) {
             instance = new Database();
         }
@@ -44,7 +46,7 @@ public class Database {
         return userRepository.getUser(email);
     }
 
-    public boolean addUser(User user){
+    public boolean addUser(User user) {
         Organization organization = organizationRepository.getOrganization(user.getOrganizationName());
         user.setOrganization(organization);
         if (userRepository.addUser(user)) {
@@ -54,13 +56,13 @@ public class Database {
         return false;
     }
 
-    public boolean editUser(User user){
+    public boolean editUser(User user) {
         Organization org = organizationRepository.getOrganization(user.getOrganizationName());
         user.setOrganization(org);
         return userRepository.editUser(user);
     }
 
-    public boolean removeUser(String email){
+    public boolean removeUser(String email) {
         return userRepository.removeUser(email);
     }
 
@@ -69,11 +71,11 @@ public class Database {
         return categoryRepository.getCategoryList();
     }
 
-    public boolean addCategory(Category category){
+    public boolean addCategory(Category category) {
         return categoryRepository.addCategory(category);
     }
 
-    public boolean editCategory(Category editedCategory){
+    public boolean editCategory(Category editedCategory) {
         return categoryRepository.editCategory(editedCategory);
     }
 
@@ -82,6 +84,7 @@ public class Database {
      * Proverava da li neka vm ima trazenu kategoriju.
      * Poziva se pri brisanju kategorije, ako neka vm ima tu kategoriju
      * onda nemere da se brise ta kategorija
+     *
      * @param categoryName
      * @return
      */
@@ -91,7 +94,7 @@ public class Database {
                 .anyMatch(vm -> vm.getCategoryName().equals(categoryName));
     }
 
-    public boolean removeCategory(String categoryName){
+    public boolean removeCategory(String categoryName) {
         return categoryRepository.removeIfExists(categoryName);
     }
 
@@ -105,7 +108,7 @@ public class Database {
         return organization.getDisks();
     }
 
-    public boolean addDisc(Disk disk){
+    public boolean addDisc(Disk disk) {
         if (diskRepository.addDisc(disk)) {
             String virtualMachineName = disk.getVirtualMachineName();
             VirtualMachine virtualMachine = virtualMachineRepository
@@ -130,11 +133,11 @@ public class Database {
             VirtualMachine oldVm = virtualMachineRepository.getVirtualMachineByDiskName(disk.getName());
 
             //samo ako disk ima vm
-            if(oldVm != null) {
+            if (oldVm != null) {
                 oldVm.removeDisc(disk);
             }
 
-        }else{
+        } else {
             changeVmIfVmWasChanged(disk);
         }
 
@@ -147,7 +150,7 @@ public class Database {
             String virtualMachineName = disk.getVirtualMachineName();
 
             //ako postoji ta vm
-            if(virtualMachineRepository.getVirtualMachineByDiskName(virtualMachineName) != null){
+            if (virtualMachineRepository.getVirtualMachineByDiskName(virtualMachineName) != null) {
                 VirtualMachine virtualMachine = virtualMachineRepository
                         .getVirtualMachine(virtualMachineName);
                 virtualMachine.removeDisc(disk);
@@ -160,7 +163,7 @@ public class Database {
         return false;
     }
 
-    private void changeVmIfVmWasChanged(Disk disk){
+    private void changeVmIfVmWasChanged(Disk disk) {
         VirtualMachine vm = virtualMachineRepository.getVirtualMachine(disk.getVirtualMachineName());
         // ako disk ni je u vm to znaci da je promenio vm disku
         boolean diskInVm = vm.getDiskList()
@@ -174,11 +177,15 @@ public class Database {
         }
     }
 
+    public VirtualMachine getVM(String vmName) {
+        return virtualMachineRepository.getVirtualMachine(vmName);
+    }
+
     public Collection<VirtualMachine> getAllVirtualMachines() {
         return virtualMachineRepository.getVirtualMachineList();
     }
 
-    public boolean addVirtualMachine(VirtualMachine vm){
+    public boolean addVirtualMachine(VirtualMachine vm) {
         String categoryName = vm.getCategoryName();
         Category category = categoryRepository.getCategory(categoryName);
         vm.setCategory(category);
@@ -202,7 +209,7 @@ public class Database {
         return virtualMachineRepository.removeVirtualMachine(vmName);
     }
 
-    private void deleteVMNameFormDiscs(String vmName){
+    private void deleteVMNameFormDiscs(String vmName) {
         diskRepository.getDiskList().forEach(disc -> {
             if (disc.getVirtualMachineName().equals(vmName)) {
                 disc.setVirtualMachineName("");
@@ -210,6 +217,41 @@ public class Database {
         });
 
         diskRepository.saveDisks();
+    }
+
+    public List<VirtualMachineActivity> getActivitiesForVm(String vmName) {
+        VirtualMachine vm = virtualMachineRepository.getVirtualMachine(vmName);
+        return vm.getActivities();
+    }
+
+    public boolean turnOnVm(String vmName) {
+        VirtualMachine vm = virtualMachineRepository.getVirtualMachine(vmName);
+        if (vm == null || vm.isActive()) {
+            return false;
+        }
+
+        vm.setActive(true);
+        LocalDateTime startTime = LocalDateTime.now();
+        String id = vm.getName() + startTime.toString();
+        VirtualMachineActivity activity = new VirtualMachineActivity(startTime, null, id);
+        vm.addActivity(activity);
+        virtualMachineRepository.saveVirtualMachines();
+        return true;
+    }
+
+    public boolean turnOffVm(String vmName) {
+        VirtualMachine vm = virtualMachineRepository.getVirtualMachine(vmName);
+        if (vm == null || !vm.isActive()) {
+            return false;
+        }
+
+        vm.setActive(false);
+        List<VirtualMachineActivity> activities = vm.getActivities();
+        VirtualMachineActivity activity = activities.get(activities.size() - 1);
+        LocalDateTime endTime = LocalDateTime.now();
+        activity.setEndTime(endTime);
+        virtualMachineRepository.saveVirtualMachines();
+        return true;
     }
 
     public Collection<Organization> getAllOrganizations() {
@@ -229,7 +271,4 @@ public class Database {
     public boolean editOrganization(Organization newOrganization) {
         return organizationRepository.editOrganization(newOrganization);
     }
-
-
-
 }

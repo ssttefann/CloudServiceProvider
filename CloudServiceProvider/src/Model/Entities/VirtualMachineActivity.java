@@ -5,15 +5,12 @@ import java.time.LocalDateTime;
 public class VirtualMachineActivity {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private String id;
 
-    public VirtualMachineActivity(LocalDateTime startTime, LocalDateTime endTime) {
+    public VirtualMachineActivity(LocalDateTime startTime, LocalDateTime endTime, String id) {
         this.startTime = startTime;
         this.endTime = endTime;
-    }
-
-    public VirtualMachineActivity(LocalDateTime startTime) {
-        this.startTime = startTime;
-        this.endTime = null;
+        this.id = id;
     }
 
     public LocalDateTime getStartTime() {
@@ -30,5 +27,13 @@ public class VirtualMachineActivity {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

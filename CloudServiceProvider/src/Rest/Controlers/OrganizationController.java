@@ -63,6 +63,17 @@ public class OrganizationController {
         return "Org edited";
     };
 
+    public static Route getBill = (request, response) -> {
+        User user = request.session().attribute("user");
+        if(user == null || !user.isAdmin()){
+            response.status(401);
+            return "Unauthorized";
+        }
+
+        return "";
+
+    };
+
 
 
 

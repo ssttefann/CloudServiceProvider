@@ -78,7 +78,8 @@ public class DiskRepository {
 
     public boolean removeDisk(String diskName) {
         if (disksIndexedByName.containsKey(diskName)) {
-            disksIndexedByName.remove(diskName);
+            disksIndexedByName.get(diskName).setTimeDeleted(LocalDateTime.now());
+            disksIndexedByName.get(diskName).setDeleted(true);
             saveDisks();
             return true;
         }

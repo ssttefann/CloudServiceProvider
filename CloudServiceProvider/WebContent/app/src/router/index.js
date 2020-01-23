@@ -7,6 +7,7 @@ import NotFound from '../components/errors/NotFound'
 import Dashboard from '../components/Dashboard'
 import Account from '../components/global/Account'
 import Organization from "../components/global/Organization"
+import Bill from "../components/global/Bill"
 import { store } from '../store/store.js'
 
 Vue.use(VueRouter)
@@ -68,6 +69,15 @@ const routes = [
     meta: {
       requiresAuth: true,
       is_admin: true
+    }
+  },
+  {
+    path: "/billing",
+    name: "bill",
+    component: Bill,
+    meta:{
+      requiresAuth: true,
+      is_admin: true,
     }
   },
   {

@@ -29,7 +29,7 @@ public class VirtualMachineController {
         if (user.isSuperAdmin()) {
             virtualMachines = db.getAllVirtualMachines();
         } else {
-            virtualMachines = user.getOrganization().getVirtualMachinesList();
+            virtualMachines = db.getOrganizationVirtualMachines(user.getOrganizationName());
         }
 
         return gson.toJson(virtualMachines);

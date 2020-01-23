@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Database {
     private UserRepository userRepository;
@@ -100,12 +101,18 @@ public class Database {
 
 
     public Collection<Disk> getAllDiscs() {
-        return diskRepository.getDiskList();
+        return diskRepository.getDiskList()
+                .stream()
+                .filter(disk -> !disk.isDeleted())
+                .collect(Collectors.toList());
     }
 
     public List<Disk> getDiscsOfOrganization(String organizationName) {
         Organization organization = organizationRepository.getOrganization(organizationName);
-        return organization.getDisks();
+        return organization.getDisks()
+                .stream()
+                .filter(disk -> !disk.isDeleted())
+                .collect(Collectors.toList());
     }
 
     public boolean addDisc(Disk disk) {
@@ -182,7 +189,22 @@ public class Database {
     }
 
     public Collection<VirtualMachine> getAllVirtualMachines() {
-        return virtualMachineRepository.getVirtualMachineList();
+        return virtualMachineRepository.getVirtualMachineList()
+                .stream()
+                .filter(vm -> !vm.isDeleted())
+                .collect(Collectors.toList());
+    }
+
+    public Collection<VirtualMachine> getOrganizationVirtualMachines(String organizationName) {
+        Organization organization = organizationRepository.getOrganization(organizationName);
+        if (organization == null){
+            return new ArrayList<>();
+        }
+
+        return organization.getVirtualMachinesList()
+                .stream()
+                .filter(vm -> !vm.isDeleted())
+                .collect(Collectors.toList());
     }
 
     public boolean addVirtualMachine(VirtualMachine vm) {
@@ -194,7 +216,11 @@ public class Database {
         vm.setCategoryName(category.getName());
         Organization organization = organizationRepository.getOrganization(vm.getOrganizationName());
         organization.addVirtualMachine(vm);
-        return virtualMachineRepository.addVirtualMachine(vm);
+        if(virtualMachineRepository.addVirtualMachine(vm)){
+            turnOnVm(vm.getName());
+            return true;
+        }
+        return false;
     }
 
     public boolean editVirtualMachine(VirtualMachine editedVm) {
@@ -205,7 +231,8 @@ public class Database {
         VirtualMachine vm = virtualMachineRepository.getVirtualMachine(vmName);
         Organization organization = organizationRepository.getOrganization(vm.getOrganizationName());
         deleteVMNameFormDiscs(vmName);
-        organization.removeVirtualMachine(vm);
+        // ako nije ukljucena onda se nista nece desiti
+        turnOffVm(vmName);
         return virtualMachineRepository.removeVirtualMachine(vmName);
     }
 

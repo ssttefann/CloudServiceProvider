@@ -81,8 +81,8 @@
                     ></v-select>
                   </v-col>
 
-
-                  <v-card v-if="disksForVms.length > 0">
+                  <!-- tabela za biranje diskova -->
+                  <v-card width="100%" v-if="disksForVms.length > 0">
                     <v-card-title class="grey white--text">
                       Select disks
                       <v-spacer></v-spacer>
@@ -109,7 +109,6 @@
                       :items="disksForVms"
                     ></v-data-table>
                   </v-card>
-
                   <h2 v-else>No disks available.</h2>
                 </v-row>
               </v-container>
@@ -155,8 +154,6 @@ export default {
 
   data() {
     return {
-      selectedDiscs: [],
-      activities: [],
       hidden: false,
       headers: [
         { text: "Name", align: "left", value: "name" },
@@ -172,17 +169,23 @@ export default {
         { text: "Capacity", value: "capacity" },
         { text: "Type", value: "type" }
       ],
+      dialog: false,
+
+      // za dijalog sa aktivnostima
       vmToShowActivitiesFor: null,
       vmToShowActivitiesForIndex: null,
-      searchDiscs: "",
-      search: "",
-      dialog: false,
       activitiesDialog: false,
+      activities: [],
+
+      searchDiscs: "",
+      selectedDiscs: [],
+
+      search: "",
       editedIndex: -1,
       editedItem: {
         name: "",
         organizationName: "",
-        active: true,
+        active: false,
         category: {
           name: "",
           cores: 0,
@@ -258,10 +261,6 @@ export default {
     }
   },
 
-  created() {
-    this.initialize();
-  },
-
   methods: {
     ...mapActions({
       addVmAction: "vms/add",
@@ -273,16 +272,31 @@ export default {
       editDiscAction: "disc/edit"
     }),
 
-    initialize() {},
-
+    /**
+     * prikazuje dijalog za add/edit
+     */
     show() {
       this.dialog = true;
     },
 
+    /**
+     * Zatvara dijalog za add/edit
+     */
+    close() {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
+    },
+
+    /**
+     * Prikazuje dijalog sa aktivnostima
+     */
     showActivities(item) {
       this.getActivitiesForVm(item.name)
         .then(activities => {
-          this.activities = this.trt(activities);
+          this.activities = this.transformDates(activities);
           this.vmToShowActivitiesFor = item;
           this.vmToShowActivitiesForIndex = this.getIndexOfVm(item.name);
           this.activitiesDialog = true;
@@ -292,7 +306,19 @@ export default {
         });
     },
 
-    trt(newActivities) {
+    /**
+     * Zatvara dijalog sa aktivnostima
+     */
+    closeActivitiesDialog() {
+      this.activitiesDialog = false;
+      Object.assign(this.activities, []);
+    },
+
+    /**
+     * Pretvara datume u format dd/mm/yyyy hh:MM
+     * Treba za prikaz u Activities komponenti
+     */
+    transformDates(newActivities) {
       let res = [];
       newActivities.forEach(a => {
         let start =
@@ -325,11 +351,6 @@ export default {
       return res;
     },
 
-    closeActivitiesDialog() {
-      this.activitiesDialog = false;
-      Object.assign(this.activities, []);
-    },
-
     editItem(item) {
       this.editedIndex = this.getIndexOfVm(item.name);
       this.editedItem = Object.assign({}, item);
@@ -338,15 +359,6 @@ export default {
 
     getIndexOfVm(vmName) {
       return this.vmsGetter.findIndex(x => x.name === vmName);
-    },
-
-    // korisnik odustao od izmene
-    close() {
-      this.dialog = false;
-      setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      }, 300);
     },
 
     save() {

@@ -12,15 +12,15 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn v-if="vm.active" dark color="blue-grey darken-1 white--text" text @click="stopVm">Stop</v-btn>
-      <v-btn v-else dark color="blue-grey darken-1 white--text" text @click="startVm">Start</v-btn>
+      <v-btn v-if="vm.active && isAdmin" dark color="blue-grey darken-1 white--text" text @click="stopVm">Stop</v-btn>
+      <v-btn v-else-if="!vm.active && isAdmin" dark color="blue-grey darken-1 white--text" text @click="startVm">Start</v-btn>
       <v-btn color="blue darken-1" text @click="closeActivitiesDialog">Close</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Activities",
   props: ["activities", "vm", "vmIndex"],
@@ -31,8 +31,13 @@ export default {
         { text: "End", align: "left", value: "end" },
         { text: "Edit", align: "left", value: "edit", sortable: false }
       ],
-      transformedActivities: []
     };
+  },
+
+  computed:{
+    ...mapGetters({
+      isAdmin: "users/isAdmin",
+    })
   },
 
   methods: {

@@ -27,7 +27,7 @@ public class VirtualMachineRepository {
         return instance;
     }
 
-    private VirtualMachineRepository(){
+    private VirtualMachineRepository() {
         virtualMachinesIndexedByName = new LinkedHashMap<>();
         loadVirtualMachines();
         initializeDiscList();
@@ -35,7 +35,7 @@ public class VirtualMachineRepository {
         connectVirtualMachinesAndCategory();
     }
 
-    private void loadVirtualMachines(){
+    private void loadVirtualMachines() {
         try {
             Reader reader = new FileReader(PATH_TO_FILE);
             Type listType = new TypeToken<ArrayList<VirtualMachine>>() {
@@ -48,7 +48,7 @@ public class VirtualMachineRepository {
         }
     }
 
-    public void saveVirtualMachines(){
+    public void saveVirtualMachines() {
         try {
             Writer writer = new FileWriter(PATH_TO_FILE);
             gson.toJson(getVirtualMachineList(), writer);
@@ -74,7 +74,7 @@ public class VirtualMachineRepository {
         DiskRepository diskRepository = DiskRepository.getInstance();
         diskRepository.getDiskList().forEach(disc -> {
             String virtualMachineName = disc.getVirtualMachineName();
-            if(!virtualMachineName.equals("")){
+            if (!virtualMachineName.equals("")) {
                 VirtualMachine virtualMachine = virtualMachinesIndexedByName.get(virtualMachineName);
                 virtualMachine.addDiscIfNotInVirtualMachine(disc);
             }
@@ -95,7 +95,7 @@ public class VirtualMachineRepository {
         return virtualMachinesIndexedByName;
     }
 
-    public  Collection<VirtualMachine> getVirtualMachineList() {
+    public Collection<VirtualMachine> getVirtualMachineList() {
         return virtualMachinesIndexedByName.values();
     }
 
@@ -114,10 +114,10 @@ public class VirtualMachineRepository {
         return false;
     }
 
-    public boolean removeVirtualMachine(String virtualMachineName){
+    public boolean removeVirtualMachine(String virtualMachineName) {
         if (virtualMachinesIndexedByName.containsKey(virtualMachineName)) {
             VirtualMachine vm = virtualMachinesIndexedByName.get(virtualMachineName);
-            virtualMachinesIndexedByName.remove(virtualMachineName);
+            vm.setDeleted(true);
             saveVirtualMachines();
             return true;
         }
@@ -127,24 +127,12 @@ public class VirtualMachineRepository {
 
     public boolean editVirtualMachine(VirtualMachine editedVm) {
         String vmName = editedVm.getName();
-        if(virtualMachinesIndexedByName.containsKey(vmName)){
+        if (virtualMachinesIndexedByName.containsKey(vmName)) {
             VirtualMachine vm = virtualMachinesIndexedByName.get(vmName);
             String newCategoryName = editedVm.getCategoryName();
             vm.setCategoryName(newCategoryName);
             vm.setCategory(editedVm.getCategory());
             vm.setActive(editedVm.isActive());
-
-//            LocalDateTime now = LocalDateTime.now();
-//            //ako je sad aktivna znaci da pravimo novi activity
-//            if(vm.isActive()){
-//                VirtualMachineActivity vac = new VirtualMachineActivity(now);
-//            }
-//            //ako nije znaci da zavrsavamo poslednji activity
-//            else{
-//                int lastElem = vm.getActivities().size() - 1;
-//                VirtualMachineActivity vac = vm.getActivities().get(lastElem);
-//                vac.setEndTime(now);
-//            }
 
             saveVirtualMachines();
             return true;

@@ -8,18 +8,20 @@ public class VirtualMachine {
     private String categoryName;
     private String organizationName;
     private boolean active;
+    private boolean deleted;
     private List<VirtualMachineActivity> activities;
 
     private transient Category category;
     private transient List<Disk> diskList;
 
-    public VirtualMachine(String name, String categoryName, String organizationName, List<VirtualMachineActivity> activities, Category category, List<Disk> diskList) {
+    public VirtualMachine(String name, String categoryName, String organizationName, List<VirtualMachineActivity> activities, Category category, List<Disk> diskList, boolean deleted) {
         this.name = name;
         this.categoryName = categoryName;
         this.organizationName = organizationName;
         this.activities = activities;
         this.category = category;
         this.active = true;
+        this.deleted = deleted;
     }
 
     @Override
@@ -28,6 +30,15 @@ public class VirtualMachine {
         if (o == null || getClass() != o.getClass()) return false;
         VirtualMachine that = (VirtualMachine) o;
         return Objects.equals(name, that.name);
+    }
+
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override

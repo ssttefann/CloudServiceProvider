@@ -40,9 +40,7 @@
     >
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
-        <v-divider class="mx-4" inset vertical></v-divider>
-        <v-spacer></v-spacer>
-        <v-dialog v-model="dialog" max-width="500px">
+        <v-dialog v-model="dialog"  width="50%">
           <template v-if="isSuper || isAdmin" v-slot:activator="{ on }">
             <v-btn color="blue-grey darken-1 white--text" dark class="mb-2" v-on="on">New Disc</v-btn>
           </template>

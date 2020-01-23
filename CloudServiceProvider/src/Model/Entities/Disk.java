@@ -9,14 +9,17 @@ public class Disk {
     private int capacity;
     private String organizationName;
     private LocalDateTime timeCreated;
+    private LocalDateTime timeDeleted;
     private String virtualMachineName;
+    private boolean deleted;
 
 
-    public Disk(String name, DiscType type, int capacity, String virtualMachineName) {
+    public Disk(String name, DiscType type, int capacity, String virtualMachineName, boolean deleted) {
         this.name = name;
         this.type = type;
         this.capacity = capacity;
         this.virtualMachineName = virtualMachineName;
+        this.deleted = deleted;
     }
 
     @Override
@@ -25,6 +28,22 @@ public class Disk {
         if (o == null || getClass() != o.getClass()) return false;
         Disk disk = (Disk) o;
         return Objects.equals(name, disk.name);
+    }
+
+    public LocalDateTime getTimeDeleted() {
+        return timeDeleted;
+    }
+
+    public void setTimeDeleted(LocalDateTime timeDeleted) {
+        this.timeDeleted = timeDeleted;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public String getName() {
@@ -59,11 +78,19 @@ public class Disk {
         this.virtualMachineName = virtualMachineName;
     }
 
-    public String getOrganizationName() {return organizationName; }
+    public String getOrganizationName() {
+        return organizationName;
+    }
 
-    public void setOrganizationName(String organizationName) {this.organizationName = organizationName; }
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
 
-    public LocalDateTime getTimeCreated() {return timeCreated;}
+    public LocalDateTime getTimeCreated() {
+        return timeCreated;
+    }
 
-    public void setTimeCreated(LocalDateTime timeCreated) {this.timeCreated = timeCreated;}
+    public void setTimeCreated(LocalDateTime timeCreated) {
+        this.timeCreated = timeCreated;
+    }
 }

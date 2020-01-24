@@ -1,5 +1,5 @@
 <template>
-  <v-card height="100%">
+  <v-card>
     <v-card-title>Bill</v-card-title>
     <v-card-text>
       <v-data-table :items-per-page="10" width="100%" :items="items" :headers="headers"></v-data-table>
@@ -12,7 +12,7 @@
           <v-menu
             ref="menu1"
             v-model="menu1"
-            :close-on-content-click="false"
+            :close-on-content-click="true"
             :return-value.sync="date"
             transition="scale-transition"
             offset-y
@@ -21,7 +21,7 @@
             <template v-slot:activator="{ on }">
               <v-text-field
                 v-model="startDate"
-                label="Pick date"
+                label="Start date"
                 placeholder="Click to pick the start date"
                 prepend-icon="mdi-event"
                 readonly
@@ -39,7 +39,7 @@
           <v-menu
             ref="menu2"
             v-model="menu2"
-            :close-on-content-click="false"
+            :close-on-content-click="true"
             :return-value.sync="date"
             transition="scale-transition"
             offset-y
@@ -48,7 +48,7 @@
             <template v-slot:activator="{ on }">
               <v-text-field
                 v-model="endDate"
-                label="Pick date"
+                label="End date"
                 placeholder="Click to pick the end date"
                 prepend-icon="mdi-event"
                 readonly
@@ -63,16 +63,18 @@
           </v-menu>
         </v-col>
         <v-col class="center">
-          <v-btn>Calculate</v-btn>
+          <v-btn @click="calculatePrice">Calculate</v-btn>
         </v-col>
       </v-row>
       <v-spacer></v-spacer>
-      Total: {{calculatedPrice}}
+      Total: {{calculatedPrice}} &euro;
     </v-footer>
   </v-card>
 </template>
 
 <script>
+import axios from "axios";
+import { mapActions } from "vuex";
 export default {
   name: "Bill",
   data() {
@@ -84,35 +86,51 @@ export default {
       headers: [
         { text: "Type", value: "type" },
         { text: "Name", value: "name" },
-        { text: "Deleted", value: "deleted" },
+        { text: "Active hours", value: "activeHours" },
         { text: "Calculated price", value: "price" }
       ],
-      items:[
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-          {type: "type", name: "name", deleted: "yes", price: "12"},
-      ],
+      items: [],
       startDate: null,
-      endDate: null,
+      endDate: null
     };
   },
   methods: {
+    ...mapActions({
+      showSnackbar: "snackbar/showSnackbar"
+    }),
+
+    validateInputs() {
+      const date1 = Date.parse(this.startDate);
+      const date2 = Date.parse(this.endDate);
+      if (!date1 || !date2 ||  date1 >= date2) {
+        return false;
+      }
+
+      return true;
+    },
+
+    calculatePrice() {
+      if (!this.validateInputs()) {
+        this.showSnackbar(["pa ne moz to tako bokte", "error", "bottom"]);
+        return;
+      }
+
+      axios
+        .get("/rest/bill/" + Date.parse(this.startDate) + "/" + Date.parse(this.endDate))
+        .then(response => {
+          this.items = response.data;
+            if(this.items.length === 0){
+                this.showSnackbar(["No bills for this period", "info", "bottom"]);
+            }
+
+          this.calculatedPrice = 0;
+          for(let item of this.items){
+              this.calculatedPrice += item.price;
+          }
+
+        })
+        .catch(error => alert(error));
+    }
   }
 };
 </script>

@@ -292,7 +292,7 @@ export default {
         this.editedItem.password.trim() === "" ||
         this.editedItem.role.trim() === "" ||
         this.editedItem.organizationName.trim() === "" ||
-        (this.editedItem.role != "Admin" || this.editedItem.role != "User")
+        (this.editedItem.role != "Admin" && this.editedItem.role != "User")
       ) {
         return false;
       }

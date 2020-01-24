@@ -71,6 +71,9 @@ public class Main {
         post("/rest/organizations/addOrganization", OrganizationController.addOrganization);
         post("/rest/organizations/edit", OrganizationController.editOrganization);
 
+
+        get("/rest/bill/:startDate/:endDate", BillController.getBill);
+
         //redirect
         get("/*", (req, res) -> {
             res.redirect("/#/" + req.splat()[0]);

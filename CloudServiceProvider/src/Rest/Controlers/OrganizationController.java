@@ -8,6 +8,9 @@ import com.google.gson.Gson;
 import spark.Route;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.TimeZone;
 
 public class OrganizationController {
     private static Gson gson = new Gson();
@@ -62,21 +65,4 @@ public class OrganizationController {
 
         return "Org edited";
     };
-
-    public static Route getBill = (request, response) -> {
-        User user = request.session().attribute("user");
-        if(user == null || !user.isAdmin()){
-            response.status(401);
-            return "Unauthorized";
-        }
-
-        return "";
-
-    };
-
-
-
-
-
-
 }

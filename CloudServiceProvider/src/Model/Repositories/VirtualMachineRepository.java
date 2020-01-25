@@ -134,6 +134,20 @@ public class VirtualMachineRepository {
             vm.setCategory(editedVm.getCategory());
             vm.setActive(editedVm.isActive());
 
+            LocalDateTime now = LocalDateTime.now();
+            //ako je sad aktivna znaci da pravimo novi activity
+            if(vm.isActive()){
+                String id = vm.getName() + now.toString();
+                VirtualMachineActivity vac = new VirtualMachineActivity(now, null, id);
+                vm.addActivity(vac);
+            }
+            //ako nije znaci da zavrsavamo poslednji activity
+            else{
+                int lastElem = vm.getActivities().size() - 1;
+                VirtualMachineActivity vac = vm.getActivities().get(lastElem);
+                vac.setEndTime(now);
+            }
+
             saveVirtualMachines();
             return true;
         }

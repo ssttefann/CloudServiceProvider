@@ -12,8 +12,8 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn v-if="vm.active && isAdmin" dark color="blue-grey darken-1 white--text" text @click="stopVm">Stop</v-btn>
-      <v-btn v-else-if="!vm.active && isAdmin" dark color="blue-grey darken-1 white--text" text @click="startVm">Start</v-btn>
+      <!-- <v-btn v-if="vm.active && isAdmin" dark color="blue-grey darken-1 white--text" text @click="stopVm">Stop</v-btn> -->
+      <!-- <v-btn v-else-if="!vm.active && isAdmin" dark color="blue-grey darken-1 white--text" text @click="startVm">Start</v-btn> -->
       <v-btn color="blue darken-1" text @click="closeActivitiesDialog">Close</v-btn>
     </v-card-actions>
   </v-card>

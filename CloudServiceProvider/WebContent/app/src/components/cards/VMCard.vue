@@ -81,35 +81,45 @@
                     ></v-select>
                   </v-col>
 
-                  <!-- tabela za biranje diskova -->
-                  <v-card width="100%" v-if="disksForVms.length > 0">
-                    <v-card-title class="grey white--text">
-                      Select disks
-                      <v-spacer></v-spacer>
-                      <v-text-field
-                        v-model="searchDiscs"
-                        dark
-                        append-icon="mdi-search-web"
-                        :disabled="isHidden"
-                        label="Search"
-                        single-line
-                        hide-details
-                      ></v-text-field>
-                    </v-card-title>
+                  <v-col v-if="editDisabled" cols="12" sm="6" md="4">
+                    <v-switch
+                      v-model="editedItem.active"
+                      :label="isTurnedOn"
+                    >
+                  </v-col>
 
-                    <v-data-table
-                      v-model="selectedDiscs"
-                      :items-per-page="5"
-                      class="ma-6"
-                      :search="searchDiscs"
-                      item-key="name"
-                      dense
-                      show-select
-                      :headers="diskHeaders"
-                      :items="disksForVms"
-                    ></v-data-table>
-                  </v-card>
-                  <h2 v-else>No disks available.</h2>
+                  <v-col cols="12" sm="12" md="12">
+                    
+                    <!-- tabela za biranje diskova -->
+                    <v-card width="100%" :disabled="disksForVms.length > 0">
+                      <v-card-title class="grey white--text">
+                        Select disks
+                        <v-spacer></v-spacer>
+                        <v-text-field
+                          v-model="searchDiscs"
+                          dark
+                          append-icon="mdi-search-web"
+                          :disabled="isHidden"
+                          label="Search"
+                          single-line
+                          hide-details
+                        ></v-text-field>
+                      </v-card-title>
+
+                      <v-data-table
+                        v-model="selectedDiscs"
+                        :items-per-page="5"
+                        class="ma-6"
+                        :search="searchDiscs"
+                        item-key="name"
+                        dense
+                        show-select
+                        :headers="diskHeaders"
+                        :items="disksForVms"
+                      ></v-data-table>
+                    </v-card>
+                  </v-col>
+                  <!-- <h2 v-else>No disks available.</h2> -->
                 </v-row>
               </v-container>
             </v-card-text>
@@ -252,7 +262,12 @@ export default {
 
     isHidden() {
       return this.hidden;
+    },
+
+    isTurnedOn() {
+      return this.editedItem.active ? "Turned on" : "Turned off";
     }
+
   },
 
   watch: {

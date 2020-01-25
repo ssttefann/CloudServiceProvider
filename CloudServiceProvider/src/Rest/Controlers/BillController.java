@@ -126,12 +126,23 @@ public class BillController {
         long activeHours = 0;
 
         for (VirtualMachineActivity activity : activities) {
-            if (activity.getStartTime().isAfter(endDate) || activity.getEndTime().isBefore(startDate)) {
+
+            if(activity.getEndTime() == null){
+                if(activity.getStartTime().isAfter(endDate))
+                    continue;
+            }
+            else if(activity.getStartTime().isAfter(endDate) || activity.getEndTime().isBefore(startDate)) {
                 continue;
             }
 
             LocalDateTime start = activity.getStartTime();
-            LocalDateTime end = activity.getEndTime();
+            LocalDateTime end;
+
+            // ako se nije zavrsilo vrati trenutnu cenu
+            if (activity.getEndTime() == null)
+                end = LocalDateTime.now();
+            else
+                end = activity.getEndTime();
 
             // ako je aktivnost pocela pre trazenog datuma
             if (start.isBefore(startDate)) {

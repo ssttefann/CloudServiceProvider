@@ -47,6 +47,14 @@
                     prepend-icon="mdi-lock"
                     type="password"
                   ></v-text-field>
+
+                  <v-file-input
+                    ref="iconUpload"
+                    prepend-icon="mdi-image"
+                    @change="fileSubmited"
+                    placeholder="Change profile image"
+                  ></v-file-input>
+
                 </v-form>
               </v-card-text>
 
@@ -104,6 +112,11 @@ export default {
       } else {
         this.showSnackbar(["Morate popuniti sva polja", "error", "bottom"]);
       }
+    },
+
+    fileSubmited(file) {
+      this.file = file;
+      this.editedItem.logo = file.name;
     },
 
     submit() {

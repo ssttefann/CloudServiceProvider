@@ -45,7 +45,7 @@
       <template v-slot:top>
         <v-dialog v-model="dialog" width="50%">
           <template v-slot:activator="{ on }">
-            <v-btn color="blue-grey darken-1 white--text" dark class="mb-2" v-on="on">New Category</v-btn>
+            <v-btn v-if="isSuper" color="blue-grey darken-1 white--text" dark class="mb-2" v-on="on">New Category</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -75,7 +75,7 @@
               </v-container>
             </v-card-text>
 
-            <v-card-actions>
+            <v-card-actions >
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
               <v-btn color="blue darken-1" text @click="save">Save</v-btn>
@@ -85,7 +85,7 @@
       </template>
 
       <!-- Template za brisanje -->
-      <template v-slot:item.action="{ item }">
+      <template v-if="isSuper" v-slot:item.action="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)">mdi-lead-pencil</v-icon>
         <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
       </template>
@@ -130,6 +130,8 @@ export default {
   computed: {
     ...mapGetters({
       categoriesGetter: "categories/getAll",
+      isAdmin: "users/isAdmin",
+      isSuper: "users/isSuper"
     }),
 
     formTitle() {
@@ -165,7 +167,13 @@ export default {
     }),
 
     // za sada nista ne radi
-    initialize() {},
+    initialize() {
+      if (!this.isSuper){
+        let last = this.headers[this.headers.length - 1];
+        if (last.text == "Actions")
+          this.headers.splice(-1,1);
+      }
+    },
 
     // korisnik menja neku VM
     editItem(item) {

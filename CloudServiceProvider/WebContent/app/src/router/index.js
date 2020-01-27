@@ -18,6 +18,7 @@ Vue.use(VueRouter)
  * is_admin : samo administratori mogu videti
  */
 const routes = [
+  
   {
     path: '/admin',
     name: 'admin',

@@ -122,6 +122,7 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default {
+
   data() {
     return {
       hidden: false,
@@ -209,7 +210,15 @@ export default {
   },
 
   methods: {
-    initialize() {},
+    initialize() {
+    if (!this.isSuper && !this.isAdmin){
+      let last = this.headers[this.headers.length - 1];
+      if (last.text == "Actions")
+        this.headers.splice(-1,1);
+
+    }      
+
+    },
 
     ...mapActions({
       addDiscAction: "disc/add",

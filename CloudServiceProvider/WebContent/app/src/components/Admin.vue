@@ -12,7 +12,7 @@
           <VMCard/> 
         </v-flex>
 
-        <v-flex v-if="this.isSuper" xs12 sm12 md6 lg6>
+        <v-flex xs12 sm12 md6 lg6>
           <VMCategoryCard/> 
         </v-flex>
 

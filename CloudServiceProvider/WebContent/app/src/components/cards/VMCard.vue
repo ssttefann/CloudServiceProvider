@@ -75,7 +75,7 @@
                   <v-col v-if="isSuper" cols="12" sm="6" md="4">
                     <v-select
                       :items="orgNames"
-                      :disabled="editDisabled"
+                      :visible="editDisabled"
                       v-model="editedItem.organizationName"
                       label="Organization"
                     ></v-select>
@@ -160,6 +160,14 @@ import Activities from "./Activities";
 export default {
   components: {
     Activities
+  },
+
+  created() {
+    if (!this.isSuper && !this.isAdmin){
+      let last = this.headers[this.headers.length - 1];
+      if (last.text == "Actions")
+        this.headers.splice(-1,1);
+    }
   },
 
   data() {
@@ -460,7 +468,7 @@ export default {
         .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
     },
 
-    deleteItem(vm) {
+    async deleteItem(vm) {
       const vmIndex = this.getIndexOfVm(vm.name);
       if (confirm("Are you sure you want to delete this Virtual Machine? ")) {
         this.deleteVmAction([vmIndex, vm.name])

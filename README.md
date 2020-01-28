@@ -1,2 +1,2 @@
-# Cloud Service Provider
+# cloudTrek
 Cloud Computing Platform made in Vuejs

@@ -100,7 +100,7 @@
                     <br>
                     <div class="gray--text subtitle-2 font-italic font-weight-light">Retail</div><br>
                     <div class="text--primary">
-                     Naša kompanija je u <bold>potpunosti</bold> posvećena proizvodnji
+                     Naša kompanija je u <span class="font-weight-bold">potpunosti</span> posvećena proizvodnji
                       distribuciji organske hrane i ostalih proizvoda 
                       iz ove oblasti. Želja nam je da vam na što 
                       jednostavniji način omogućimo da uživate u 

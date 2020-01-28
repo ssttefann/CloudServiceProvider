@@ -43,7 +43,7 @@ public class CategoryController {
             return "Category name already exists";
         }
 
-        return "Category added";
+        return "Category successfully added";
     };
 
     public static Route editCategory = (request, response) -> {
@@ -59,7 +59,7 @@ public class CategoryController {
             return "Category name doesn't exists";
         }
 
-        return "Category eddited";
+        return "Category successfully eddited";
     };
 
     public static Route deleteCategory = (request, response) -> {
@@ -72,7 +72,7 @@ public class CategoryController {
         String categoryName = request.params("categoryName");
         if (db.vmHasCategory(categoryName)) {
             response.status(403);
-            return "Can't delete that category";
+            return "Category has active Virtual Machines so it can't be deleted!";
         }
 
         if (!db.removeCategory(categoryName)) {
@@ -80,7 +80,7 @@ public class CategoryController {
             return "Category name doesn't exists";
         }
 
-        return "Category deleted";
+        return "Category successfully deleted";
     };
 
 }

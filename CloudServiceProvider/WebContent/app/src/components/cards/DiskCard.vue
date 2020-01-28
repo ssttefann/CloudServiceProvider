@@ -289,7 +289,7 @@ export default {
           this.close();
           this.showSnackbar(["Disc successfully added!", "success", "bottom"]);
         })
-        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+        .catch(err => this.showSnackbar([err.response.data,"error", "bottom"]));
     },
 
     editDisc() {
@@ -298,7 +298,7 @@ export default {
           this.close();
           this.showSnackbar(["Disc successfully edited!", "success", "bottom"]);
         })
-        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+        .catch(err => this.showSnackbar([err.response.data,"error", "bottom"]));
     },
 
     deleteDisc(disc) {
@@ -314,7 +314,7 @@ export default {
             ]);
           })
           .catch(err =>
-            this.showSnackbar(["Error: " + err, "error", "bottom"])
+            this.showSnackbar([err.response.data,"error", "bottom"])
           );
       }
     },

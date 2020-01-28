@@ -67,23 +67,4 @@ public class AuthenticationController {
         return gson.toJson(new User());
     };
 
-
-//    public static Route register = (req, res) -> {
-//        res.type("text/plain");
-//        String password = req.queryParams("password");
-//        String email = req.queryParams("email");
-//        String name = req.queryParams("name");
-//        String lastname = req.queryParams("lastname");
-//
-//
-////        if (users.containsKey(email)) {
-////            return "EMAIL_ERR";
-////        }
-////
-////        User user = new User(name, lastname, email, password, Role.User);
-////        users.put(user.getEmail(), user);
-////        req.session().attribute("user", user);
-////        System.out.println(name+" "+lastname+" "+email+" "+password);
-////        return "OK";
-//    };
 }

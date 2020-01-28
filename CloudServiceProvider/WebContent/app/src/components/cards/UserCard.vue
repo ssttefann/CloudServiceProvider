@@ -224,7 +224,7 @@ export default {
             this.close();
           })
           .catch(err =>
-            this.showSnackbar(["Error: " + err, "error", "bottom"])
+            this.showSnackbar([err.response.data,"error", "bottom"])
           );
       }
     },
@@ -265,7 +265,7 @@ export default {
             ]);
           })
           .catch(err =>
-            this.showSnackbar(["Error: " + err, "error", "bottom"])
+            this.showSnackbar([err.response.data,"error", "bottom"])
           );
       } else {
         this.$store
@@ -279,7 +279,7 @@ export default {
             ]);
           })
           .catch(err =>
-            this.showSnackbar(["Error: " + err, "error", "bottom"])
+            this.showSnackbar([err.response.data,"error", "bottom"])
           );
       }
     },

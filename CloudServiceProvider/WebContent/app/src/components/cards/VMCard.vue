@@ -91,7 +91,7 @@
                   <v-col cols="12" sm="12" md="12">
                     
                     <!-- tabela za biranje diskova -->
-                    <v-card width="100%" :disabled="disksForVms.length > 0">
+                    <v-card width="100%" :disabled="hasDisks">
                       <v-card-title class="grey white--text">
                         Select disks
                         <v-spacer></v-spacer>
@@ -250,6 +250,10 @@ export default {
         disk =>
           disk.virtualMachineName === "" && disk.organizationName === orgName
       );
+    },
+
+    hasDisks() {
+      return this.disksForVms.length > 0;
     },
 
     formTitle() {
@@ -452,7 +456,7 @@ export default {
             "bottom"
           ]);
         })
-        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+        .catch(err => this.showSnackbar([err.response.data,"error", "bottom"]));
     },
 
     editVm() {
@@ -465,7 +469,7 @@ export default {
             "bottom"
           ]);
         })
-        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+        .catch(err => this.showSnackbar([err.response.data,"error", "bottom"]));
     },
 
     async deleteItem(vm) {
@@ -482,7 +486,7 @@ export default {
             this.close();
           })
           .catch(err =>
-            this.showSnackbar(["Error: " + err, "error", "bottom"])
+            this.showSnackbar([err.response.data,"error", "bottom"])
           );
       }
     },

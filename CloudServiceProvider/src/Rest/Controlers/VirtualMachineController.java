@@ -47,10 +47,10 @@ public class VirtualMachineController {
         VirtualMachine newVM = gson.fromJson(vmJson, VirtualMachine.class);
         if (!db.addVirtualMachine(newVM)) {
             response.status(400);
-            return "ERR";
+            return "Virtual Machine with that name already exists!";
         }
 
-        return "SUCCESS";
+        return "Virtual Machine succesfully added";
     };
 
     public static Route editVirtualMachines = (request, response) -> {
@@ -64,7 +64,7 @@ public class VirtualMachineController {
         VirtualMachine editedVm = gson.fromJson(vmJson, VirtualMachine.class);
         if (!db.editVirtualMachine(editedVm)) {
             response.status(400);
-            return "Vm name doesn't exist";
+            return "Virtual Machine with that name doesn't exist";
         }
         return "SUCCESS";
     };
@@ -79,7 +79,7 @@ public class VirtualMachineController {
         String vmName = request.params("vmName");
         if (!db.removeVirtualMachine(vmName)) {
             response.status(400);
-            return "Vm with that name doesn't exist";
+            return "Virtual Machine with that name doesn't exist";
         }
 
         return "Vm deleted";
@@ -108,7 +108,7 @@ public class VirtualMachineController {
         String vmName = request.params("vmName");
         if(!db.turnOnVm(vmName)){
             response.status(400);
-            return "Vm already on";
+            return "Virtual Machine is already turned on";
         }
 
         return gson.toJson(db.getVM(vmName));
@@ -124,7 +124,7 @@ public class VirtualMachineController {
         String vmName = request.params("vmName");
         if(!db.turnOffVm(vmName)){
             response.status(400);
-            return "Vm already off";
+            return "Virtual Machine is already turned off";
         }
 
         return gson.toJson(db.getVM(vmName));

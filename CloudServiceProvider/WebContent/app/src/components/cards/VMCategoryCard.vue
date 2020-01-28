@@ -221,7 +221,7 @@ export default {
         .then(() => {
           this.showSnackbar(["Category successfully added!", "success", "bottom"])
         })
-        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+        .catch(err => this.showSnackbar([err.response.data,"error", "bottom"]));
     },
 
     editCategory() {
@@ -229,7 +229,7 @@ export default {
         .then(() => {
           this.showSnackbar(["Category successfully edited!", "success", "bottom"]);
         })
-        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+        .catch(err => this.showSnackbar([err.response.data, "error", "bottom"]));
     },    
 
     deleteItem(category) {
@@ -240,7 +240,7 @@ export default {
             this.close();
             this.showSnackbar(["Category successfully deleted!", "success", "bottom"]);
           })
-        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+        .catch(err => this.showSnackbar([err.response.data, "error", "bottom"]));
       }
 
     },

@@ -212,6 +212,7 @@ export default {
           "info",
           "bottom"
         ]);
+        return;
       }
 
       if (this.file) {
@@ -229,7 +230,7 @@ export default {
     },
 
     validate() {
-      if (this.editedItem.name.trim() === "") {
+      if (this.editedItem.name.trim() === "" || !this.editedItem) {
         return false;
       }
 
@@ -260,7 +261,7 @@ export default {
           ]);
           this.reRender = !this.reRender;
         })
-        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+        .catch(err => this.showSnackbar([err.response.data,"error", "bottom"]));
     },
 
     editOrg() {
@@ -273,7 +274,7 @@ export default {
           ]);
           this.reRender = !this.reRender;
         })
-        .catch(err => this.showSnackbar(["Error: " + err, "error", "bottom"]));
+        .catch(err => this.showSnackbar([err.response.data,"error", "bottom"]));
     },
 
     hide() {

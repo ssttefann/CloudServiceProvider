@@ -43,10 +43,10 @@ public class OrganizationController {
         Organization newOrganization = gson.fromJson(request.body(), Organization.class);
         if(!db.addOrganization(newOrganization)){
             response.status(400);
-            return "Name taken";
+            return "Organization with that name already exists!";
         }
 
-        return "org added";
+        return "Organization succesfully added";
     };
 
 
@@ -60,9 +60,9 @@ public class OrganizationController {
         Organization newOrganization = gson.fromJson(request.body(), Organization.class);
         if(!db.editOrganization(newOrganization)){
             response.status(400);
-            return "Name doesn't exist.";
+            return "Organization with that name already exists!";
         }
 
-        return "Org edited";
+        return "Organization successfully edited";
     };
 }

@@ -39,10 +39,10 @@ public class UserController {
         User newUser = gson.fromJson(userJson, User.class);
         if(!db.addUser(newUser)){
             response.status(400);
-            return "EMAIL_ERR";
+            return "User with that email already exists!";
         }
 
-        return "SUCCESS";
+        return "New User succesfully added";
     };
 
     public static Route deleteUser = (request, response) -> {
@@ -56,10 +56,10 @@ public class UserController {
         String email = request.params("email");
         if(!db.removeUser(email)){
             response.status(400);
-            return "EMAIL_ERR";
+            return "User with that email doesn't exists!";
         }
 
-        return "SUCCESS";
+        return "User succesfully deleted";
     };
 
     public static Route updateUserAccount = (request, response) -> {
@@ -80,7 +80,7 @@ public class UserController {
 
         if(!db.editUser(editedUser)){
             response.status(400);
-            return "EMAIL_ERR";
+            return "User with that email doesn't exists!";
         }
 
         return gson.toJson(editedUser);
@@ -97,10 +97,10 @@ public class UserController {
         User editedUser = gson.fromJson(userJson, User.class);
         if(!db.editUser(editedUser)){
             response.status(400);
-            return "EMAIL_ERR";
+            return "User with that email doesn't exists!";
         }
 
-        return "Success";
+        return "User succesfully edited!";
     };
 
 }

@@ -92,7 +92,7 @@ public class Database {
     public boolean vmHasCategory(String categoryName) {
         return virtualMachineRepository.getVirtualMachineList()
                 .stream()
-                .anyMatch(vm -> vm.getCategoryName().equals(categoryName));
+                .anyMatch(vm -> vm.getCategoryName().equals(categoryName) && vm.isActive());
     }
 
     public boolean removeCategory(String categoryName) {

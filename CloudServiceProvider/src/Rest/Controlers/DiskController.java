@@ -40,7 +40,7 @@ public class DiskController {
         Disk newDisk = gson.fromJson(discJson, Disk.class);
         if (!db.addDisc(newDisk)){
             response.status(400);
-            return "Disc name already exists";
+            return "Disc with that name already exists";
         }
 
         return gson.toJson(newDisk);
@@ -57,7 +57,7 @@ public class DiskController {
         Disk editedDisk = gson.fromJson(discJson, Disk.class);
         if(!db.editDisk(editedDisk)){
             response.status(400);
-            return "Disc name doesn't exist";
+            return "Disc with that name doesn't exist";
         }
 
         return gson.toJson(editedDisk);
@@ -73,9 +73,9 @@ public class DiskController {
         String discName = request.params("discname");
         if(!db.removeDisc(discName)){
             response.status(400);
-            return "Disc name doesn't exist";
+            return "Disc with that name doesn't exist";
         }
 
-        return "Disc deleted";
+        return "Disc successfully deleted";
     };
 }

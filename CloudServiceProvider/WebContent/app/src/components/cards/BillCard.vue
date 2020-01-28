@@ -121,7 +121,7 @@ export default {
 
     calculatePrice() {
       if (!this.validateInputs()) {
-        this.showSnackbar(["pa ne moz to tako bokte", "error", "bottom"]);
+        this.showSnackbar(["You need to fill start and end date", "error", "bottom"]);
         return;
       }
 

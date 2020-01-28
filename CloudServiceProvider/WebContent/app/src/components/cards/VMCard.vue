@@ -92,7 +92,8 @@
                   <v-col cols="12" sm="12" md="12">
                     
                     <!-- tabela za biranje diskova -->
-                    <v-card width="100%" :disabled="hasDisks">
+                    <v-card width="100%" :disabled="!hasDisks">
+                    <!-- <v-card width="100%" v-if="disksForVms.length > 0"> -->
                       <v-card-title class="grey white--text">
                         Select disks
                         <v-spacer></v-spacer>
@@ -119,8 +120,8 @@
                         :items="disksForVms"
                       ></v-data-table>
                     </v-card>
-                  </v-col>
                   <!-- <h2 v-else>No disks available.</h2> -->
+                  </v-col>
                 </v-row>
               </v-container>
             </v-card-text>

@@ -11,12 +11,14 @@
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          src="http://icons.iconarchive.com/icons/graphicloads/polygon/256/clouds-2-icon.png"
           transition="scale-transition"
           width="40"
         />
-
-        <label class="naslov">Cloud Services</label>
+        <span class="display-1 font-weight-light	">
+          <span class="orange--text">cloud</span>
+          <span class="blue--text">Trek</span>
+        </span>
       </v-btn>
 
       <v-spacer></v-spacer>

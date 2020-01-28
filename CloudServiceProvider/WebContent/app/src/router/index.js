@@ -8,7 +8,7 @@ import Dashboard from '../components/Dashboard'
 import Account from '../components/global/Account'
 import Organization from "../components/global/Organization"
 import Bill from "../components/global/Bill"
-import { store } from '../store/store.js'
+// import { store } from '../store/store.js'
 
 Vue.use(VueRouter)
 
@@ -107,50 +107,50 @@ const router = new VueRouter({
 
 
 // metoda koja se poziva pre svakog rutiranja u aplikaciji
-router.beforeEach((to, from, next) => {
-  store.dispatch('users/getLoggedUser').then(() => {
-    if (to.matched.some(record => record.meta.is_admin)) {
+// router.beforeEach((to, from, next) => {
+//   store.dispatch('users/getLoggedUser').then(() => {
+//     if (to.matched.some(record => record.meta.is_admin)) {
 
-      // ako je admin
-      if (store.getters['users/isAdmin'] || store.getters['users/isSuper']) {
-        next();
-        return;
-      }
+//       // ako je admin
+//       if (store.getters['users/isAdmin'] || store.getters['users/isSuper']) {
+//         next();
+//         return;
+//       }
       
-      next('/login');
-    }
+//       next('/login');
+//     }
 
-    // ako je potrebno biti ulogovan za pristup
-    else if (to.matched.some(record => record.meta.requiresAuth)) {
+//     // ako je potrebno biti ulogovan za pristup
+//     else if (to.matched.some(record => record.meta.requiresAuth)) {
 
-      // da li postoji ulogovani korinik?
-      if (store.getters['users/isLogged']) {
-        next()
-        return
-      }
-      // ako ne postoji vrati ga na login
-      next('/login')
+//       // da li postoji ulogovani korinik?
+//       if (store.getters['users/isLogged']) {
+//         next()
+//         return
+//       }
+//       // ako ne postoji vrati ga na login
+//       next('/login')
 
-    } else if (to.matched.some(record => record.meta.redirectIfLogged)) {
+//     } else if (to.matched.some(record => record.meta.redirectIfLogged)) {
   
-      if(store.getters['users/isAdmin'] || store.getters["users/isSuper"]){
-        next('/admin');
+//       if(store.getters['users/isAdmin'] || store.getters["users/isSuper"]){
+//         next('/admin');
 
-      } else if (store.getters['users/isLogged']){
-        next('/dashboard');
+//       } else if (store.getters['users/isLogged']){
+//         next('/dashboard');
 
-      } else {
-        next();
-      }
+//       } else {
+//         next();
+//       }
 
-      // dozvoljen pristup svima
-    } else {
-      next()
-    }
-  });
+//       // dozvoljen pristup svima
+//     } else {
+//       next()
+//     }
+//   });
 
-  // da li je potrebna administratorksa privilegija
+//   // da li je potrebna administratorksa privilegija
 
-})
+// })
 
 export default router

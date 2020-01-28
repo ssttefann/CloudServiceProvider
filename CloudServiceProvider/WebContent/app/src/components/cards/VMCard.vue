@@ -86,6 +86,7 @@
                       v-model="editedItem.active"
                       :label="isTurnedOn"
                     >
+                    </v-switch>
                   </v-col>
 
                   <v-col cols="12" sm="12" md="12">

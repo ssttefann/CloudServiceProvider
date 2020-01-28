@@ -36,6 +36,8 @@ public class Main {
 
         // Slike
         post("/rest/uploadIcon/:fileName", ImageController.uploadOrgImage);
+        //TODO
+//        post("/rest/uploadProfilePic", ImageController.)
         get("/rest/profilePic/:fileName", ImageController.getProfilePic);
 
         //Korisnici

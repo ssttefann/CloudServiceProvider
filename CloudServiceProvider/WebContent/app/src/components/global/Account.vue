@@ -110,7 +110,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.submit();
       } else {
-        this.showSnackbar(["Morate popuniti sva polja", "error", "bottom"]);
+        this.showSnackbar(["You need to fill out all fields!", "error", "bottom"]);
       }
     },
 
@@ -135,13 +135,13 @@ export default {
         passwordChanged = true;
 
         if (this.password1 != this.password2) {
-          this.showSnackbar(["Sifre se ne poklapaju.", "error", "bottom"]);
+          this.showSnackbar(["Passwords don't match!", "error", "bottom"]);
           return;
         }
       }
 
       if (!userInformationChanged) {
-        this.showSnackbar(["Nista niste promenUUUUli", "error", "bottom"]);
+        this.showSnackbar(["No fields were changed!", "error", "bottom"]);
         return;
       }
 
@@ -159,7 +159,7 @@ export default {
 
       this.changeUserAction(user)
         .then(() => {
-          this.showSnackbar(["PromenUUUUUli ste nalog", "success", "bottom"]);
+          this.showSnackbar(["You have successfully edited your account!", "success", "bottom"]);
           this.password1 = "";
           this.password2 = "";
         })

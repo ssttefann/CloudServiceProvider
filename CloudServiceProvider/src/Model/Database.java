@@ -274,6 +274,9 @@ public class Database {
 
         vm.setActive(false);
         List<VirtualMachineActivity> activities = vm.getActivities();
+        if(activities.size() == 0)
+            return false;
+
         VirtualMachineActivity activity = activities.get(activities.size() - 1);
         LocalDateTime endTime = LocalDateTime.now();
         activity.setEndTime(endTime);

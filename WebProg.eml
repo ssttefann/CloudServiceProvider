@@ -1,8 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component inherit-compiler-output="true" inheritJdk="true">
-	<output-test url="file://$MODULE_DIR$/out/test/WebProg"/>
+<component inheritJdk="true">
 	<exclude-output/>
 	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="gson-2.2.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/gson-2.2.2.jar!/"/>
+	</lib>
+	<lib name="javax.servlet-api-3.1.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/javax.servlet-api-3.1.0.jar!/"/>
+	</lib>
+	<lib name="javaxt-core.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/javaxt-core.jar!/"/>
+	</lib>
+	<lib name="jetty-http-9.3.6.v20151106.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/jetty-http-9.3.6.v20151106.jar!/"/>
+	</lib>
+	<lib name="jetty-io-9.3.6.v20151106.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/jetty-io-9.3.6.v20151106.jar!/"/>
+	</lib>
+	<lib name="jetty-security-9.3.6.v20151106.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/jetty-security-9.3.6.v20151106.jar!/"/>
+	</lib>
+	<lib name="jetty-server-9.3.6.v20151106.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/jetty-server-9.3.6.v20151106.jar!/"/>
+	</lib>
+	<lib name="jetty-servlet-9.3.6.v20151106.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/jetty-servlet-9.3.6.v20151106.jar!/"/>
+	</lib>
+	<lib name="jetty-util-9.3.6.v20151106.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/jetty-util-9.3.6.v20151106.jar!/"/>
+	</lib>
+	<lib name="jetty-webapp-9.3.6.v20151106.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/jetty-webapp-9.3.6.v20151106.jar!/"/>
+	</lib>
+	<lib name="jetty-xml-9.3.6.v20151106.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/jetty-xml-9.3.6.v20151106.jar!/"/>
+	</lib>
+	<lib name="opencv-310.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/opencv-310.jar!/"/>
+	</lib>
+	<lib name="slf4j-api-1.7.13.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/slf4j-api-1.7.13.jar!/"/>
+	</lib>
+	<lib name="slf4j-api-1.7.21.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/slf4j-api-1.7.21.jar!/"/>
+	</lib>
+	<lib name="slf4j-simple-1.7.21.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/slf4j-simple-1.7.21.jar!/"/>
+	</lib>
+	<lib name="spark-core-2.5.5.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/spark-core-2.5.5.jar!/"/>
+	</lib>
+	<lib name="websocket-api-9.3.6.v20151106.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/websocket-api-9.3.6.v20151106.jar!/"/>
+	</lib>
+	<lib name="websocket-client-9.3.6.v20151106.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/websocket-client-9.3.6.v20151106.jar!/"/>
+	</lib>
+	<lib name="websocket-common-9.3.6.v20151106.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/websocket-common-9.3.6.v20151106.jar!/"/>
+	</lib>
+	<lib name="websocket-server-9.3.6.v20151106.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/websocket-server-9.3.6.v20151106.jar!/"/>
+	</lib>
+	<lib name="websocket-servlet-9.3.6.v20151106.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/CloudServiceProvider/lib/websocket-servlet-9.3.6.v20151106.jar!/"/>
+	</lib>
 	<levels>
 		<level name="lib" value="project"/>
 	</levels>

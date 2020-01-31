@@ -119,6 +119,9 @@ public class OrganizationRepository {
         String organizationName = organization.getName();
         if (!organizationsIndexedByName.containsKey(organizationName)) {
             organizationsIndexedByName.put(organizationName, organization);
+            organization.setDisks(new ArrayList<>());
+            organization.setUsersList(new ArrayList<>());
+            organization.setVirtualMachinesList(new ArrayList<>());
             saveOrganizations();
             return true;
         }

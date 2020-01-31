@@ -20,7 +20,7 @@ public class VirtualMachine {
         this.organizationName = organizationName;
         this.activities = activities;
         this.category = category;
-        this.active = true;
+        this.active = false;
         this.deleted = deleted;
     }
 

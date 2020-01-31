@@ -214,10 +214,10 @@ public class Database {
         vm.setActivities(new ArrayList<>());
         vm.setDiskList(new ArrayList<>());
         vm.setCategoryName(category.getName());
-        Organization organization = organizationRepository.getOrganization(vm.getOrganizationName());
-        organization.addVirtualMachine(vm);
         if(virtualMachineRepository.addVirtualMachine(vm)){
             turnOnVm(vm.getName());
+            Organization organization = organizationRepository.getOrganization(vm.getOrganizationName());
+            organization.addVirtualMachine(vm);
             return true;
         }
         return false;

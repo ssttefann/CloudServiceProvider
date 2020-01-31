@@ -220,7 +220,6 @@ export default {
               "success",
               "bottom"
             ]);
-            this.$router.go();
             this.close();
           })
           .catch(err =>

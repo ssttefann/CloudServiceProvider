@@ -331,7 +331,7 @@ export default {
           this.activitiesDialog = true;
         })
         .catch(error => {
-          this.showSnackbar(["Error occured: " + error, "error", "bottom"]);
+          this.showSnackbar([error, "error", "bottom"]);
         });
     },
 

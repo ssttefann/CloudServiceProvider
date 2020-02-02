@@ -26,7 +26,7 @@
                 autofocus
               ></v-text-field> -->
               <v-datetime-picker 
-                v-model="prpr.item.end"
+                v-model="prpr.item.start"
                 :rules="[validDate]"
                 label="Edit"
                 single-line

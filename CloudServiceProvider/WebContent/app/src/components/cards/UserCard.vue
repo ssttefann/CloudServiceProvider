@@ -38,7 +38,7 @@
       class="ma-6"
       :search="search"
       :headers="headers"
-      :items="this.$store.state.users.users"
+      :items="getAllUsers.filter(x => x.role != 'SuperAdmin')"
       :items-per-page="5"
     >
       <!-- Template za editovanje/dodavanje nove -->
@@ -158,6 +158,7 @@ export default {
     ...mapGetters({
       isSuper: "users/isSuper",
       isAdmin: "users/isAdmin",
+      getAllUsers : "users/getAllUsers",
       getUser: "users/getUser"
     }),
 

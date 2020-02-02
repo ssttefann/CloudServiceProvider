@@ -167,6 +167,8 @@ export default {
     getters: {
         getUser: state => state.loggedUser,
 
+        getAllUsers : state => state.users,
+
         isLogged: state => state.loggedUser.firstName != "",
 
         isUser: state => state.loggedUser.role == "User",

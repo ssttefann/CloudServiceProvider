@@ -263,6 +263,15 @@ export default {
         return;
       }
 
+      if(this.editedItem.capacity < 0){
+        this.showSnackbar([
+          "Capacity can't be a negative value!",
+          "error",
+          "bottom"
+        ]);
+        return;        
+      }
+
       if (this.editedIndex > -1) {
         this.editDisc();
       } else {

@@ -201,6 +201,15 @@ export default {
         return;
       }
 
+      if(this.editedItem.cores <= 0 || this.editedItem.RAM <= 0 || this.editedItem.GPU < 0){
+        this.showSnackbar([
+          "Category must have positive values!",
+          "error",
+          "bottom"
+        ]);
+        return;    
+      }
+
       if (this.editedIndex > -1) {
         this.editCategory();
       } else {

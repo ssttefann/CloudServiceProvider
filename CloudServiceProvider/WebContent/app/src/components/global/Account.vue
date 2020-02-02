@@ -83,6 +83,7 @@ export default {
       lastName: "",
       password1: "",
       password2: "",
+      file : null,
       rules: {
         required: value => !!value || "Required."
       },

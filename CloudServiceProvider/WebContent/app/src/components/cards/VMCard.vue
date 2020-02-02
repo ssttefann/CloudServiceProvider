@@ -417,7 +417,7 @@ export default {
         this.addVm();
       }
 
-      this.close();
+      
     },
 
     addSelectedDiscsToVm() {
@@ -452,6 +452,7 @@ export default {
       this.addVmAction(this.editedItem)
         .then(() => {
           this.addSelectedDiscsToVm();
+          this.close();
           this.showSnackbar([
             "Virtual Machine successfully added!",
             "success",
@@ -465,6 +466,7 @@ export default {
       this.editVmAction([this.editedIndex, this.editedItem])
         .then(() => {
           this.addSelectedDiscsToVm();
+          this.close();
           this.showSnackbar([
             "Virtual Machine successfully edited!",
             "success",
@@ -480,12 +482,12 @@ export default {
         this.deleteVmAction([vmIndex, vm.name])
           .then(() => {
             this.loadDiscs();
+            this.close();
             this.showSnackbar([
               "Virtual Machine successfully deleted!",
               "success",
               "bottom"
             ]);
-            this.close();
           })
           .catch(err =>
             this.showSnackbar([err.response.data,"error", "bottom"])

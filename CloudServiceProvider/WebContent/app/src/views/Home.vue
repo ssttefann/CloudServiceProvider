@@ -39,7 +39,7 @@
                 <br>
                 <br>
                 <v-card class="centered mx-auto" max-width="550" max-height="315" raised>
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/cvb49-Csq1o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                
+                    <iframe transition="scale-transition" width="560" height="315" src="https://www.youtube.com/embed/cvb49-Csq1o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                
                     <p class="font-italic font-weight-light">We basically just hired these people for the video</p>
                 </v-card>
               </v-flex>
@@ -49,7 +49,7 @@
                 <br>
                 <v-card class="centered mx-auto" max-width="550" max-height="315" raised>
                   <!-- <img width="550" height="315" src="https://www.oddee.com/wp-content/uploads/2017/09/worst-working-condition-e1505307604786.png" alt=""> -->
-                  <img width="550" height="315" src="cond.png" alt="">
+                  <v-img width="550" transition="scale-transition" height="315" src="cond.png" alt="">
                   <p class="font-italic font-weight-light">Our QA Engineers</p>
                 </v-card >
               </v-flex>

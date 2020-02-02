@@ -206,7 +206,6 @@ export default {
       } else {
         this.addCategory();
       }
-      this.close();
     },
 
     validateForm() {
@@ -219,6 +218,7 @@ export default {
     addCategory() {
       this.addCategoryAction(this.editedItem)
         .then(() => {
+          this.close();
           this.showSnackbar(["Category successfully added!", "success", "bottom"])
         })
         .catch(err => this.showSnackbar([err.response.data,"error", "bottom"]));
@@ -227,6 +227,7 @@ export default {
     editCategory() {
       this.editCategoryAction([this.editedIndex, this.editedItem])
         .then(() => {
+          this.close();
           this.showSnackbar(["Category successfully edited!", "success", "bottom"]);
         })
         .catch(err => this.showSnackbar([err.response.data, "error", "bottom"]));

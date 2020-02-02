@@ -6,9 +6,9 @@
         <v-icon color="white">mdi-view-headline</v-icon>
       </v-btn>
 
-      <v-btn @click="homeButon" class="d-flex align-center" text>
+      <v-btn @click="homeButon" class="d-flex align-center text-none" text>
         <v-img
-          alt="Vuetify Logo"
+          alt="Logo"
           class="shrink mr-2"
           contain
           src="http://icons.iconarchive.com/icons/graphicloads/polygon/256/clouds-2-icon.png"

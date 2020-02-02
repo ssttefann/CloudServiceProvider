@@ -204,7 +204,7 @@ export default {
       }, 300);
     },
 
-    // izmenjena/dodata nova VM
+    // izmenjena/dodata nova ORG
     save() {
       if (!this.validate()) {
         this.showSnackbar([
@@ -245,8 +245,6 @@ export default {
         .post("/rest/uploadIcon/" + this.editedItem.logo, this.file)
         .then(() => {
           this.file = null;
-          // ne znam kako da resim ovo bez router.go
-          // this.reRender = !this.reRender nije radilo
           this.$router.go();
         });
     },
@@ -259,7 +257,7 @@ export default {
             "success",
             "bottom"
           ]);
-          this.reRender = !this.reRender;
+          // this.reRender = !this.reRender;
         })
         .catch(err => this.showSnackbar([err.response.data,"error", "bottom"]));
     },
@@ -272,13 +270,17 @@ export default {
             "success",
             "bottom"
           ]);
-          this.reRender = !this.reRender;
+          // this.reRender = !this.reRender;
         })
         .catch(err => this.showSnackbar([err.response.data,"error", "bottom"]));
     },
 
     hide() {
       this.hidden = !this.hidden;
+    },
+
+    sleep(time) {
+      return new Promise((resolve) => setTimeout(resolve, time));
     }
   }
 };

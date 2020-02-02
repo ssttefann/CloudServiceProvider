@@ -269,7 +269,6 @@ export default {
         this.addDisc();
       }
 
-      this.close();
     },
 
     validate() {

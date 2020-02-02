@@ -3,13 +3,13 @@
       <h1 class="subheading grey--text">Dashboard</h1>
 
       <v-layout row wrap>
-        <v-flex xs12 sm6 md6>
+        <v-flex xs12 sm12 md12 lg6>
           <VMCard />
         </v-flex>
 
         <v-spacer></v-spacer>
 
-        <v-flex xs12 sm6 md6>
+        <v-flex xs12 sm12 md12 lg6>
           <DiskCard />
         </v-flex>
       </v-layout>

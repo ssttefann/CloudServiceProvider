@@ -8,23 +8,23 @@
 
     <v-layout row > 
 
-        <v-flex xs12 sm12 md6 lg6>
+        <v-flex xs12 sm12 md12 lg6>
           <VMCard/> 
         </v-flex>
 
-        <v-flex xs12 sm12 md6 lg6>
+        <v-flex xs12 sm12 md12 lg6>
           <VMCategoryCard/> 
         </v-flex>
 
-        <v-flex xs12 sm12 md6 lg6>
+        <v-flex xs12 sm12 md12 lg6>
           <DiskCard/> 
         </v-flex>
 
-        <v-flex xs12 sm12 md6 lg6>
+        <v-flex xs12 sm12 md12 lg6>
           <UserCard/> 
         </v-flex>
 
-        <v-flex v-if="this.isSuper" xs12 sm12 md6 lg6>
+        <v-flex v-if="this.isSuper" xs12 sm12 md12 lg6>
           <OrganizationCard/> 
         </v-flex>
 

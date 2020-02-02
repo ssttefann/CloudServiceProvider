@@ -4,7 +4,10 @@ import router from './router'
 import vuetify from './plugins/vuetify';
 import axios from 'axios';
 import {store} from './store/store'
+import DatetimePicker from 'vuetify-datetime-picker'
 
+
+Vue.use(DatetimePicker)
 Vue.config.productionTip = false
 
 Vue.prototype.$axios = axios

@@ -17,14 +17,22 @@
             @close="close" 
           > {{prpr.item.start }}
             <template v-slot:input>
-              <v-text-field
+              <!-- <v-text-field
                 v-model="prpr.item.start"
                 :rules="[validDate]"
                 label="Edit"
                 single-line 
                 counter
                 autofocus
-              ></v-text-field>
+              ></v-text-field> -->
+              <v-datetime-picker 
+                v-model="prpr.item.end"
+                :rules="[validDate]"
+                label="Edit"
+                single-line
+                counter 
+                autofocus
+               ></v-datetime-picker>
             </template>
           </v-edit-dialog>
         </template>
@@ -45,14 +53,22 @@
               <div class="mt-4 title">Update End</div>
             </template>
             <template v-slot:input>
-              <v-text-field
+              <!-- <v-text-field
                 v-model="prpr.item.end"
                 :rules="[validDate]"
                 label="Edit"
                 single-line
                 counter 
                 autofocus
-              ></v-text-field>
+              ></v-text-field> -->
+              <v-datetime-picker 
+                v-model="prpr.item.end"
+                :rules="[validDate]"
+                label="Edit"
+                single-line
+                counter 
+                autofocus
+               > </v-datetime-picker>
             </template>
           </v-edit-dialog>
         </template>

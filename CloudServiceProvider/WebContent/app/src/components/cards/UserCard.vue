@@ -61,9 +61,9 @@
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.lastName" label="Last Name"></v-text-field>
                   </v-col>
+                      <!-- :disabled="emailDisabled" -->
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      :disabled="emailDisabled"
                       v-model="editedItem.email"
                       label="Email"
                       type="email"
@@ -141,7 +141,8 @@ export default {
         email: "",
         password: "",
         role: "",
-        organizationName: ""
+        organizationName: "",
+        id : "",
       },
       defaultItem: {
         firstName: "",
@@ -149,7 +150,8 @@ export default {
         email: "",
         password: "",
         role: "",
-        organizationName: ""
+        organizationName: "",
+        id : "",
       }
     };
   },
@@ -263,6 +265,7 @@ export default {
               "success",
               "bottom"
             ]);
+            
           })
           .catch(err =>
             this.showSnackbar([err.response.data,"error", "bottom"])
@@ -271,12 +274,15 @@ export default {
         this.$store
           .dispatch("users/add", this.editedItem)
           .then(() => {
-            this.close();
-            this.showSnackbar([
-              "User successfully added!",
-              "success",
-              "bottom"
-            ]);
+            this.$store.dispatch('users/load')
+            .then( () => {
+              this.close();
+              this.showSnackbar([
+                "User successfully added!",
+                "success",
+                "bottom"
+              ]);
+            })
           })
           .catch(err =>
             this.showSnackbar([err.response.data,"error", "bottom"])

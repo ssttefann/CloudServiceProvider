@@ -7,7 +7,7 @@ export default {
     state: {
 
         loggedUser: { firstName: "", lastName: "", role: "", email: "", 
-                    organizationName: "", likesDark : false, image : ""},
+                    organizationName: "", likesDark : false, image : "", id :""},
         users: []
     },
 
@@ -19,6 +19,7 @@ export default {
             state.loggedUser.email = user.email;
             state.loggedUser.organizationName = user.organizationName;
             state.loggedUser.likesDark = user.likesDark;
+            state.loggedUser.id = user.id;
 
         },
 

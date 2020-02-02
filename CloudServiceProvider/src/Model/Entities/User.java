@@ -1,8 +1,10 @@
 package Model.Entities;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class User {
+    private String id;
     private String email;
     private String password;
     private String firstName;
@@ -16,6 +18,7 @@ public class User {
 
     public User(String email, String password, String firstName, String lastName, String organizationName, UserRole role, Organization organization, boolean dark) {
         this.email = email;
+        this.id = UUID.randomUUID()+"";
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -38,6 +41,12 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(email, user.email);
+    }
+
+    public String getId() { return id; }
+
+    public void setId(UUID id) {
+        this.id = id+"";
     }
 
     public boolean isAdmin() {

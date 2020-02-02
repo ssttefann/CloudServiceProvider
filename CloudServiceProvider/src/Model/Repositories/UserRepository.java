@@ -36,7 +36,7 @@ public class UserRepository {
             List<User> usersList = gson.fromJson(reader, listType);
             usersIndexedByEmail = usersList
                     .stream()
-                    .collect(Collectors.toMap(User::getEmail, user -> user, (oldVal, newVal) -> newVal));
+                    .collect(Collectors.toMap(User::getId, user -> user, (oldVal, newVal) -> newVal));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -53,8 +53,18 @@ public class UserRepository {
         }
     }
 
-    public User getUser(String email) {
-        return usersIndexedByEmail.get(email);
+    public User getUser(String id) {
+        return usersIndexedByEmail.get(id);
+    }
+
+    public User getUserByEmail(String email) {
+        for(User user : usersIndexedByEmail.values()){
+            if (user.getEmail().equals(email)){
+                return user;
+            }
+        }
+
+        return null;
     }
 
     public Map<String, User> getUsersIndexedByEmail() {
@@ -67,20 +77,24 @@ public class UserRepository {
 
     public boolean addUser(User user) {
         String email = user.getEmail();
-        if (usersIndexedByEmail.containsKey(email)) {
+        // ako user nije null znaci da je email zauzet
+        if(getUserByEmail(email) != null){
             return false;
         }
 
-        usersIndexedByEmail.put(email, user);
+        user.setId(UUID.randomUUID());
+        usersIndexedByEmail.put(user.getId(), user);
         saveUsers();
         return true;
     }
 
     public boolean removeUser(String email) {
-        if (usersIndexedByEmail.containsKey(email)) {
-            User user = usersIndexedByEmail.get(email);
+
+        User user = getUserByEmail(email);
+        // je user null znaci da ne postoji taj email u sistemu
+        if (user != null){
             user.getOrganization().getUsersList().remove(user);
-            usersIndexedByEmail.remove(email);
+            usersIndexedByEmail.remove(user.getId());
 
             saveUsers();
             return true;
@@ -90,9 +104,17 @@ public class UserRepository {
     }
 
     public boolean editUser(User editedUser) {
-        String email = editedUser.getEmail();
-        if (usersIndexedByEmail.containsKey(email)) {
-            User oldUser = usersIndexedByEmail.get(email);
+
+        User user = getUserByEmail(editedUser.getEmail());
+        //ako postoji user sa emailom koji nije ovaj po id-u
+        if (user != null && !user.getId().equals(editedUser.getId())){
+            return false;
+        }
+
+        String id = editedUser.getId();
+        if (usersIndexedByEmail.containsKey(id)) {
+            User oldUser = usersIndexedByEmail.get(id);
+            oldUser.setEmail(editedUser.getEmail());
             oldUser.setPassword(editedUser.getPassword());
             oldUser.setFirstName(editedUser.getFirstName());
             oldUser.setLastName(editedUser.getLastName());

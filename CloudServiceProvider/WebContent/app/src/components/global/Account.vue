@@ -31,6 +31,15 @@
                   ></v-text-field>
 
                   <v-text-field
+                    label="Email"
+                    name="email"
+                    v-model="email"
+                    prepend-icon="mdi-email"
+                    type="text"
+                    :rules="[rules.required]"
+                  ></v-text-field>
+
+                  <v-text-field
                     id="password"
                     label="Enter the new password"
                     name="password"
@@ -47,13 +56,6 @@
                     prepend-icon="mdi-lock"
                     type="password"
                   ></v-text-field>
-
-                  <v-file-input
-                    ref="iconUpload"
-                    prepend-icon="mdi-image"
-                    @change="fileSubmited"
-                    placeholder="Change profile image"
-                  ></v-file-input>
 
                 </v-form>
               </v-card-text>
@@ -83,6 +85,7 @@ export default {
       lastName: "",
       password1: "",
       password2: "",
+      email :"",
       file : null,
       rules: {
         required: value => !!value || "Required."
@@ -99,6 +102,7 @@ export default {
   created() {
     this.firstName = this.getUser.firstName;
     this.lastName = this.getUser.lastName;
+    this.email = this.getUser.email;
   },
 
   methods: {
@@ -127,6 +131,10 @@ export default {
         userInformationChanged = true;
       }
 
+      if(this.getUser.email != this.email){
+        userInformationChanged = true;
+      }
+
       if (this.getUser.lastName != this.lastName) {
         userInformationChanged = true;
       }
@@ -149,9 +157,11 @@ export default {
       let user = {
         firstName: this.firstName,
         lastName: this.lastName,
-        email: this.getUser.email,
+        email: this.email,
         role: this.getUser.role,
-        organizationName: this.getUser.organizationName
+        organizationName: this.getUser.organizationName,
+        id : this.getUser.id,
+        likesDark : this.getUser.likesDark
       };
 
       if (passwordChanged) {
@@ -164,7 +174,7 @@ export default {
           this.password1 = "";
           this.password2 = "";
         })
-        .catch(error => alert(error));
+        .catch(error =>  this.showSnackbar([error.response.data, "error", "bottom"]))
     }
   }
 };

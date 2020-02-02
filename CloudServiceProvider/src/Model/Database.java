@@ -44,7 +44,8 @@ public class Database {
     }
 
     public User getUser(String email) {
-        return userRepository.getUser(email);
+        return userRepository.getUserByEmail(email);
+//        return userRepository.getUser(id);
     }
 
     public boolean addUser(User user) {
@@ -63,8 +64,8 @@ public class Database {
         return userRepository.editUser(user);
     }
 
-    public boolean removeUser(String email) {
-        return userRepository.removeUser(email);
+    public boolean removeUser(String id) {
+        return userRepository.removeUser(id);
     }
 
 

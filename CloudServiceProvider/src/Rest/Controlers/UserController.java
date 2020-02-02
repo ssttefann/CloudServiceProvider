@@ -42,6 +42,7 @@ public class UserController {
             return "User with that email already exists!";
         }
 
+
         return "New User succesfully added";
     };
 
@@ -97,7 +98,7 @@ public class UserController {
         User editedUser = gson.fromJson(userJson, User.class);
         if(!db.editUser(editedUser)){
             response.status(400);
-            return "User with that email doesn't exists!";
+            return "User with that email already exists!";
         }
 
         return "User succesfully edited!";

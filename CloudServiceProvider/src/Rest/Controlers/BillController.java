@@ -35,6 +35,16 @@ public class BillController {
                 LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStamp2),
                         TimeZone.getDefault().toZoneId());
 
+        LocalDateTime now = LocalDateTime.now();
+        if(startDate.isAfter(now)){
+            response.status(400);
+            return "";
+        }
+
+        if(endDate.isAfter(now)){
+            endDate = now;
+        }
+
         Organization org = user.getOrganization();
         List<BillItem> items = calculatePricesForDisks(org.getDisks(), startDate, endDate);
         items.addAll(calculatePricesForVms(org.getVirtualMachinesList(), startDate, endDate));

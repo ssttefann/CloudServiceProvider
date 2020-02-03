@@ -36,8 +36,6 @@ public class Main {
 
         // Slike
         post("/rest/uploadIcon/:fileName", ImageController.uploadOrgImage);
-        //TODO
-//        post("/rest/uploadProfilePic", ImageController.)
         get("/rest/profilePic/:fileName", ImageController.getProfilePic);
 
         //Korisnici
@@ -72,7 +70,6 @@ public class Main {
         get("/rest/organizations/getOrganizations/", OrganizationController.getAllOrganizations);
         post("/rest/organizations/addOrganization", OrganizationController.addOrganization);
         post("/rest/organizations/edit", OrganizationController.editOrganization);
-
 
         get("/rest/bill/:startDate/:endDate", BillController.getBill);
 

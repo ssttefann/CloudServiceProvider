@@ -43,7 +43,7 @@
     >
       <!-- Template za editovanje/dodavanje nove -->
       <template v-slot:top>
-        <v-dialog v-model="dialog"  width="50%">
+        <v-dialog v-model="dialog" width="50%">
           <template v-slot:activator="{ on }">
             <v-btn
               color="blue-grey darken-1 white--text"
@@ -173,7 +173,7 @@ export default {
     ...mapActions({
       addOrgAction: "orgs/add",
       editOrgAction: "orgs/edit",
-      showSnackbar: "snackbar/showSnackbar",
+      showSnackbar: "snackbar/showSnackbar"
     }),
 
     // za sada nista ne radi
@@ -226,7 +226,6 @@ export default {
       }
 
       this.$refs.iconUpload.value = undefined;
-      this.close();
     },
 
     validate() {
@@ -246,6 +245,7 @@ export default {
         .then(() => {
           this.file = null;
           this.$router.go();
+          this.close();
         });
     },
 
@@ -257,9 +257,12 @@ export default {
             "success",
             "bottom"
           ]);
-          // this.reRender = !this.reRender;
+          this.close();
+
         })
-        .catch(err => this.showSnackbar([err.response.data,"error", "bottom"]));
+        .catch(err =>
+          this.showSnackbar([err.response.data, "error", "bottom"])
+        );
     },
 
     editOrg() {
@@ -270,9 +273,12 @@ export default {
             "success",
             "bottom"
           ]);
-          // this.reRender = !this.reRender;
+          this.close();
+
         })
-        .catch(err => this.showSnackbar([err.response.data,"error", "bottom"]));
+        .catch(err =>
+          this.showSnackbar([err.response.data, "error", "bottom"])
+        );
     },
 
     hide() {
@@ -280,7 +286,7 @@ export default {
     },
 
     sleep(time) {
-      return new Promise((resolve) => setTimeout(resolve, time));
+      return new Promise(resolve => setTimeout(resolve, time));
     }
   }
 };

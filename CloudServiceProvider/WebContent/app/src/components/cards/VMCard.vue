@@ -453,6 +453,7 @@ export default {
         .then(() => {
           this.addSelectedDiscsToVm();
           this.close();
+          this.editedItem.active = true;
           this.showSnackbar([
             "Virtual Machine successfully added!",
             "success",

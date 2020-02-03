@@ -4,35 +4,28 @@
 
     <v-card-text>
       <v-data-table :items-per-page="10" :headers="headers" :items="activities">
-
         <!-- editovanje pocetka aktivnosti -->
         <template v-if="isSuper" v-slot:item.start="prpr">
           <v-edit-dialog
             :return-value.sync="prpr.item.start"
             large
             persistent
-            @save="save"
+            @save="save(prpr.item.start)"
             @cancel="cancel"
             @open="open"
-            @close="close" 
-          > {{prpr.item.start }}
+            @close="close"
+          >
+            {{prpr.item.start }}
             <template v-slot:input>
-              <!-- <v-text-field
-                v-model="prpr.item.start"
-                :rules="[validDate]"
-                label="Edit"
-                single-line 
-                counter
-                autofocus
-              ></v-text-field> -->
-              <v-datetime-picker 
+              <v-text-field
                 v-model="prpr.item.start"
                 :rules="[validDate]"
                 label="Edit"
                 single-line
-                counter 
+                counter
                 autofocus
-               ></v-datetime-picker>
+                placeholder="dd-mm-yyyy hh:MM"
+              ></v-text-field>
             </template>
           </v-edit-dialog>
         </template>
@@ -43,39 +36,30 @@
             :return-value.sync="prpr.item.end"
             large
             persistent
-            @save="save"
+            @save="save(prpr.item.end)"
             @cancel="cancel"
             @open="open"
-            @close="close" 
-          > 
+            @close="close"
+          >
             <div>{{prpr.item.end }}</div>
             <template v-slot:input>
               <div class="mt-4 title">Update End</div>
             </template>
             <template v-slot:input>
-              <!-- <v-text-field
+              <v-text-field
                 v-model="prpr.item.end"
                 :rules="[validDate]"
+                placeholder="dd-mm-yyyy hh:MM"
                 label="Edit"
                 single-line
-                counter 
+                counter
                 autofocus
-              ></v-text-field> -->
-              <v-datetime-picker 
-                v-model="prpr.item.end"
-                :rules="[validDate]"
-                label="Edit"
-                single-line
-                counter 
-                autofocus
-               > </v-datetime-picker>
+              ></v-text-field>
             </template>
           </v-edit-dialog>
         </template>
-
       </v-data-table>
     </v-card-text>
-
   </v-card>
 </template>
 
@@ -86,26 +70,26 @@ export default {
   props: ["activities", "vm", "vmIndex"],
   data() {
     return {
-
-      validDate: v=> v.length <= 25 || 'Input too long!',
+      regex: /^([1-9]|([012][0-9])|(3[01]))\/([0]{0,1}[1-9]|1[012])\/\d\d\d\d [012]{0,1}[0-9]:[0-6][0-9]$/,
+      validDate: v => this.regex.test(v) || "Input is not valid!",
       headers: [
         { text: "Start", align: "left", value: "start" },
-        { text: "End", align: "left", value: "end" },
+        { text: "End", align: "left", value: "end" }
         // { text: "Edit", align: "left", value: "edit", sortable: false }
-      ],
+      ]
     };
   },
 
-  created(){
+  created() {
     console.log(this.vm);
     console.log(this.activities);
   },
 
-  computed:{
+  computed: {
     ...mapGetters({
       isAdmin: "users/isAdmin",
-      isSuper: "users/isSuper",
-    }),
+      isSuper: "users/isSuper"
+    })
   },
 
   methods: {
@@ -115,7 +99,13 @@ export default {
       showSnackbar: "snackbar/showSnackbar"
     }),
 
-    save() {
+    save(item) {
+      if (!this.regex.test(item)) {
+        this.showSnackbar(["Wrong format", "info", "bottom"]);
+        return;
+      }
+
+
       this.showSnackbar(["Data saved", "success", "bottom"]);
       console.log(this.virt.activities);
     },
@@ -124,13 +114,9 @@ export default {
       // this.showSnackbar(["Canceled", "error", "bottom"]);
     },
 
-    open() {
+    open() {},
 
-    },
-
-    close() {
-      
-    },
+    close() {},
 
     editActivity(activity) {
       alert(activity.id);
@@ -138,9 +124,8 @@ export default {
 
     closeActivitiesDialog() {
       this.$emit("close");
-    },
-    
-  },
+    }
+  }
 };
 </script>
 

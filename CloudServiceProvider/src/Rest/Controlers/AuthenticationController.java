@@ -36,7 +36,7 @@ public class AuthenticationController {
         response.type("application/json");
         String password = request.queryParams("password");
         String email = request.queryParams("email");
-
+        
         User user = db.getUser(email);
         if (user == null) {
             return gson.toJson(new User());
